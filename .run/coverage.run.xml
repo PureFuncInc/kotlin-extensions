@@ -13,7 +13,7 @@
                     <option value=":clean"/>
                     <option value=":test"/>
                     <option value="--tests"/>
-                    <option value="&quot;net.purefunc.kotlin.ext.*&quot;"/>
+                    <option value="&quot;net.purefunc.kotlin.*&quot;"/>
                 </list>
             </option>
             <option name="vmOptions"/>

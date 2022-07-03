@@ -1,6 +1,10 @@
 package net.purefunc.kotlin.ext
 
 import arrow.core.Either
+import arrow.core.flatMap
+import arrow.core.left
+import arrow.core.right
+import arrow.core.toOption
 
 inline fun <reified A, B> Either<A, B>.isEitherLeft() =
     when (this) {
@@ -16,12 +20,13 @@ fun <A, B> Either<A, B>.isEitherRight() =
 
 fun <T> T?.catchErrWhenNull(tw: Throwable): Either<Throwable, T> = Either.Companion.catch { this ?: throw tw }
 
-fun <T> Either<Throwable, T?>.flattenCatchErrWhenNull(tw: Throwable): Either<Throwable, T> =
-    when (this) {
-        is Either.Left -> this
-        is Either.Right -> Either.Companion.catch {
-            this.value ?: throw tw
-        }
+fun <T> Either<Throwable, T?>.flatCatchErrWhenNull(tw: Throwable): Either<Throwable, T> =
+    flatMap { t ->
+        t.toOption()
+            .fold(
+                ifEmpty = { tw.left() },
+                ifSome = { it.right() },
+            )
     }
 
 suspend fun <T> T.catchErrWhenTrue(
@@ -33,7 +38,7 @@ suspend fun <T> T.catchErrWhenTrue(
         else this
     }
 
-suspend fun <T> Either<Throwable, T>.flattenCatchErrWhenTrue(
+suspend fun <T> Either<Throwable, T>.flatCatchErrWhenTrue(
     tw: Throwable,
     block: suspend (t: T) -> Boolean,
 ): Either<Throwable, T> =
@@ -58,7 +63,7 @@ suspend fun <T, R> T.catchErrWhenApply(
         }
     }
 
-suspend fun <T, R> Either<Throwable, T>.flattenCatchErrWhenApply(
+suspend fun <T, R> Either<Throwable, T>.flatCatchErrWhenApply(
     tw: Throwable,
     block: suspend (t: T) -> R,
 ): Either<Throwable, T> =
@@ -86,7 +91,7 @@ suspend fun <T, R> T.catchErrWhenMap(
         }
     }
 
-suspend fun <T, R> Either<Throwable, T>.flattenCatchErrWhenMap(
+suspend fun <T, R> Either<Throwable, T>.flatCatchErrWhenMap(
     tw: Throwable,
     block: suspend (t: T) -> R,
 ): Either<Throwable, R> =

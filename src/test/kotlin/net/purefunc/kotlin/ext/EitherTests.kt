@@ -114,65 +114,65 @@ class EitherTests {
         val map = mapOf("key1" to "value1")
 
         val nullLeft = map["key2"].catchErrWhenTrue(RuntimeException("true")) { it != null }
-            .flattenCatchErrWhenNull(RuntimeException("null"))
+            .flatCatchErrWhenNull(RuntimeException("null"))
 //            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flattenCatchErrWhenTrue(RuntimeException("true")) { it == "value1" }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value1" }
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value1" } }
-            .flattenCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
-            .flattenCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
+            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(nullLeft is RuntimeException)
         Assertions.assertEquals("null", nullLeft.message)
 
         val trueLeft = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
-            .flattenCatchErrWhenNull(RuntimeException("null"))
+            .flatCatchErrWhenNull(RuntimeException("null"))
 //            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flattenCatchErrWhenTrue(RuntimeException("true")) { it == "value1" }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value1" }
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value1" } }
-            .flattenCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
-            .flattenCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
+            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(trueLeft is RuntimeException)
         Assertions.assertEquals("true", trueLeft.message)
 
         val outLeft = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
-            .flattenCatchErrWhenNull(RuntimeException("null"))
+            .flatCatchErrWhenNull(RuntimeException("null"))
 //            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flattenCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
-            .flattenCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
-            .flattenCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
+            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(outLeft is RuntimeException)
         Assertions.assertEquals("out", outLeft.message)
 
         val illegalLeft = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
-            .flattenCatchErrWhenNull(RuntimeException("null"))
+            .flatCatchErrWhenNull(RuntimeException("null"))
 //            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flattenCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
-            .flattenCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
-            .flattenCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
+            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(illegalLeft is RuntimeException)
         Assertions.assertEquals("illegal", illegalLeft.message)
 
         val right = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
-            .flattenCatchErrWhenNull(RuntimeException("null"))
+            .flatCatchErrWhenNull(RuntimeException("null"))
 //            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flattenCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
-            .flattenCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
-            .flattenCatchErrWhenMap(RuntimeException("illegal")) { it.length == "6".toInt() }
+            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "6".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "6".toInt() } }
             .isEitherRight()
         Assertions.assertEquals(true, right)

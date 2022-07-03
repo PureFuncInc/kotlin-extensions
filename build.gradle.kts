@@ -22,14 +22,14 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     // Arrow-kt
-    implementation("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
+    api("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
     kapt("io.arrow-kt:arrow-meta:1.0.1")
 
     // Jackson
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    api("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
     // Slf4j
-    implementation("org.slf4j:slf4j-api:$slf4jVersion")
+    api("org.slf4j:slf4j-api:$slf4jVersion")
 
     // JUnit
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")

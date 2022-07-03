@@ -1,6 +1,10 @@
 # kotlin-extensions
 
-> Let's create useful extensions together 🗿
+> Let's create useful extensions together. 🗿
+
+# Sample
+
+* [Emoji](docs/emoji.md)
 
 # For Maven
 

@@ -7,8 +7,10 @@ private val objectMapper = jacksonObjectMapper()
 
 fun Any.toJson() = objectMapper.writeValueAsString(this)
 
-fun <T1, T2> String.toMap(keyClass: Class<T1>, valueClass: Class<T2>) =
-    objectMapper.readValue(this, object : TypeReference<Map<T1, T2>>() {})
+fun <K, V> String.toMap(
+    keyClass: Class<K>,
+    valueClass: Class<V>,
+) = objectMapper.readValue(this, object : TypeReference<Map<K, V>>() {})
 
 infix fun <T> String.to(t: Class<T>) = objectMapper.readValue(this, t)
 

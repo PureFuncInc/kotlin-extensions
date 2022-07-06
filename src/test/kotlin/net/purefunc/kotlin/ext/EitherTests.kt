@@ -146,7 +146,7 @@ class EitherTests {
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
             .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(nullLeft is RuntimeException)
         Assertions.assertEquals("null", nullLeft.message)
@@ -159,7 +159,7 @@ class EitherTests {
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
             .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(trueLeft is RuntimeException)
         Assertions.assertEquals("true", trueLeft.message)
@@ -172,7 +172,7 @@ class EitherTests {
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
             .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(outLeft is RuntimeException)
         Assertions.assertEquals("out", outLeft.message)
@@ -185,7 +185,7 @@ class EitherTests {
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
             .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(illegalLeft is RuntimeException)
         Assertions.assertEquals("illegal", illegalLeft.message)
@@ -198,7 +198,7 @@ class EitherTests {
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
             .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "6".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "6".toInt() } }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "6".toInt() } }
             .isEitherRight()
         Assertions.assertEquals(true, right)
     }

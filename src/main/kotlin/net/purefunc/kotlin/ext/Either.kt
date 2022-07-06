@@ -79,7 +79,7 @@ suspend fun <T, R> Either<Throwable, T>.flatCatchErrWhenApply(
         }
     }
 
-suspend fun <T, R> T.catchErrWhenMap(
+suspend fun <T, R> T.catchErrWhenRun(
     tw: Throwable,
     block: suspend (t: T) -> R,
 ): Either<Throwable, R> =
@@ -91,7 +91,7 @@ suspend fun <T, R> T.catchErrWhenMap(
         }
     }
 
-suspend fun <T, R> Either<Throwable, T>.flatCatchErrWhenMap(
+suspend fun <T, R> Either<Throwable, T>.flatCatchErrWhenRun(
     tw: Throwable,
     block: suspend (t: T) -> R,
 ): Either<Throwable, R> =

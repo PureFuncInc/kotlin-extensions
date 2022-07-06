@@ -7,8 +7,8 @@ plugins {
 }
 
 group = "net.purefunc"
-java.sourceCompatibility = JavaVersion.VERSION_1_8
-java.targetCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
+java.targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
@@ -17,6 +17,7 @@ repositories {
 val arrowKtVersion = "1.0.1"
 val jacksonVersion = "2.13.3"
 val slf4jVersion = "1.7.36"
+val bcprovJdkVersion = "140"
 val junitVersion = "5.8.2"
 dependencies {
     implementation(kotlin("stdlib"))
@@ -31,6 +32,9 @@ dependencies {
     // Slf4j
     api("org.slf4j:slf4j-api:$slf4jVersion")
 
+    // AES PKCS7PADDING
+    api("bouncycastle:bcprov-jdk16:$bcprovJdkVersion")
+
     // JUnit
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
@@ -38,7 +42,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 

@@ -2,6 +2,11 @@ package net.purefunc.kotlin.ext
 
 import arrow.core.Either.Companion.catch
 import arrow.core.Tuple4
+import arrow.core.Tuple5
+import arrow.core.Tuple6
+import arrow.core.Tuple7
+import arrow.core.Tuple8
+import arrow.core.Tuple9
 import arrow.core.zip
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
@@ -194,6 +199,199 @@ class EitherTests {
         val zipRight =
             nullRight.zip(trueRight, outRight, illegalRight) { v1, v2, v3, v4 -> Tuple4(v1, v2, v3, v4) }.toEither()
         Assertions.assertEquals(Tuple4("value1", "value1", "value1", false), zipRight.isEitherRight())
+    }
+
+    @Test
+    internal fun `test validAll`() = runBlocking {
+        val map = mapOf("key1" to "value1")
+
+        val nullLeft = map["key2"].validErrWhenNull(RuntimeException("null"))
+        val nullRight = map["key1"].validErrWhenNull(RuntimeException("null"))
+        val trueLeft = map["key1"]!!.validErrWhenTrue(RuntimeException("true")) { it == "value1" }
+        val trueRight = map["key1"]!!.validErrWhenTrue(RuntimeException("true")) { it == "value2" }
+        val outLeft = map["key1"]!!.validErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
+        val outRight = map["key1"]!!.validErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
+        val illegalLeft = map["key1"]!!.validErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+        val illegalRight = map["key1"]!!.validErrWhenRun(RuntimeException("illegal")) { it.length == "2".toInt() }
+
+        Assertions.assertEquals(
+            2,
+            Tuple2(nullLeft, trueLeft).validAll().isEitherLeft().size
+        )
+        Assertions.assertEquals(
+            2,
+            Tuple3(nullLeft, trueLeft, outRight).validAll().isEitherLeft().size
+        )
+        Assertions.assertEquals(
+            2,
+            Tuple4(nullLeft, trueLeft, outRight, illegalRight).validAll().isEitherLeft().size
+        )
+        Assertions.assertEquals(
+            3,
+            Tuple5(nullLeft, trueLeft, outLeft, illegalRight, nullRight).validAll().isEitherLeft().size
+        )
+        Assertions.assertEquals(
+            3,
+            Tuple6(nullLeft, trueLeft, outLeft, illegalRight, nullRight, trueRight).validAll().isEitherLeft().size
+        )
+        Assertions.assertEquals(
+            3,
+            Tuple7(nullLeft, trueLeft, outLeft, illegalRight, nullRight, trueRight, outRight)
+                .validAll()
+                .isEitherLeft()
+                .size
+        )
+        Assertions.assertEquals(
+            4,
+            Tuple8(nullLeft, trueLeft, outLeft, illegalLeft, nullRight, trueRight, outRight, illegalRight)
+                .validAll()
+                .isEitherLeft()
+                .size
+        )
+        Assertions.assertEquals(
+            4,
+            Tuple9(nullLeft, trueLeft, outLeft, illegalLeft, nullRight, trueRight, outRight, illegalRight, nullRight)
+                .validAll()
+                .isEitherLeft()
+                .size
+        )
+
+        Assertions.assertEquals(
+            Tuple2(
+                "value1",
+                "value1"
+            ),
+            Tuple2(
+                nullRight,
+                trueRight
+            ).validAll().isEitherRight()
+        )
+        Assertions.assertEquals(
+            Tuple3(
+                "value1",
+                "value1",
+                "value1"
+            ),
+            Tuple3(
+                nullRight,
+                trueRight,
+                outRight
+            ).validAll().isEitherRight()
+        )
+        Assertions.assertEquals(
+            Tuple4(
+                "value1",
+                "value1",
+                "value1",
+                false
+            ),
+            Tuple4(
+                nullRight,
+                trueRight,
+                outRight,
+                illegalRight
+            ).validAll().isEitherRight()
+        )
+        Assertions.assertEquals(
+            Tuple5(
+                "value1",
+                "value1",
+                "value1",
+                false,
+                "value1"
+            ),
+            Tuple5(
+                nullRight,
+                trueRight,
+                outRight,
+                illegalRight,
+                nullRight
+            ).validAll().isEitherRight()
+        )
+        Assertions.assertEquals(
+            Tuple6(
+                "value1",
+                "value1",
+                "value1",
+                false,
+                "value1",
+                "value1"
+            ),
+            Tuple6(
+                nullRight,
+                trueRight,
+                outRight,
+                illegalRight,
+                nullRight,
+                trueRight
+            ).validAll().isEitherRight()
+        )
+        Assertions.assertEquals(
+            Tuple7(
+                "value1",
+                "value1",
+                "value1",
+                false,
+                "value1",
+                "value1",
+                "value1"
+            ),
+            Tuple7(
+                nullRight,
+                trueRight,
+                outRight,
+                illegalRight,
+                nullRight,
+                trueRight,
+                outRight
+            ).validAll().isEitherRight()
+        )
+        Assertions.assertEquals(
+            Tuple8(
+                "value1",
+                "value1",
+                "value1",
+                false,
+                "value1",
+                "value1",
+                "value1",
+                false
+            ),
+            Tuple8(
+                nullRight,
+                trueRight,
+                outRight,
+                illegalRight,
+                nullRight,
+                trueRight,
+                outRight,
+                illegalRight
+            ).validAll().isEitherRight()
+        )
+        Assertions.assertEquals(
+            Tuple9(
+                "value1",
+                "value1",
+                "value1",
+                false,
+                "value1",
+                "value1",
+                "value1",
+                false,
+                "value1"
+            ),
+            Tuple9(
+                nullRight,
+                trueRight,
+                outRight,
+                illegalRight,
+                nullRight,
+                trueRight,
+                outRight,
+                illegalRight,
+                nullRight
+            ).validAll().isEitherRight()
+        )
     }
 
     @Test

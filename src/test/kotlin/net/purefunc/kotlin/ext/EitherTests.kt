@@ -1,6 +1,8 @@
 package net.purefunc.kotlin.ext
 
 import arrow.core.Either.Companion.catch
+import arrow.core.Tuple4
+import arrow.core.zip
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -80,11 +82,10 @@ class EitherTests {
         Assertions.assertTrue(outLeft is RuntimeException)
         Assertions.assertEquals("out", outLeft.message)
 
-        val exceptionLeft =
-            map["key1"]!!.catchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
-                .isEitherLeft()
-        Assertions.assertTrue(exceptionLeft is RuntimeException)
-        Assertions.assertEquals("illegal", exceptionLeft.message)
+        val illegalLeft =
+            map["key1"]!!.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }.isEitherLeft()
+        Assertions.assertTrue(illegalLeft is RuntimeException)
+        Assertions.assertEquals("illegal", illegalLeft.message)
     }
 
     @Test
@@ -105,8 +106,94 @@ class EitherTests {
 
         Assertions.assertEquals(
             true,
-            map["key1"]!!.catchErrWhenMap(RuntimeException("illegal")) { it.length == "6".toInt() }.isEitherRight()
+            map["key1"]!!.catchErrWhenRun(RuntimeException("illegal")) { it.length == "6".toInt() }.isEitherRight()
         )
+    }
+
+    /**
+     * val list = listOf(1, 2, 3)
+     *
+     * // 3
+     * val valid1: ValidatedNel<Throwable, Int> = Validated.Companion.catch {
+     *     list[2]
+     * }.toValidatedNel()
+     *
+     * // 3
+     * val valid2: ValidatedNel<Throwable, Int> = Validated.Companion.catch {
+     *     list.size
+     * }.toValidatedNel()
+     *
+     * // true
+     * val valid3: ValidatedNel<Throwable, Boolean> = Validated.Companion.catch {
+     *     list.last() > 0
+     * }.toValidatedNel()
+     *
+     * // java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3)
+     * val invalid1: ValidatedNel<Throwable, Int> = Validated.Companion.catch {
+     *     list[3]
+     * }.toValidatedNel()
+     *
+     * // java.lang.NumberFormatException: For input string: "a")
+     * val invalid2: ValidatedNel<Throwable, Int> = Validated.Companion.catch {
+     *     list.size + "a".toInt()
+     * }.toValidatedNel()
+     *
+     * // java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3)
+     * val invalid3: ValidatedNel<Throwable, Boolean> = Validated.Companion.catch {
+     *     list.last() > list[3]
+     * }.toValidatedNel()
+     *
+     * // Either.Right((3, 3, true))
+     * val allRight: Either<NonEmptyList<Throwable>, Triple<Int, Int, Boolean>> =
+     *     valid1.zip(valid2, valid3) { v1, v2, v3 -> Triple(v1, v2, v3) }.toEither()
+     *
+     * // Either.Left(NonEmptyList(java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3))
+     * val error1: Either<NonEmptyList<Throwable>, Triple<Int, Int, Boolean>> =
+     *     invalid1.zip(valid2, valid3) { v1, v2, v3 -> Triple(v1, v2, v3) }.toEither()
+     *
+     * // Either.Left(NonEmptyList(java.lang.NumberFormatException: For input string: "a"))
+     * val error2: Either<NonEmptyList<Throwable>, Triple<Int, Int, Boolean>> =
+     *     valid1.zip(invalid2, valid3) { v1, v2, v3 -> Triple(v1, v2, v3) }.toEither()
+     *
+     * // Either.Left(NonEmptyList(java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3))
+     * val error3: Either<NonEmptyList<Throwable>, Triple<Int, Int, Boolean>> =
+     *     valid1.zip(valid2, invalid3) { v1, v2, v3 -> Triple(v1, v2, v3) }.toEither()
+     *
+     * // Either.Left(NonEmptyList(java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3, java.lang.NumberFormatException: For input string: "a"))
+     * val error12: Either<NonEmptyList<Throwable>, Triple<Int, Int, Boolean>> =
+     *     invalid1.zip(invalid2, valid3) { v1, v2, v3 -> Triple(v1, v2, v3) }.toEither()
+     *
+     * // Either.Left(NonEmptyList(java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3, java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3))
+     * val error13: Either<NonEmptyList<Throwable>, Triple<Int, Int, Boolean>> =
+     *     invalid1.zip(valid2, invalid3) { v1, v2, v3 -> Triple(v1, v2, v3) }.toEither()
+     *
+     * // Either.Left(NonEmptyList(java.lang.NumberFormatException: For input string: "a", java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3))
+     * val error23: Either<NonEmptyList<Throwable>, Triple<Int, Int, Boolean>> =
+     *     valid1.zip(invalid2, invalid3) { v1, v2, v3 -> Triple(v1, v2, v3) }.toEither()
+     *
+     * // Either.Left(NonEmptyList(java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3, java.lang.NumberFormatException: For input string: "a", java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3))
+     * val error123: Either<NonEmptyList<Throwable>, Triple<Int, Int, Boolean>> =
+     *     invalid1.zip(invalid2, invalid3) { v1, v2, v3 -> Triple(v1, v2, v3) }.toEither()
+     */
+    @Test
+    internal fun `test validErr`() = runBlocking {
+        val map = mapOf("key1" to "value1")
+
+        val nullLeft = map["key2"].validErrWhenNull(RuntimeException("null"))
+        val nullRight = map["key1"].validErrWhenNull(RuntimeException("null"))
+        val trueLeft = map["key1"]!!.validErrWhenTrue(RuntimeException("true")) { it == "value1" }
+        val trueRight = map["key1"]!!.validErrWhenTrue(RuntimeException("true")) { it == "value2" }
+        val outLeft = map["key1"]!!.validErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
+        val outRight = map["key1"]!!.validErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
+        val illegalLeft = map["key1"]!!.validErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+        val illegalRight = map["key1"]!!.validErrWhenRun(RuntimeException("illegal")) { it.length == "2".toInt() }
+
+        val zipLeft =
+            nullLeft.zip(trueLeft, outLeft, illegalLeft) { v1, v2, v3, v4 -> Tuple4(v1, v2, v3, v4) }.toEither()
+        Assertions.assertEquals(4, zipLeft.isEitherLeft().size)
+        val zipRight =
+            nullRight.zip(trueRight, outRight, illegalRight) { v1, v2, v3, v4 -> Tuple4(v1, v2, v3, v4) }.toEither()
+        Assertions.assertEquals(Tuple4("value1", "value1", "value1", false), zipRight.isEitherRight())
     }
 
     @Test
@@ -120,8 +207,8 @@ class EitherTests {
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value1" } }
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
-            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(nullLeft is RuntimeException)
         Assertions.assertEquals("null", nullLeft.message)
@@ -133,8 +220,8 @@ class EitherTests {
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value1" } }
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
-            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(trueLeft is RuntimeException)
         Assertions.assertEquals("true", trueLeft.message)
@@ -146,8 +233,8 @@ class EitherTests {
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
-            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(outLeft is RuntimeException)
         Assertions.assertEquals("out", outLeft.message)
@@ -159,8 +246,8 @@ class EitherTests {
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
-            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "a".toInt() } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
             .isEitherLeft()
         Assertions.assertTrue(illegalLeft is RuntimeException)
         Assertions.assertEquals("illegal", illegalLeft.message)
@@ -172,8 +259,8 @@ class EitherTests {
 //            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
             .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
 //            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
-            .flatCatchErrWhenMap(RuntimeException("illegal")) { it.length == "6".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenException(RuntimeException("illegal")) { it.length == "6".toInt() } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "6".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "6".toInt() } }
             .isEitherRight()
         Assertions.assertEquals(true, right)
     }

@@ -13,13 +13,22 @@
                     <option value=":clean"/>
                     <option value=":test"/>
                     <option value="--tests"/>
-                    <option value="&quot;net.purefunc.kotlin.*&quot;"/>
+                    <option value="&quot;net.purefunc.kotlin.ext.*&quot;"/>
                 </list>
             </option>
             <option name="vmOptions"/>
         </ExternalSystemSettings>
         <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
         <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+        <EXTENSION ID="com.intellij.execution.ExternalSystemRunConfigurationJavaExtension">
+            <extension name="coverage">
+                <pattern>
+                    <option name="PATTERN" value="net.purefunc.kotlin.emoji.*"/>
+                    <option name="ENABLED" value="true"/>
+                    <option name="INCLUDE" value="false"/>
+                </pattern>
+            </extension>
+        </EXTENSION>
         <DebugAllEnabled>false</DebugAllEnabled>
         <method v="2"/>
     </configuration>

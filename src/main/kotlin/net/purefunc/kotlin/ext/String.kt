@@ -18,6 +18,9 @@ fun randomAlphanumeric(length: Int) =
         .map((('a'..'z') + ('A'..'Z') + ('0'..'9'))::get)
         .joinToString("")
 
+fun ByteArray.encodeBase64() = String(Base64.getEncoder().encode(this))
+fun String.base64Decode() = String(Base64.getDecoder().decode(this.toByteArray()))
+
 sealed class Transformation(
     val value: String,
 ) {

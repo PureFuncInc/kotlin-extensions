@@ -19,6 +19,13 @@ class StringTests {
     }
 
     @Test
+    internal fun `test base64 encode & decode`() {
+        val rawString = "Hello World"
+
+        Assertions.assertEquals(rawString, rawString.toByteArray().encodeBase64().base64Decode())
+    }
+
+    @Test
     internal fun `test aes encrypt & decrypt`() {
         val rawString = "Hello World"
         val rawString2 = "Hello World2"

@@ -10,4 +10,3 @@ gradleEnterprise {
         termsOfServiceAgree = "yes"
     }
 }
-

@@ -10,7 +10,7 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import kotlin.random.Random.Default.nextInt
 
-fun randomUUID() = UUID.randomUUID().toString()
+val randomUUID: String inline get() = UUID.randomUUID().toString()
 
 fun randomAlphanumeric(length: Int) =
     (1..length)

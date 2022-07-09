@@ -7,7 +7,7 @@ class StringTests {
 
     @Test
     internal fun `test random UUID`() {
-        Assertions.assertTrue(randomUUID().isNotEmpty())
+        Assertions.assertTrue(randomUUID.isNotEmpty())
     }
 
     @Test

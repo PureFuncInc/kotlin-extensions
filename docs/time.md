@@ -1,11 +1,11 @@
 * genUnixMilli
 
 ```kotlin
-val now = genUnixMilli()
+val now: Long = genUnixMilli()
 ```
 
 * shift
 
 ```kotlin
-val oneHourBefore = now.shift(-1, TimeUnit.HOURS)
+val oneHourBefore: Long = now.shift(-1, TimeUnit.HOURS)
 ```

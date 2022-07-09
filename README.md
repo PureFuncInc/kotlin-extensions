@@ -2,13 +2,16 @@
 
 > Let's create useful extensions together. 🗿
 
-# Sample
+# Sample Code
 
 * [Emoji](docs/emoji.md)
 * [Json](docs/json.md)
+* [String](docs/string.md)
 * [Time](docs/time.md)
 
-# For Maven
+# Dependency
+
+* Maven
 
 ```xml
 
@@ -28,8 +31,7 @@
 </dependencies>
 ```
 
-# For Gradle Groovy
-
+* Gradle Groovy
 ```groovy
 repositories {
     maven { url "https://jitpack.io" }
@@ -40,8 +42,7 @@ dependencies {
 }
 ```
 
-# For Kotlin Gradle DSL
-
+* Kotlin Gradle DSL
 ```kotlin
 repositories {
     maven {

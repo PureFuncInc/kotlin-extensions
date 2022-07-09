@@ -3,7 +3,7 @@ package net.purefunc.kotlin.ext
 import java.time.Instant
 import java.util.concurrent.TimeUnit
 
-fun genUnixMilli() = Instant.now().toEpochMilli()
+val unixTimeMilli: Long inline get() = Instant.now().toEpochMilli()
 
 fun Long.shift(delta: Long, timeUnit: TimeUnit) = when (timeUnit) {
     TimeUnit.MILLISECONDS -> this + delta

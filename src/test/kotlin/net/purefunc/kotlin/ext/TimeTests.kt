@@ -8,12 +8,12 @@ class TimeTests {
 
     @Test
     internal fun `test generate unix milli`() {
-        Assertions.assertTrue(genUnixMilli() > 0)
+        Assertions.assertTrue(unixTimeMilli > 0)
     }
 
     @Test
     internal fun `test time shift`() {
-        val now = genUnixMilli()
+        val now = unixTimeMilli
 
         Assertions.assertThrows(RuntimeException::class.java) { now.shift(10, TimeUnit.MICROSECONDS) }
 

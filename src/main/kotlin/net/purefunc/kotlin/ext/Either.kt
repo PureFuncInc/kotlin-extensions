@@ -28,19 +28,13 @@ fun <A, B> Either<A, B>.isEitherRight() =
         is Either.Right -> value
     }
 
+// catchErr Series
+// when null
+// when true
+// when apply
+// when run
+
 fun <T> T?.catchErrWhenNull(tw: Throwable): Either<Throwable, T> = Either.Companion.catch { this ?: throw tw }
-
-fun <T> T?.validErrWhenNull(tw: Throwable): ValidatedNel<Throwable, T> =
-    Validated.Companion.catch { this ?: throw tw }.toValidatedNel()
-
-fun <T> Either<Throwable, T?>.flatCatchErrWhenNull(tw: Throwable): Either<Throwable, T> =
-    flatMap { t ->
-        t.toOption()
-            .fold(
-                ifEmpty = { tw.left() },
-                ifSome = { it.right() },
-            )
-    }
 
 suspend fun <T> T.catchErrWhenTrue(
     tw: Throwable,
@@ -49,27 +43,6 @@ suspend fun <T> T.catchErrWhenTrue(
     Either.Companion.catch {
         if (block.invoke(this)) throw tw
         else this
-    }
-
-suspend fun <T> T.validErrWhenTrue(
-    tw: Throwable,
-    block: suspend (t: T) -> Boolean,
-): ValidatedNel<Throwable, T> =
-    Validated.Companion.catch {
-        if (block.invoke(this)) throw tw
-        else this
-    }.toValidatedNel()
-
-suspend fun <T> Either<Throwable, T>.flatCatchErrWhenTrue(
-    tw: Throwable,
-    block: suspend (t: T) -> Boolean,
-): Either<Throwable, T> =
-    when (this) {
-        is Either.Left -> this
-        is Either.Right -> Either.Companion.catch {
-            if (block.invoke(this.value)) throw tw
-            else this.value
-        }
     }
 
 suspend fun <T, R> T.catchErrWhenApply(
@@ -85,18 +58,38 @@ suspend fun <T, R> T.catchErrWhenApply(
         }
     }
 
-suspend fun <T, R> T.validErrWhenApply(
+suspend fun <T, R> T.catchErrWhenRun(
     tw: Throwable,
     block: suspend (t: T) -> R,
-): ValidatedNel<Throwable, T> =
-    Validated.Companion.catch {
+): Either<Throwable, R> =
+    Either.Companion.catch {
         try {
             block.invoke(this)
-            this
         } catch (_: Throwable) {
             throw tw
         }
-    }.toValidatedNel()
+    }
+
+fun <T> Either<Throwable, T?>.flatCatchErrWhenNull(tw: Throwable): Either<Throwable, T> =
+    flatMap { t ->
+        t.toOption()
+            .fold(
+                ifEmpty = { tw.left() },
+                ifSome = { it.right() },
+            )
+    }
+
+suspend fun <T> Either<Throwable, T>.flatCatchErrWhenTrue(
+    tw: Throwable,
+    block: suspend (t: T) -> Boolean,
+): Either<Throwable, T> =
+    when (this) {
+        is Either.Left -> this
+        is Either.Right -> Either.Companion.catch {
+            if (block.invoke(this.value)) throw tw
+            else this.value
+        }
+    }
 
 suspend fun <T, R> Either<Throwable, T>.flatCatchErrWhenApply(
     tw: Throwable,
@@ -114,30 +107,6 @@ suspend fun <T, R> Either<Throwable, T>.flatCatchErrWhenApply(
         }
     }
 
-suspend fun <T, R> T.catchErrWhenRun(
-    tw: Throwable,
-    block: suspend (t: T) -> R,
-): Either<Throwable, R> =
-    Either.Companion.catch {
-        try {
-            block.invoke(this)
-        } catch (_: Throwable) {
-            throw tw
-        }
-    }
-
-suspend fun <T, R> T.validErrWhenRun(
-    tw: Throwable,
-    block: suspend (t: T) -> R,
-): ValidatedNel<Throwable, R> =
-    Validated.Companion.catch {
-        try {
-            block.invoke(this)
-        } catch (_: Throwable) {
-            throw tw
-        }
-    }.toValidatedNel()
-
 suspend fun <T, R> Either<Throwable, T>.flatCatchErrWhenRun(
     tw: Throwable,
     block: suspend (t: T) -> R,
@@ -151,6 +120,110 @@ suspend fun <T, R> Either<Throwable, T>.flatCatchErrWhenRun(
                 throw tw
             }
         }
+    }
+
+// validErr Series
+// when null
+// when true
+// when apply
+// when run
+
+fun <T> T?.validErrWhenNull(tw: Throwable): ValidatedNel<Throwable, T> =
+    Validated.Companion.catch { this ?: throw tw }.toValidatedNel()
+
+suspend fun <T> T.validErrWhenTrue(
+    tw: Throwable,
+    block: suspend (t: T) -> Boolean,
+): ValidatedNel<Throwable, T> =
+    Validated.Companion.catch {
+        if (block.invoke(this)) throw tw
+        else this
+    }.toValidatedNel()
+
+suspend fun <T, R> T.validErrWhenApply(
+    tw: Throwable,
+    block: suspend (t: T) -> R,
+): ValidatedNel<Throwable, T> =
+    Validated.Companion.catch {
+        try {
+            block.invoke(this)
+            this
+        } catch (_: Throwable) {
+            throw tw
+        }
+    }.toValidatedNel()
+
+suspend fun <T, R> T.validErrWhenRun(
+    tw: Throwable,
+    block: suspend (t: T) -> R,
+): ValidatedNel<Throwable, R> =
+    Validated.Companion.catch {
+        try {
+            block.invoke(this)
+        } catch (_: Throwable) {
+            throw tw
+        }
+    }.toValidatedNel()
+
+// flatValidErr Series
+// when null
+// when true
+// when apply
+// when run
+
+fun <T> EitherNel<Throwable, T?>.flatValidErrWhenNull(tw: Throwable): EitherNel<Throwable, T> =
+    flatMap { t ->
+        t.toOption()
+            .fold(
+                ifEmpty = { tw.left() },
+                ifSome = { it.right() },
+            )
+            .toValidatedNel()
+            .toEither()
+    }
+
+suspend fun <T> EitherNel<Throwable, T>.flatValidErrWhenTrue(
+    tw: Throwable,
+    block: suspend (t: T) -> Boolean,
+): EitherNel<Throwable, T> =
+    when (this) {
+        is Either.Left -> this
+        is Either.Right ->
+            Validated.Companion.catch {
+                if (block.invoke(this.value)) throw tw
+                else this.value
+            }.toValidatedNel().toEither()
+    }
+
+suspend fun <T, R> EitherNel<Throwable, T>.flatValidErrWhenApply(
+    tw: Throwable,
+    block: suspend (t: T) -> R,
+): EitherNel<Throwable, T> =
+    when (this) {
+        is Either.Left -> this
+        is Either.Right -> Validated.Companion.catch {
+            try {
+                block.invoke(this.value)
+                this.value
+            } catch (_: Throwable) {
+                throw tw
+            }
+        }.toValidatedNel().toEither()
+    }
+
+suspend fun <T, R> EitherNel<Throwable, T>.flatValidErrWhenRun(
+    tw: Throwable,
+    block: suspend (t: T) -> R,
+): EitherNel<Throwable, R> =
+    when (this) {
+        is Either.Left -> this
+        is Either.Right -> Validated.Companion.catch {
+            try {
+                block.invoke(this.value)
+            } catch (_: Throwable) {
+                throw tw
+            }
+        }.toValidatedNel().toEither()
     }
 
 typealias Tuple2<A, B> = Pair<A, B>

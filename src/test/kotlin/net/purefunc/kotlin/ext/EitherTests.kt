@@ -115,6 +115,75 @@ class EitherTests {
         )
     }
 
+    @Test
+    internal fun `test flattenCatchErr series`() = runBlocking {
+        val map = mapOf("key1" to "value1")
+
+        val nullLeft = map["key2"].catchErrWhenTrue(RuntimeException("true")) { it != null }
+            .flatCatchErrWhenNull(RuntimeException("null"))
+//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value1" }
+//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value1" } }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
+//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
+            .isEitherLeft()
+        Assertions.assertTrue(nullLeft is RuntimeException)
+        Assertions.assertEquals("null", nullLeft.message)
+
+        val trueLeft = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
+            .flatCatchErrWhenNull(RuntimeException("null"))
+//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value1" }
+//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value1" } }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
+//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
+            .isEitherLeft()
+        Assertions.assertTrue(trueLeft is RuntimeException)
+        Assertions.assertEquals("true", trueLeft.message)
+
+        val outLeft = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
+            .flatCatchErrWhenNull(RuntimeException("null"))
+//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
+//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
+//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
+            .isEitherLeft()
+        Assertions.assertTrue(outLeft is RuntimeException)
+        Assertions.assertEquals("out", outLeft.message)
+
+        val illegalLeft = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
+            .flatCatchErrWhenNull(RuntimeException("null"))
+//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
+//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
+//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
+            .isEitherLeft()
+        Assertions.assertTrue(illegalLeft is RuntimeException)
+        Assertions.assertEquals("illegal", illegalLeft.message)
+
+        val right = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
+            .flatCatchErrWhenNull(RuntimeException("null"))
+//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
+            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
+//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
+            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
+//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
+            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "6".toInt() }
+//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "6".toInt() } }
+            .isEitherRight()
+        Assertions.assertEquals(true, right)
+    }
+
     /**
      * val list = listOf(1, 2, 3)
      *
@@ -199,6 +268,119 @@ class EitherTests {
         val zipRight =
             nullRight.zip(trueRight, outRight, illegalRight) { v1, v2, v3, v4 -> Tuple4(v1, v2, v3, v4) }.toEither()
         Assertions.assertEquals(Tuple4("value1", "value1", "value1", false), zipRight.isEitherRight())
+    }
+
+    @Test
+    internal fun `test flatValidErr`() = runBlocking {
+        val map = mapOf("key1" to "value1", "key2" to "value2")
+
+        val eitherLeftAtValidAll = Tuple2(
+            map["key3"].validErrWhenNull(RuntimeException("key3 null")),
+            map["key4"].validErrWhenNull(RuntimeException("key4 null")),
+        ).validAll()
+            .flatValidErrWhenTrue(RuntimeException("value1 or value2 equals")) {
+                it.first == "value1" || it.second == "value2"
+            }
+            .flatValidErrWhenApply(RuntimeException("index 3 out of bound")) {
+                listOf(it.first, it.second)[3]
+            }
+            .flatValidErrWhenRun(RuntimeException("index 4 out of bound")) {
+                listOf(it.first, it.second)[4]
+            }
+            .flatValidErrWhenNull(RuntimeException("key3 null"))
+            .isEitherLeft()
+        Assertions.assertEquals(2, eitherLeftAtValidAll.size)
+        Assertions.assertEquals("key3 null", eitherLeftAtValidAll[0].message)
+        Assertions.assertEquals("key4 null", eitherLeftAtValidAll[1].message)
+
+        val eitherRightTrue = Tuple2(
+            map["key1"].validErrWhenNull(RuntimeException()),
+            map["key2"].validErrWhenNull(RuntimeException()),
+        ).validAll()
+            .flatValidErrWhenTrue(RuntimeException("value1 or value2 equals")) {
+                it.first == "value1" || it.second == "value2"
+            }
+            .flatValidErrWhenApply(RuntimeException("index 3 out of bound")) {
+                listOf(it.first, it.second)[3]
+            }
+            .flatValidErrWhenRun(RuntimeException("index 4 out of bound")) {
+                listOf(it.first, it.second)[4]
+            }
+            .flatValidErrWhenNull(RuntimeException("key3 null"))
+            .isEitherLeft()
+        Assertions.assertEquals(1, eitherRightTrue.size)
+        Assertions.assertEquals("value1 or value2 equals", eitherRightTrue[0].message)
+
+        val eitherRightApply = Tuple2(
+            map["key1"].validErrWhenNull(RuntimeException()),
+            map["key2"].validErrWhenNull(RuntimeException()),
+        ).validAll()
+            .flatValidErrWhenTrue(RuntimeException("value1 or value2 equals")) {
+                it.first != "value1" || it.second != "value2"
+            }
+            .flatValidErrWhenApply(RuntimeException("index 3 out of bound")) {
+                listOf(it.first, it.second)[3]
+            }
+            .flatValidErrWhenRun(RuntimeException("index 4 out of bound")) {
+                listOf(it.first, it.second)[4]
+            }
+            .flatValidErrWhenNull(RuntimeException("key3 null"))
+            .isEitherLeft()
+        Assertions.assertEquals(1, eitherRightApply.size)
+        Assertions.assertEquals("index 3 out of bound", eitherRightApply[0].message)
+
+        val eitherRightRun = Tuple2(
+            map["key1"].validErrWhenNull(RuntimeException()),
+            map["key2"].validErrWhenNull(RuntimeException()),
+        ).validAll()
+            .flatValidErrWhenTrue(RuntimeException("value1 or value2 equals")) {
+                it.first != "value1" || it.second != "value2"
+            }
+            .flatValidErrWhenApply(RuntimeException("index 1 out of bound")) {
+                listOf(it.first, it.second)[1]
+            }
+            .flatValidErrWhenRun(RuntimeException("index 4 out of bound")) {
+                listOf(it.first, it.second)[4]
+            }
+            .flatValidErrWhenNull(RuntimeException("key3 null"))
+            .isEitherLeft()
+        Assertions.assertEquals(1, eitherRightRun.size)
+        Assertions.assertEquals("index 4 out of bound", eitherRightRun[0].message)
+
+        val eitherRightNull = Tuple2(
+            map["key1"].validErrWhenNull(RuntimeException()),
+            map["key2"].validErrWhenNull(RuntimeException()),
+        ).validAll()
+            .flatValidErrWhenTrue(RuntimeException()) {
+                it.first != "value1" || it.second != "value2"
+            }
+            .flatValidErrWhenApply(RuntimeException()) {
+                listOf(it.first, it.second)[0]
+            }
+            .flatValidErrWhenRun(RuntimeException()) {
+                map["key3"]
+            }
+            .flatValidErrWhenNull(RuntimeException("key3 null"))
+            .isEitherLeft()
+        Assertions.assertEquals(1, eitherRightNull.size)
+        Assertions.assertEquals("key3 null", eitherRightNull[0].message)
+
+        val eitherRight = Tuple2(
+            map["key1"].validErrWhenNull(RuntimeException()),
+            map["key2"].validErrWhenNull(RuntimeException()),
+        ).validAll()
+            .flatValidErrWhenTrue(RuntimeException()) {
+                it.first != "value1" || it.second != "value2"
+            }
+            .flatValidErrWhenApply(RuntimeException()) {
+                listOf(it.first, it.second)[0]
+            }
+            .flatValidErrWhenRun(RuntimeException()) {
+                listOf(it.first, it.second)[1]
+            }
+            .flatValidErrWhenNull(RuntimeException())
+            .isEitherRight()
+        Assertions.assertEquals("value2", eitherRight)
     }
 
     @Test
@@ -392,74 +574,5 @@ class EitherTests {
                 nullRight
             ).validAll().isEitherRight()
         )
-    }
-
-    @Test
-    internal fun `test flattenCatchErr series`() = runBlocking {
-        val map = mapOf("key1" to "value1")
-
-        val nullLeft = map["key2"].catchErrWhenTrue(RuntimeException("true")) { it != null }
-            .flatCatchErrWhenNull(RuntimeException("null"))
-//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value1" }
-//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value1" } }
-            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
-//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
-            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
-            .isEitherLeft()
-        Assertions.assertTrue(nullLeft is RuntimeException)
-        Assertions.assertEquals("null", nullLeft.message)
-
-        val trueLeft = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
-            .flatCatchErrWhenNull(RuntimeException("null"))
-//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value1" }
-//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value1" } }
-            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
-//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
-            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
-            .isEitherLeft()
-        Assertions.assertTrue(trueLeft is RuntimeException)
-        Assertions.assertEquals("true", trueLeft.message)
-
-        val outLeft = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
-            .flatCatchErrWhenNull(RuntimeException("null"))
-//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
-//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
-            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[1] }
-//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[1] } }
-            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
-            .isEitherLeft()
-        Assertions.assertTrue(outLeft is RuntimeException)
-        Assertions.assertEquals("out", outLeft.message)
-
-        val illegalLeft = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
-            .flatCatchErrWhenNull(RuntimeException("null"))
-//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
-//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
-            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
-//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
-            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "a".toInt() } }
-            .isEitherLeft()
-        Assertions.assertTrue(illegalLeft is RuntimeException)
-        Assertions.assertEquals("illegal", illegalLeft.message)
-
-        val right = map["key1"].catchErrWhenTrue(RuntimeException("true")) { it == null }
-            .flatCatchErrWhenNull(RuntimeException("null"))
-//            .flatMap { it: String? -> it.catchErrWhenNull(RuntimeException("null")) }
-            .flatCatchErrWhenTrue(RuntimeException("true")) { it == "value2" }
-//            .flatMap { outer: String -> outer.catchErrWhenTrue(RuntimeException("true")) { inner: String -> inner == "value2" } }
-            .flatCatchErrWhenApply(RuntimeException("out")) { listOf(it)[0] }
-//            .flatMap { outer -> outer.catchErrWhenApply(RuntimeException("out")) { listOf(it)[0] } }
-            .flatCatchErrWhenRun(RuntimeException("illegal")) { it.length == "6".toInt() }
-//            .flatMap { outer -> outer.catchErrWhenRun(RuntimeException("illegal")) { it.length == "6".toInt() } }
-            .isEitherRight()
-        Assertions.assertEquals(true, right)
     }
 }

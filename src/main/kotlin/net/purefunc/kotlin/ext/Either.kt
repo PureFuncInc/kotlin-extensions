@@ -230,56 +230,94 @@ typealias Tuple2<A, B> = Pair<A, B>
 typealias Tuple3<A, B, C> = Triple<A, B, C>
 typealias EitherNel<A, B> = Either<NonEmptyList<A>, B>
 
-fun <A, B> Tuple2<ValidatedNel<Throwable, A>, ValidatedNel<Throwable, B>>.validAll(): EitherNel<Throwable, Tuple2<A, B>> =
-    first.zip(second) { v1, v2 -> Tuple2(v1, v2) }.toEither()
+fun <A, B> flatValid2(
+    a: ValidatedNel<Throwable, A>,
+    b: ValidatedNel<Throwable, B>,
+): EitherNel<Throwable, Tuple2<A, B>> =
+    a.zip(b) { v1, v2 ->
+        Tuple2(v1, v2)
+    }.toEither()
 
-fun <A, B, C> Tuple3<ValidatedNel<Throwable, A>, ValidatedNel<Throwable, B>, ValidatedNel<Throwable, C>>.validAll(): EitherNel<Throwable, Tuple3<A, B, C>> =
-    first.zip(second, third) { v1, v2, v3 -> Tuple3(v1, v2, v3) }.toEither()
+fun <A, B, C> flatValid3(
+    a: ValidatedNel<Throwable, A>,
+    b: ValidatedNel<Throwable, B>,
+    c: ValidatedNel<Throwable, C>,
+): EitherNel<Throwable, Tuple3<A, B, C>> =
+    a.zip(b, c) { v1, v2, v3 ->
+        Tuple3(v1, v2, v3)
+    }.toEither()
 
-fun <A, B, C, D> Tuple4<ValidatedNel<Throwable, A>, ValidatedNel<Throwable, B>, ValidatedNel<Throwable, C>, ValidatedNel<Throwable, D>>.validAll(): EitherNel<Throwable, Tuple4<A, B, C, D>> =
-    first.zip(second, third, fourth) { v1, v2, v3, v4 -> Tuple4(v1, v2, v3, v4) }.toEither()
+fun <A, B, C, D> flatValid4(
+    a: ValidatedNel<Throwable, A>,
+    b: ValidatedNel<Throwable, B>,
+    c: ValidatedNel<Throwable, C>,
+    d: ValidatedNel<Throwable, D>,
+): EitherNel<Throwable, Tuple4<A, B, C, D>> =
+    a.zip(b, c, d) { v1, v2, v3, v4 ->
+        Tuple4(v1, v2, v3, v4)
+    }.toEither()
 
-fun <A, B, C, D, E> Tuple5<ValidatedNel<Throwable, A>, ValidatedNel<Throwable, B>, ValidatedNel<Throwable, C>, ValidatedNel<Throwable, D>, ValidatedNel<Throwable, E>>.validAll(): EitherNel<Throwable, Tuple5<A, B, C, D, E>> =
-    first.zip(second, third, fourth, fifth) { v1, v2, v3, v4, v5 -> Tuple5(v1, v2, v3, v4, v5) }.toEither()
+fun <A, B, C, D, E> flatValid5(
+    a: ValidatedNel<Throwable, A>,
+    b: ValidatedNel<Throwable, B>,
+    c: ValidatedNel<Throwable, C>,
+    d: ValidatedNel<Throwable, D>,
+    e: ValidatedNel<Throwable, E>,
+): EitherNel<Throwable, Tuple5<A, B, C, D, E>> =
+    a.zip(b, c, d, e) { v1, v2, v3, v4, v5 ->
+        Tuple5(v1, v2, v3, v4, v5)
+    }.toEither()
 
-fun <A, B, C, D, E, F> Tuple6<ValidatedNel<Throwable, A>, ValidatedNel<Throwable, B>, ValidatedNel<Throwable, C>, ValidatedNel<Throwable, D>, ValidatedNel<Throwable, E>, ValidatedNel<Throwable, F>>.validAll(): EitherNel<Throwable, Tuple6<A, B, C, D, E, F>> =
-    first.zip(
-        second,
-        third,
-        fourth,
-        fifth,
-        sixth
-    ) { v1, v2, v3, v4, v5, v6 -> Tuple6(v1, v2, v3, v4, v5, v6) }.toEither()
+fun <A, B, C, D, E, F> flatValid6(
+    a: ValidatedNel<Throwable, A>,
+    b: ValidatedNel<Throwable, B>,
+    c: ValidatedNel<Throwable, C>,
+    d: ValidatedNel<Throwable, D>,
+    e: ValidatedNel<Throwable, E>,
+    f: ValidatedNel<Throwable, F>,
+): EitherNel<Throwable, Tuple6<A, B, C, D, E, F>> =
+    a.zip(b, c, d, e, f) { v1, v2, v3, v4, v5, v6 ->
+        Tuple6(v1, v2, v3, v4, v5, v6)
+    }.toEither()
 
-fun <A, B, C, D, E, F, G> Tuple7<ValidatedNel<Throwable, A>, ValidatedNel<Throwable, B>, ValidatedNel<Throwable, C>, ValidatedNel<Throwable, D>, ValidatedNel<Throwable, E>, ValidatedNel<Throwable, F>, ValidatedNel<Throwable, G>>.validAll(): EitherNel<Throwable, Tuple7<A, B, C, D, E, F, G>> =
-    first.zip(
-        second,
-        third,
-        fourth,
-        fifth,
-        sixth,
-        seventh
-    ) { v1, v2, v3, v4, v5, v6, v7 -> Tuple7(v1, v2, v3, v4, v5, v6, v7) }.toEither()
+fun <A, B, C, D, E, F, G> flatValid7(
+    a: ValidatedNel<Throwable, A>,
+    b: ValidatedNel<Throwable, B>,
+    c: ValidatedNel<Throwable, C>,
+    d: ValidatedNel<Throwable, D>,
+    e: ValidatedNel<Throwable, E>,
+    f: ValidatedNel<Throwable, F>,
+    g: ValidatedNel<Throwable, G>,
+): EitherNel<Throwable, Tuple7<A, B, C, D, E, F, G>> =
+    a.zip(b, c, d, e, f, g) { v1, v2, v3, v4, v5, v6, v7 ->
+        Tuple7(v1, v2, v3, v4, v5, v6, v7)
+    }.toEither()
 
-fun <A, B, C, D, E, F, G, H> Tuple8<ValidatedNel<Throwable, A>, ValidatedNel<Throwable, B>, ValidatedNel<Throwable, C>, ValidatedNel<Throwable, D>, ValidatedNel<Throwable, E>, ValidatedNel<Throwable, F>, ValidatedNel<Throwable, G>, ValidatedNel<Throwable, H>>.validAll(): EitherNel<Throwable, Tuple8<A, B, C, D, E, F, G, H>> =
-    first.zip(
-        second,
-        third,
-        fourth,
-        fifth,
-        sixth,
-        seventh,
-        eighth
-    ) { v1, v2, v3, v4, v5, v6, v7, v8 -> Tuple8(v1, v2, v3, v4, v5, v6, v7, v8) }.toEither()
+fun <A, B, C, D, E, F, G, H> flatValid8(
+    a: ValidatedNel<Throwable, A>,
+    b: ValidatedNel<Throwable, B>,
+    c: ValidatedNel<Throwable, C>,
+    d: ValidatedNel<Throwable, D>,
+    e: ValidatedNel<Throwable, E>,
+    f: ValidatedNel<Throwable, F>,
+    g: ValidatedNel<Throwable, G>,
+    h: ValidatedNel<Throwable, H>,
+): EitherNel<Throwable, Tuple8<A, B, C, D, E, F, G, H>> =
+    a.zip(b, c, d, e, f, g, h) { v1, v2, v3, v4, v5, v6, v7, v8 ->
+        Tuple8(v1, v2, v3, v4, v5, v6, v7, v8)
+    }.toEither()
 
-fun <A, B, C, D, E, F, G, H, I> Tuple9<ValidatedNel<Throwable, A>, ValidatedNel<Throwable, B>, ValidatedNel<Throwable, C>, ValidatedNel<Throwable, D>, ValidatedNel<Throwable, E>, ValidatedNel<Throwable, F>, ValidatedNel<Throwable, G>, ValidatedNel<Throwable, H>, ValidatedNel<Throwable, I>>.validAll(): EitherNel<Throwable, Tuple9<A, B, C, D, E, F, G, H, I>> =
-    first.zip(
-        second,
-        third,
-        fourth,
-        fifth,
-        sixth,
-        seventh,
-        eighth,
-        ninth
-    ) { v1, v2, v3, v4, v5, v6, v7, v8, v9 -> Tuple9(v1, v2, v3, v4, v5, v6, v7, v8, v9) }.toEither()
+fun <A, B, C, D, E, F, G, H, I> flatValid9(
+    a: ValidatedNel<Throwable, A>,
+    b: ValidatedNel<Throwable, B>,
+    c: ValidatedNel<Throwable, C>,
+    d: ValidatedNel<Throwable, D>,
+    e: ValidatedNel<Throwable, E>,
+    f: ValidatedNel<Throwable, F>,
+    g: ValidatedNel<Throwable, G>,
+    h: ValidatedNel<Throwable, H>,
+    i: ValidatedNel<Throwable, I>,
+): EitherNel<Throwable, Tuple9<A, B, C, D, E, F, G, H, I>> =
+    a.zip(b, c, d, e, f, g, h, i) { v1, v2, v3, v4, v5, v6, v7, v8, v9 ->
+        Tuple9(v1, v2, v3, v4, v5, v6, v7, v8, v9)
+    }.toEither()

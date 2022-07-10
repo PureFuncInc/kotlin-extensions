@@ -274,10 +274,10 @@ class EitherTests {
     internal fun `test flatValidErr`() = runBlocking {
         val map = mapOf("key1" to "value1", "key2" to "value2")
 
-        val eitherLeftAtValidAll = Tuple2(
+        val eitherLeftAtValidAll = flatValid2(
             map["key3"].validErrWhenNull(RuntimeException("key3 null")),
             map["key4"].validErrWhenNull(RuntimeException("key4 null")),
-        ).validAll()
+        )
             .flatValidErrWhenTrue(RuntimeException("value1 or value2 equals")) {
                 it.first == "value1" || it.second == "value2"
             }
@@ -293,10 +293,10 @@ class EitherTests {
         Assertions.assertEquals("key3 null", eitherLeftAtValidAll[0].message)
         Assertions.assertEquals("key4 null", eitherLeftAtValidAll[1].message)
 
-        val eitherRightTrue = Tuple2(
+        val eitherRightTrue = flatValid2(
             map["key1"].validErrWhenNull(RuntimeException()),
             map["key2"].validErrWhenNull(RuntimeException()),
-        ).validAll()
+        )
             .flatValidErrWhenTrue(RuntimeException("value1 or value2 equals")) {
                 it.first == "value1" || it.second == "value2"
             }
@@ -311,10 +311,10 @@ class EitherTests {
         Assertions.assertEquals(1, eitherRightTrue.size)
         Assertions.assertEquals("value1 or value2 equals", eitherRightTrue[0].message)
 
-        val eitherRightApply = Tuple2(
+        val eitherRightApply = flatValid2(
             map["key1"].validErrWhenNull(RuntimeException()),
             map["key2"].validErrWhenNull(RuntimeException()),
-        ).validAll()
+        )
             .flatValidErrWhenTrue(RuntimeException("value1 or value2 equals")) {
                 it.first != "value1" || it.second != "value2"
             }
@@ -329,16 +329,10 @@ class EitherTests {
         Assertions.assertEquals(1, eitherRightApply.size)
         Assertions.assertEquals("index 3 out of bound", eitherRightApply[0].message)
 
-        val eitherRightRun = Tuple2(
+        val eitherRightRun = flatValid2(
             map["key1"].validErrWhenNull(RuntimeException()),
             map["key2"].validErrWhenNull(RuntimeException()),
-        ).validAll()
-            .flatValidErrWhenTrue(RuntimeException("value1 or value2 equals")) {
-                it.first != "value1" || it.second != "value2"
-            }
-            .flatValidErrWhenApply(RuntimeException("index 1 out of bound")) {
-                listOf(it.first, it.second)[1]
-            }
+        )
             .flatValidErrWhenRun(RuntimeException("index 4 out of bound")) {
                 listOf(it.first, it.second)[4]
             }
@@ -347,10 +341,10 @@ class EitherTests {
         Assertions.assertEquals(1, eitherRightRun.size)
         Assertions.assertEquals("index 4 out of bound", eitherRightRun[0].message)
 
-        val eitherRightNull = Tuple2(
+        val eitherRightNull = flatValid2(
             map["key1"].validErrWhenNull(RuntimeException()),
             map["key2"].validErrWhenNull(RuntimeException()),
-        ).validAll()
+        )
             .flatValidErrWhenTrue(RuntimeException()) {
                 it.first != "value1" || it.second != "value2"
             }
@@ -365,10 +359,10 @@ class EitherTests {
         Assertions.assertEquals(1, eitherRightNull.size)
         Assertions.assertEquals("key3 null", eitherRightNull[0].message)
 
-        val eitherRight = Tuple2(
+        val eitherRight = flatValid2(
             map["key1"].validErrWhenNull(RuntimeException()),
             map["key2"].validErrWhenNull(RuntimeException()),
-        ).validAll()
+        )
             .flatValidErrWhenTrue(RuntimeException()) {
                 it.first != "value1" || it.second != "value2"
             }
@@ -398,42 +392,59 @@ class EitherTests {
 
         Assertions.assertEquals(
             2,
-            Tuple2(nullLeft, trueLeft).validAll().isEitherLeft().size
+            flatValid2(nullLeft, trueLeft)
+                .isEitherLeft()
+                .size
         )
         Assertions.assertEquals(
             2,
-            Tuple3(nullLeft, trueLeft, outRight).validAll().isEitherLeft().size
+            flatValid3(nullLeft, trueLeft, outRight)
+                .isEitherLeft()
+                .size
         )
         Assertions.assertEquals(
             2,
-            Tuple4(nullLeft, trueLeft, outRight, illegalRight).validAll().isEitherLeft().size
+            flatValid4(nullLeft, trueLeft, outRight, illegalRight)
+                .isEitherLeft()
+                .size
         )
         Assertions.assertEquals(
             3,
-            Tuple5(nullLeft, trueLeft, outLeft, illegalRight, nullRight).validAll().isEitherLeft().size
+            flatValid5(nullLeft, trueLeft, outLeft, illegalRight, nullRight)
+                .isEitherLeft()
+                .size
         )
         Assertions.assertEquals(
             3,
-            Tuple6(nullLeft, trueLeft, outLeft, illegalRight, nullRight, trueRight).validAll().isEitherLeft().size
+            flatValid6(nullLeft, trueLeft, outLeft, illegalRight, nullRight, trueRight)
+                .isEitherLeft()
+                .size
         )
         Assertions.assertEquals(
             3,
-            Tuple7(nullLeft, trueLeft, outLeft, illegalRight, nullRight, trueRight, outRight)
-                .validAll()
+            flatValid7(nullLeft, trueLeft, outLeft, illegalRight, nullRight, trueRight, outRight)
                 .isEitherLeft()
                 .size
         )
         Assertions.assertEquals(
             4,
-            Tuple8(nullLeft, trueLeft, outLeft, illegalLeft, nullRight, trueRight, outRight, illegalRight)
-                .validAll()
+            flatValid8(nullLeft, trueLeft, outLeft, illegalLeft, nullRight, trueRight, outRight, illegalRight)
                 .isEitherLeft()
                 .size
         )
         Assertions.assertEquals(
             4,
-            Tuple9(nullLeft, trueLeft, outLeft, illegalLeft, nullRight, trueRight, outRight, illegalRight, nullRight)
-                .validAll()
+            flatValid9(
+                nullLeft,
+                trueLeft,
+                outLeft,
+                illegalLeft,
+                nullRight,
+                trueRight,
+                outRight,
+                illegalRight,
+                nullRight
+            )
                 .isEitherLeft()
                 .size
         )
@@ -443,10 +454,10 @@ class EitherTests {
                 "value1",
                 "value1"
             ),
-            Tuple2(
+            flatValid2(
                 nullRight,
                 trueRight
-            ).validAll().isEitherRight()
+            ).isEitherRight()
         )
         Assertions.assertEquals(
             Tuple3(
@@ -454,11 +465,11 @@ class EitherTests {
                 "value1",
                 "value1"
             ),
-            Tuple3(
+            flatValid3(
                 nullRight,
                 trueRight,
                 outRight
-            ).validAll().isEitherRight()
+            ).isEitherRight()
         )
         Assertions.assertEquals(
             Tuple4(
@@ -467,12 +478,12 @@ class EitherTests {
                 "value1",
                 false
             ),
-            Tuple4(
+            flatValid4(
                 nullRight,
                 trueRight,
                 outRight,
                 illegalRight
-            ).validAll().isEitherRight()
+            ).isEitherRight()
         )
         Assertions.assertEquals(
             Tuple5(
@@ -482,13 +493,13 @@ class EitherTests {
                 false,
                 "value1"
             ),
-            Tuple5(
+            flatValid5(
                 nullRight,
                 trueRight,
                 outRight,
                 illegalRight,
                 nullRight
-            ).validAll().isEitherRight()
+            ).isEitherRight()
         )
         Assertions.assertEquals(
             Tuple6(
@@ -499,14 +510,14 @@ class EitherTests {
                 "value1",
                 "value1"
             ),
-            Tuple6(
+            flatValid6(
                 nullRight,
                 trueRight,
                 outRight,
                 illegalRight,
                 nullRight,
                 trueRight
-            ).validAll().isEitherRight()
+            ).isEitherRight()
         )
         Assertions.assertEquals(
             Tuple7(
@@ -518,7 +529,7 @@ class EitherTests {
                 "value1",
                 "value1"
             ),
-            Tuple7(
+            flatValid7(
                 nullRight,
                 trueRight,
                 outRight,
@@ -526,7 +537,7 @@ class EitherTests {
                 nullRight,
                 trueRight,
                 outRight
-            ).validAll().isEitherRight()
+            ).isEitherRight()
         )
         Assertions.assertEquals(
             Tuple8(
@@ -539,7 +550,7 @@ class EitherTests {
                 "value1",
                 false
             ),
-            Tuple8(
+            flatValid8(
                 nullRight,
                 trueRight,
                 outRight,
@@ -548,7 +559,7 @@ class EitherTests {
                 trueRight,
                 outRight,
                 illegalRight
-            ).validAll().isEitherRight()
+            ).isEitherRight()
         )
         Assertions.assertEquals(
             Tuple9(
@@ -562,7 +573,7 @@ class EitherTests {
                 false,
                 "value1"
             ),
-            Tuple9(
+            flatValid9(
                 nullRight,
                 trueRight,
                 outRight,
@@ -572,7 +583,7 @@ class EitherTests {
                 outRight,
                 illegalRight,
                 nullRight
-            ).validAll().isEitherRight()
+            ).isEitherRight()
         )
     }
 }

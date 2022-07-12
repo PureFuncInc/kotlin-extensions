@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory
 annotation class Slf4j {
 
     companion object {
-        val <reified T> T.log: Logger inline get() = LoggerFactory.getLogger(T::class.java)
+        val <reified T> T.log: Logger
+            inline get() = LoggerFactory.getLogger(T::class.java)
     }
 }

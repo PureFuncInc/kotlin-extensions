@@ -3,9 +3,13 @@ package net.purefunc.kotlin.ext
 import java.time.Instant
 import java.util.concurrent.TimeUnit
 
-val unixTimeMilli: Long inline get() = Instant.now().toEpochMilli()
+val unixTimeMilli: Long
+    inline get() = Instant.now().toEpochMilli()
 
-fun Long.shift(delta: Long, timeUnit: TimeUnit) = when (timeUnit) {
+fun Long.shift(
+    delta: Long,
+    timeUnit: TimeUnit,
+): Long = when (timeUnit) {
     TimeUnit.MILLISECONDS -> this + delta
     TimeUnit.SECONDS -> this + (delta * 1000)
     TimeUnit.MINUTES -> this + (delta * 60 * 1000)

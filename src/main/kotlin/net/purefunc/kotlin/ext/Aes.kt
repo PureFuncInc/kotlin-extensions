@@ -10,21 +10,33 @@ import javax.crypto.spec.SecretKeySpec
 
 fun String.aesEncrypt(
     transformation: String = "AES/CBC/PKCS7PADDING",
-    aesKey: String,
-    aesIv: String,
-): String = this.aes(transformation = transformation, mode = Cipher.ENCRYPT_MODE, aesKey, aesIv)
+    key: String,
+    iv: String,
+): String =
+    aes(
+        transformation = transformation,
+        mode = Cipher.ENCRYPT_MODE,
+        key = key,
+        iv = iv,
+    )
 
 fun String.aesDecrypt(
     transformation: String = "AES/CBC/PKCS7PADDING",
-    aesKey: String,
-    aesIv: String,
-): String = this.aes(transformation = transformation, mode = Cipher.DECRYPT_MODE, aesKey, aesIv)
+    key: String,
+    iv: String,
+): String =
+    aes(
+        transformation = transformation,
+        mode = Cipher.DECRYPT_MODE,
+        key = key,
+        iv = iv,
+    )
 
 private fun String.aes(
     transformation: String,
     mode: Int,
-    aesKey: String,
-    aesIv: String,
+    key: String,
+    iv: String,
 ): String = also {
     Security.addProvider(BouncyCastleProvider())
 }.let {
@@ -32,8 +44,8 @@ private fun String.aes(
 }.also {
     it.init(
         mode,
-        SecretKeySpec(aesKey.toByteArray(StandardCharsets.UTF_8), "AES"),
-        IvParameterSpec(aesIv.toByteArray(StandardCharsets.UTF_8))
+        SecretKeySpec(key.toByteArray(StandardCharsets.UTF_8), "AES"),
+        IvParameterSpec(iv.toByteArray(StandardCharsets.UTF_8))
     )
 }.let {
     if (mode == Cipher.ENCRYPT_MODE) String(Base64.getEncoder().encode(it.doFinal(this.toByteArray())))

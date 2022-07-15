@@ -30,10 +30,4 @@ class RegexTests {
         Assertions.assertTrue("a3".isAlphanumeric())
         Assertions.assertTrue("aB3".isAlphanumeric())
     }
-
-    @Test
-    internal fun `test isValidEmail`() {
-        Assertions.assertFalse("_vincent@".isValidEmail())
-        Assertions.assertTrue("vincent@".isValidEmail())
-    }
 }

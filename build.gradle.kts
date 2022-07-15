@@ -17,7 +17,7 @@ repositories {
 val arrowKtVersion = "1.0.1"
 val jacksonVersion = "2.13.3"
 val slf4jVersion = "1.7.36"
-val bcprovJdkVersion = "140"
+val bcprovJdkVersion = "1.70"
 val junitVersion = "5.8.2"
 dependencies {
     implementation(kotlin("stdlib"))
@@ -33,7 +33,7 @@ dependencies {
     api("org.slf4j:slf4j-api:$slf4jVersion")
 
     // AES PKCS7PADDING
-    api("bouncycastle:bcprov-jdk16:$bcprovJdkVersion")
+    api("org.bouncycastle:bcprov-jdk15on:$bcprovJdkVersion")
 
     // JUnit
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")

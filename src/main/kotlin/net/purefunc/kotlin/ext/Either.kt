@@ -53,24 +53,26 @@ suspend fun <T> T.catchErrWhenTrue(
 
 suspend inline fun <reified T, R> T.catchErrWhenApply(
     customErr: CustomErr,
+    printTrace: Boolean = false,
     block: suspend (t: T) -> R,
 ): Either<CustomErr, T> =
     try {
         block.invoke(this)
         this.right()
     } catch (tw: Throwable) {
-        log.error(tw.message)
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
         customErr.left()
     }
 
 suspend inline fun <reified T, R> T.catchErrWhenRun(
     customErr: CustomErr,
+    printTrace: Boolean = false,
     block: suspend (t: T) -> R,
 ): Either<CustomErr, R> =
     try {
         block.invoke(this).right()
     } catch (tw: Throwable) {
-        log.error(tw.message)
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
         customErr.left()
     }
 
@@ -98,6 +100,7 @@ suspend fun <T> Either<CustomErr, T>.flatCatchErrWhenTrue(
 
 suspend fun <T, R> Either<CustomErr, T>.flatCatchErrWhenApply(
     customErr: CustomErr,
+    printTrace: Boolean = false,
     block: suspend (t: T) -> R,
 ): Either<CustomErr, T> =
     when (this) {
@@ -107,13 +110,14 @@ suspend fun <T, R> Either<CustomErr, T>.flatCatchErrWhenApply(
                 block.invoke(this.value)
                 this.value.right()
             } catch (tw: Throwable) {
-                log.error(tw.message)
+                if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
                 customErr.left()
             }
     }
 
 suspend fun <T, R> Either<CustomErr, T>.flatCatchErrWhenRun(
     customErr: CustomErr,
+    printTrace: Boolean = false,
     block: suspend (t: T) -> R,
 ): Either<CustomErr, R> =
     when (this) {
@@ -122,7 +126,7 @@ suspend fun <T, R> Either<CustomErr, T>.flatCatchErrWhenRun(
             try {
                 block.invoke(this.value).right()
             } catch (tw: Throwable) {
-                log.error(tw.message)
+                if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
                 customErr.left()
             }
     }
@@ -148,6 +152,7 @@ suspend fun <T> T.validErrWhenTrue(
 
 suspend inline fun <reified T, R> T.validErrWhenApply(
     customErr: CustomErr,
+    printTrace: Boolean = false,
     block: suspend (t: T) -> R,
 ): ValidatedNel<CustomErr, T> =
     run {
@@ -155,20 +160,21 @@ suspend inline fun <reified T, R> T.validErrWhenApply(
             block.invoke(this)
             this.valid()
         } catch (tw: Throwable) {
-            log.error(tw.message)
+            if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
             customErr.invalid()
         }
     }.toValidatedNel()
 
 suspend inline fun <reified T, R> T.validErrWhenRun(
     customErr: CustomErr,
+    printTrace: Boolean = false,
     block: suspend (t: T) -> R,
 ): ValidatedNel<CustomErr, R> =
     run {
         try {
             block.invoke(this).valid()
         } catch (tw: Throwable) {
-            log.error(tw.message)
+            if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
             customErr.invalid()
         }
     }.toValidatedNel()
@@ -205,6 +211,7 @@ suspend fun <T> EitherNel<CustomErr, T>.flatValidErrWhenTrue(
 
 suspend fun <T, R> EitherNel<CustomErr, T>.flatValidErrWhenApply(
     customErr: CustomErr,
+    printTrace: Boolean = false,
     block: suspend (t: T) -> R,
 ): EitherNel<CustomErr, T> =
     when (this) {
@@ -223,6 +230,7 @@ suspend fun <T, R> EitherNel<CustomErr, T>.flatValidErrWhenApply(
 
 suspend fun <T, R> EitherNel<CustomErr, T>.flatValidErrWhenRun(
     customErr: CustomErr,
+    printTrace: Boolean = false,
     block: suspend (t: T) -> R,
 ): EitherNel<CustomErr, R> =
     when (this) {

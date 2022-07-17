@@ -4,8 +4,13 @@
 
 # Sample Code
 
+* [Aes](docs/aes.md)
+* [Either](docs/either.md)
 * [Emoji](docs/emoji.md)
+* [File](docs/file.md)
+* [Hash](docs/hash.md)
 * [Json](docs/json.md)
+* [Regex](docs/regex.md)
 * [String](docs/string.md)
 * [Time](docs/time.md)
 

@@ -18,13 +18,13 @@ import arrow.core.valid
 import arrow.core.zip
 import net.purefunc.kotlin.ext.Slf4j.Companion.log
 
-inline fun <reified A, B> Either<A, B>.isEitherLeft() =
+inline fun <reified A, B> Either<A, B>.isEitherLeft(): A =
     when (this) {
         is Either.Left -> value
         is Either.Right -> throw AssertionError()
     }
 
-fun <A, B> Either<A, B>.isEitherRight() =
+fun <A, B> Either<A, B>.isEitherRight(): B =
     when (this) {
         is Either.Left -> throw AssertionError()
         is Either.Right -> value

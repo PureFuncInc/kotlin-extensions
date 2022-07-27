@@ -1,6 +1,6 @@
 package net.purefunc.kotlin.ext
 
-import arrow.core.Either.Companion.catch
+import arrow.core.Either
 import arrow.core.Tuple4
 import arrow.core.Tuple5
 import arrow.core.Tuple6
@@ -14,15 +14,17 @@ import org.junit.jupiter.api.Test
 
 class EitherTests {
 
-    @Test
-    internal fun `test assert`() {
-        val list = listOf(1, 2, 3)
+    private inline fun <reified A, B> Either<A, B>.assertEitherLeft(): A =
+        when (this) {
+            is Either.Left -> value
+            is Either.Right -> throw AssertionError()
+        }
 
-        Assertions.assertTrue(catch { list[3] }.isEitherLeft() is ArrayIndexOutOfBoundsException)
-        Assertions.assertThrows(AssertionError::class.java) { catch { list.size }.isEitherLeft() }
-        Assertions.assertThrows(AssertionError::class.java) { catch { list[3] }.isEitherRight() }
-        Assertions.assertEquals(3, catch { list.size }.isEitherRight())
-    }
+    private fun <A, B> Either<A, B>.assertEitherRight(): B =
+        when (this) {
+            is Either.Left -> throw AssertionError()
+            is Either.Right -> value
+        }
 
     /**
      * val map = mapOf("key1" to "value1")
@@ -75,20 +77,22 @@ class EitherTests {
     internal fun `test catchErr series left`() = runBlocking {
         val map = mapOf("key1" to "value1")
 
-        val nullLeft = map["key2"].catchErrWhenNull(NullKeyErr("", "key null")).isEitherLeft()
+        val nullLeft = map["key2"].catchErrWhenNull(NullKeyErr("", "key null")).assertEitherLeft()
         Assertions.assertTrue(nullLeft is NullKeyErr)
         Assertions.assertEquals("key null", nullLeft.message)
 
-        val trueLeft = map["key1"].catchErrWhenTrue(TrueErr("", "equals value")) { it == "value1" }.isEitherLeft()
+        val trueLeft = map["key1"].catchErrWhenTrue(TrueErr("", "equals value")) { it == "value1" }.assertEitherLeft()
         Assertions.assertTrue(trueLeft is TrueErr)
         Assertions.assertEquals("equals value", trueLeft.message)
 
-        val outLeft = map["key1"].catchErrWhenApply(OutArrayBoundErr("", "out bound")) { listOf(it)[1] }.isEitherLeft()
+        val outLeft =
+            map["key1"].catchErrWhenApply(OutArrayBoundErr("", "out bound")) { listOf(it)[1] }.assertEitherLeft()
         Assertions.assertTrue(outLeft is OutArrayBoundErr)
         Assertions.assertEquals("out bound", outLeft.message)
 
         val castLeft =
-            map["key1"]!!.catchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() }.isEitherLeft()
+            map["key1"]!!.catchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() }
+                .assertEitherLeft()
         Assertions.assertTrue(castLeft is CastClassErr)
         Assertions.assertEquals("cast error", castLeft.message)
     }
@@ -99,22 +103,22 @@ class EitherTests {
 
         Assertions.assertEquals(
             "value1",
-            map["key1"].catchErrWhenNull(NullKeyErr("", "")).isEitherRight(),
+            map["key1"].catchErrWhenNull(NullKeyErr("", "")).assertEitherRight(),
         )
 
         Assertions.assertEquals(
             "value1",
-            map["key1"].catchErrWhenTrue(TrueErr("", "")) { it == "value2" }.isEitherRight(),
+            map["key1"].catchErrWhenTrue(TrueErr("", "")) { it == "value2" }.assertEitherRight(),
         )
 
         Assertions.assertEquals(
             "value1",
-            map["key1"].catchErrWhenApply(OutArrayBoundErr("", "")) { listOf(it)[0] }.isEitherRight(),
+            map["key1"].catchErrWhenApply(OutArrayBoundErr("", "")) { listOf(it)[0] }.assertEitherRight(),
         )
 
         Assertions.assertEquals(
             true,
-            map["key1"]!!.catchErrWhenRun(CastClassErr("", "")) { it.length == "6".toInt() }.isEitherRight(),
+            map["key1"]!!.catchErrWhenRun(CastClassErr("", "")) { it.length == "6".toInt() }.assertEitherRight(),
         )
     }
 
@@ -131,7 +135,7 @@ class EitherTests {
 //            .flatMap { outer -> outer.catchErrWhenApply(OutArrayBoundErr("", "out bound")) { listOf(it)[1] } }
             .flatCatchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() } }
-            .isEitherLeft()
+            .assertEitherLeft()
         Assertions.assertTrue(nullLeft is NullKeyErr)
         Assertions.assertEquals("key null", nullLeft.message)
 
@@ -144,7 +148,7 @@ class EitherTests {
 //            .flatMap { outer -> outer.catchErrWhenApply(OutArrayBoundErr("", "out bound")) { listOf(it)[1] } }
             .flatCatchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() } }
-            .isEitherLeft()
+            .assertEitherLeft()
         Assertions.assertTrue(trueLeft is TrueErr)
         Assertions.assertEquals("equals value", trueLeft.message)
 
@@ -157,7 +161,7 @@ class EitherTests {
 //            .flatMap { outer -> outer.catchErrWhenApply(OutArrayBoundErr("", "out bound")) { listOf(it)[1] } }
             .flatCatchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() } }
-            .isEitherLeft()
+            .assertEitherLeft()
         Assertions.assertTrue(outLeft is OutArrayBoundErr)
         Assertions.assertEquals("out bound", outLeft.message)
 
@@ -170,7 +174,7 @@ class EitherTests {
 //            .flatMap { outer -> outer.catchErrWhenApply(OutArrayBoundErr("", "out bound")) { listOf(it)[0] } }
             .flatCatchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenRun(CastClassErr("", "cast error")) { it.length == "a".toInt() } }
-            .isEitherLeft()
+            .assertEitherLeft()
         Assertions.assertTrue(castLeft is CastClassErr)
         Assertions.assertEquals("cast error", castLeft.message)
 
@@ -183,7 +187,7 @@ class EitherTests {
 //            .flatMap { outer -> outer.catchErrWhenApply(OutArrayBoundErr("", "out bound")) { listOf(it)[0] } }
             .flatCatchErrWhenRun(CastClassErr("", "cast error")) { it.length == "6".toInt() }
 //            .flatMap { outer -> outer.catchErrWhenRun(CastClassErr("", "cast error")) { it.length == "6".toInt() } }
-            .isEitherRight()
+            .assertEitherRight()
         Assertions.assertEquals(true, right)
     }
 
@@ -267,10 +271,10 @@ class EitherTests {
 
         val zipLeft =
             nullLeft.zip(trueLeft, outLeft, castLeft) { v1, v2, v3, v4 -> Tuple4(v1, v2, v3, v4) }.toEither()
-        Assertions.assertEquals(4, zipLeft.isEitherLeft().size)
+        Assertions.assertEquals(4, zipLeft.assertEitherLeft().size)
         val zipRight =
             nullRight.zip(trueRight, outRight, castRight) { v1, v2, v3, v4 -> Tuple4(v1, v2, v3, v4) }.toEither()
-        Assertions.assertEquals(Tuple4("value1", "value1", "value1", false), zipRight.isEitherRight())
+        Assertions.assertEquals(Tuple4("value1", "value1", "value1", false), zipRight.assertEitherRight())
     }
 
     @Test
@@ -291,7 +295,7 @@ class EitherTests {
                 listOf(it.first, it.second)[4]
             }
             .flatValidErrWhenNull(NullKeyErr("", "key null"))
-            .isEitherLeft()
+            .assertEitherLeft()
         Assertions.assertEquals(2, eitherLeftAtValidAll.size)
         Assertions.assertEquals("key3 null", eitherLeftAtValidAll[0].message)
         Assertions.assertEquals("key4 null", eitherLeftAtValidAll[1].message)
@@ -310,7 +314,7 @@ class EitherTests {
                 listOf(it.first, it.second)[4]
             }
             .flatValidErrWhenNull(NullKeyErr("", "key null"))
-            .isEitherLeft()
+            .assertEitherLeft()
         Assertions.assertEquals(1, eitherRightTrue.size)
         Assertions.assertEquals("equals value", eitherRightTrue[0].message)
 
@@ -328,7 +332,7 @@ class EitherTests {
                 listOf(it.first, it.second)[4]
             }
             .flatValidErrWhenNull(NullKeyErr("", "key null"))
-            .isEitherLeft()
+            .assertEitherLeft()
         Assertions.assertEquals(1, eitherRightApply.size)
         Assertions.assertEquals("out bound 3", eitherRightApply[0].message)
 
@@ -340,7 +344,7 @@ class EitherTests {
                 listOf(it.first, it.second)[4]
             }
             .flatValidErrWhenNull(NullKeyErr("", "key null"))
-            .isEitherLeft()
+            .assertEitherLeft()
         Assertions.assertEquals(1, eitherRightRun.size)
         Assertions.assertEquals("out bound 4", eitherRightRun[0].message)
 
@@ -358,7 +362,7 @@ class EitherTests {
                 map["key3"]
             }
             .flatValidErrWhenNull(NullKeyErr("", "key null"))
-            .isEitherLeft()
+            .assertEitherLeft()
         Assertions.assertEquals(1, eitherRightNull.size)
         Assertions.assertEquals("key null", eitherRightNull[0].message)
 
@@ -376,7 +380,7 @@ class EitherTests {
                 listOf(it.first, it.second)[1]
             }
             .flatValidErrWhenNull(NullKeyErr("", "key null"))
-            .isEitherRight()
+            .assertEitherRight()
         Assertions.assertEquals("value2", eitherRight)
     }
 
@@ -396,43 +400,43 @@ class EitherTests {
         Assertions.assertEquals(
             2,
             flatValid2(nullLeft, trueLeft)
-                .isEitherLeft()
+                .assertEitherLeft()
                 .size
         )
         Assertions.assertEquals(
             2,
             flatValid3(nullLeft, trueLeft, outRight)
-                .isEitherLeft()
+                .assertEitherLeft()
                 .size
         )
         Assertions.assertEquals(
             2,
             flatValid4(nullLeft, trueLeft, outRight, castRight)
-                .isEitherLeft()
+                .assertEitherLeft()
                 .size
         )
         Assertions.assertEquals(
             3,
             flatValid5(nullLeft, trueLeft, outLeft, castRight, nullRight)
-                .isEitherLeft()
+                .assertEitherLeft()
                 .size
         )
         Assertions.assertEquals(
             3,
             flatValid6(nullLeft, trueLeft, outLeft, castRight, nullRight, trueRight)
-                .isEitherLeft()
+                .assertEitherLeft()
                 .size
         )
         Assertions.assertEquals(
             3,
             flatValid7(nullLeft, trueLeft, outLeft, castRight, nullRight, trueRight, outRight)
-                .isEitherLeft()
+                .assertEitherLeft()
                 .size
         )
         Assertions.assertEquals(
             4,
             flatValid8(nullLeft, trueLeft, outLeft, castLeft, nullRight, trueRight, outRight, castRight)
-                .isEitherLeft()
+                .assertEitherLeft()
                 .size
         )
         Assertions.assertEquals(
@@ -448,7 +452,7 @@ class EitherTests {
                 castRight,
                 nullRight
             )
-                .isEitherLeft()
+                .assertEitherLeft()
                 .size
         )
 
@@ -460,7 +464,7 @@ class EitherTests {
             flatValid2(
                 nullRight,
                 trueRight
-            ).isEitherRight()
+            ).assertEitherRight()
         )
         Assertions.assertEquals(
             Tuple3(
@@ -472,7 +476,7 @@ class EitherTests {
                 nullRight,
                 trueRight,
                 outRight
-            ).isEitherRight()
+            ).assertEitherRight()
         )
         Assertions.assertEquals(
             Tuple4(
@@ -486,7 +490,7 @@ class EitherTests {
                 trueRight,
                 outRight,
                 castRight
-            ).isEitherRight()
+            ).assertEitherRight()
         )
         Assertions.assertEquals(
             Tuple5(
@@ -502,7 +506,7 @@ class EitherTests {
                 outRight,
                 castRight,
                 nullRight
-            ).isEitherRight()
+            ).assertEitherRight()
         )
         Assertions.assertEquals(
             Tuple6(
@@ -520,7 +524,7 @@ class EitherTests {
                 castRight,
                 nullRight,
                 trueRight
-            ).isEitherRight()
+            ).assertEitherRight()
         )
         Assertions.assertEquals(
             Tuple7(
@@ -540,7 +544,7 @@ class EitherTests {
                 nullRight,
                 trueRight,
                 outRight
-            ).isEitherRight()
+            ).assertEitherRight()
         )
         Assertions.assertEquals(
             Tuple8(
@@ -562,7 +566,7 @@ class EitherTests {
                 trueRight,
                 outRight,
                 castRight
-            ).isEitherRight()
+            ).assertEitherRight()
         )
         Assertions.assertEquals(
             Tuple9(
@@ -586,7 +590,7 @@ class EitherTests {
                 outRight,
                 castRight,
                 nullRight
-            ).isEitherRight()
+            ).assertEitherRight()
         )
     }
 }

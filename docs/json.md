@@ -4,20 +4,18 @@
 val userJson: String = User("Vincent", 10).toJson()
 ```
 
-* to
+* toClass
 
 ```kotlin
 // userJson -> {"name":"Vincent","age":10}
-val user: User = userJson.to(User::class.java)
-val user: User = userJson to User::class.java
+val user: User = userJson.toClass(User::class.java)
 ```
 
-* to
+* toType
 
 ```kotlin
 // userJson -> {"name":"Vincent","age":10}
-val user: Map<String, Any> = userJson.to(object : TypeReference<Map<String, Any>>() {})
-val user: Map<String, Any> = userJson to object : TypeReference<Map<String, Any>>() {}
+val user: Map<String, Any> = userJson.toType(object : TypeReference<Map<String, Any>>() {})
 ```
 
 * toMap

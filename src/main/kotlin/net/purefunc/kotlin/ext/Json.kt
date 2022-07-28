@@ -17,6 +17,6 @@ fun <K, V> String.toMap(
         object : TypeReference<Map<K, V>>() {},
     )
 
-infix fun <T> String.to(t: Class<T>): T = objectMapper.readValue(this, t)
+fun <T> String.toClass(t: Class<T>): T = objectMapper.readValue(this, t)
 
-infix fun <T> String.to(t: TypeReference<T>): T = objectMapper.readValue(this, t)
+fun <T> String.toType(t: TypeReference<T>): T = objectMapper.readValue(this, t)

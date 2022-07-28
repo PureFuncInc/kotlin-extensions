@@ -15,14 +15,14 @@ class JsonTests {
     internal fun `test json object`() {
         val user = User("Vincent", 10)
 
-        Assertions.assertEquals(user, user.toJson() to User::class.java)
+        Assertions.assertEquals(user, user.toJson().toClass(User::class.java))
     }
 
     @Test
     internal fun `test collection`() {
         val map = mapOf("name" to "Vincent", "age" to 18)
 
-        Assertions.assertEquals(map, map.toJson() to object : TypeReference<Map<String, Any>>() {})
+        Assertions.assertEquals(map, map.toJson().toType(object : TypeReference<Map<String, Any>>() {}))
         Assertions.assertEquals(map, map.toJson().toMap(String::class.java, Any::class.java))
     }
 }

@@ -32,4 +32,11 @@ class StringTests {
 
         Assertions.assertEquals(rawString, rawString.toByteArray().encodeBase64().base64Decode())
     }
+
+    @Test
+    internal fun `test string url encode and decode`() {
+        val rawUrl = "https://purefunc.net/Hello World.jpg"
+
+        Assertions.assertEquals(rawUrl, rawUrl.urlEncode().urlDecode())
+    }
 }

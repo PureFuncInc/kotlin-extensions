@@ -5,7 +5,7 @@
 # Sample Code
 
 * [Aes](docs/aes.md)
-* [Either](docs/either.md)
+* [Arrow-kt](docs/arrow-kt.md)
 * [Emoji](docs/emoji.md)
 * [File](docs/file.md)
 * [Hash](docs/hash.md)

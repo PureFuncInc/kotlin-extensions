@@ -17,7 +17,7 @@ private infix fun String.hashBy(
         .also {
             it.update(toByteArray())
         }.run {
-            String(Base64.getEncoder().encode(this.digest()))
+            String(Base64.getEncoder().encode(digest()))
         }
 
 sealed class ShaAlgorithm(

@@ -1,13 +1,19 @@
 * randomUUID
 
 ```kotlin
-val userJson: String = User("Vincent", 10).toJson()
+val randomUUID: String = randomUUID
+```
+
+* randomAlphabetic
+
+```kotlin
+val randomAlphabetic: String = randomAlphabetic(32)
 ```
 
 * randomAlphanumeric
 
 ```kotlin
-val randomAlpha: String = randomAlphanumeric(32)
+val randomAlphanumeric: String = randomAlphanumeric(32)
 ```
 
 * encodeBase64

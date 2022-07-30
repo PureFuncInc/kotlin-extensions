@@ -1,6 +1,14 @@
 package net.purefunc.kotlin.ext
 
-class NullKeyErr(code: String, message: String) : CustomErr(code, message)
-class TrueErr(code: String, message: String) : CustomErr(code, message)
-class OutArrayBoundErr(code: String, message: String) : CustomErr(code, message)
-class CastClassErr(code: String, message: String) : CustomErr(code, message)
+sealed class TestErr {
+
+    object NullEntry : AppErr("E500001", "Null")
+    object Assert : AppErr("E500002", "Assert")
+    object OutBound : AppErr("E500003", "Out Bound")
+    object CastClass : AppErr("E500004", "Cast Class")
+}
+
+typealias NullErr = TestErr.NullEntry
+typealias AssertErr = TestErr.Assert
+typealias OutBoundErr = TestErr.OutBound
+typealias CastClassErr = TestErr.CastClass

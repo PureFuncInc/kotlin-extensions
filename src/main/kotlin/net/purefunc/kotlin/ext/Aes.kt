@@ -48,6 +48,6 @@ private fun String.aes(
         IvParameterSpec(iv.toByteArray(StandardCharsets.UTF_8))
     )
 }.let {
-    if (mode == Cipher.ENCRYPT_MODE) String(Base64.getEncoder().encode(it.doFinal(this.toByteArray())))
+    if (mode == Cipher.ENCRYPT_MODE) String(Base64.getEncoder().encode(it.doFinal(toByteArray())))
     else String(it.doFinal(Base64.getDecoder().decode(this)))
 }

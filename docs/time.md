@@ -1,7 +1,7 @@
-* genUnixMilli
+* unixTimeMilli
 
 ```kotlin
-val now: Long = genUnixMilli()
+val now: Long = unixTimeMilli
 ```
 
 * shift

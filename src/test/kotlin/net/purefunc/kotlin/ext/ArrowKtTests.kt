@@ -118,17 +118,20 @@ class ArrowKtTests {
         val list = listOf("value1")
         val map = mapOf("key1" to "value1")
 
-        val validatedLeftNull: ValidatedNel<NullErr, String> = map["key2"].validErrWhenNull(NullErr)
+        val validatedLeftNull: ValidatedNel<NullErr, String> =
+            map["key2"].validErrWhenNull(NullErr)
         val validatedLeftTrue: ValidatedNel<AssertErr, String?> =
             map["key1"].validErrWhenTrue(AssertErr) { it!!.length > 3 }
         val validatedLeftApply: ValidatedNel<OutBoundErr, List<String>> =
             list.validErrWhenApply(OutBoundErr) { it[100] }
         val validatedLeftRun: ValidatedNel<CastClassErr, Map<*, *>> =
             list.validErrWhenRun(CastClassErr) { it as Map<*, *> }
-        val validatedRightNull: ValidatedNel<NullErr, String> = map["key1"].validErrWhenNull(NullErr)
+        val validatedRightNull: ValidatedNel<NullErr, String> =
+            map["key1"].validErrWhenNull(NullErr)
         val validatedRightTrue: ValidatedNel<AssertErr, String?> =
             map["key1"].validErrWhenTrue(AssertErr) { it!!.length < 3 }
-        val validatedRightApply: ValidatedNel<OutBoundErr, List<String>> = list.validErrWhenApply(OutBoundErr) { it[0] }
+        val validatedRightApply: ValidatedNel<OutBoundErr, List<String>> =
+            list.validErrWhenApply(OutBoundErr) { it[0] }
         val validatedRightRun: ValidatedNel<CastClassErr, MutableList<String>> =
             list.validErrWhenRun(CastClassErr) { it as MutableList<String> }
 

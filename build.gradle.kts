@@ -24,7 +24,7 @@ dependencies {
 
     // Arrow-kt
     api("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
-    kapt("io.arrow-kt:arrow-meta:1.0.1")
+    kapt("io.arrow-kt:arrow-meta:$arrowKtVersion")
 
     // Jackson
     api("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")

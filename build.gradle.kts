@@ -18,6 +18,7 @@ val arrowKtVersion = "1.1.2"
 val arrowKtMetaVersion = "1.6.0"
 val jacksonVersion = "2.13.3"
 val slf4jVersion = "1.7.36"
+val bcryptVersion = "0.9.0"
 val bcprovJdkVersion = "1.70"
 val junitVersion = "5.9.0"
 dependencies {
@@ -32,6 +33,9 @@ dependencies {
 
     // Slf4j
     api("org.slf4j:slf4j-api:$slf4jVersion")
+
+    // Bcrypt
+    api("at.favre.lib:bcrypt:$bcryptVersion")
 
     // AES PKCS7PADDING
     api("org.bouncycastle:bcprov-jdk15on:$bcprovJdkVersion")

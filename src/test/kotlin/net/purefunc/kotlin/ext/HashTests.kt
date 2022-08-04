@@ -10,6 +10,8 @@ class HashTests {
         val rawString = "Hello World"
 
         Assertions.assertTrue(rawString.md5().isNotEmpty())
+        Assertions.assertTrue(rawString.bcrypt(10).isNotEmpty())
+        Assertions.assertTrue(rawString.bcrypt().isNotEmpty())
         Assertions.assertTrue(rawString.sha3(256).isNotEmpty())
         Assertions.assertTrue(rawString.sha3().isNotEmpty())
     }

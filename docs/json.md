@@ -24,4 +24,3 @@ val user: Map<String, Any> = userJson.toType(object : TypeReference<Map<String, 
 // userJson -> {"name":"Vincent","age":10}
 val user: Map<String, Any> = userJson.toMap(String::class.java, Any::class.java)
 ```
-

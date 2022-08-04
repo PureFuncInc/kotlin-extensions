@@ -8,7 +8,7 @@ import arrow.core.invalid
 import arrow.core.left
 import arrow.core.right
 import arrow.core.toOption
-import arrow.core.traverseValidated
+import arrow.core.traverse
 import arrow.core.valid
 import net.purefunc.kotlin.ext.Slf4j.Companion.log
 
@@ -67,29 +67,44 @@ suspend inline fun <L : AppErr, reified R, T> R.catchErrWhenRun(
 
 fun <L : AppErr, R> Either<L, R?>.flatCatchErrWhenNull(
     appErr: L,
-): Either<L, R> = flatMap { it.catchErrWhenNull(appErr) }
+): Either<L, R> =
+    flatMap {
+        it.catchErrWhenNull(appErr)
+    }
 
 suspend fun <L : AppErr, R> Either<L, R>.flatCatchErrWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
-): Either<L, R> = flatMap { it.catchErrWhenTrue(appErr, block) }
+): Either<L, R> =
+    flatMap {
+        it.catchErrWhenTrue(appErr, block)
+    }
 
 suspend fun <L : AppErr, R> Either<L, R>.flatCatchErrWhenFalse(
     appErr: L,
     block: suspend (R) -> Boolean,
-): Either<L, R> = flatMap { it.catchErrWhenFalse(appErr, block) }
+): Either<L, R> =
+    flatMap {
+        it.catchErrWhenFalse(appErr, block)
+    }
 
 suspend inline fun <L : AppErr, reified R, T> Either<L, R>.flatCatchErrWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
-): Either<L, R> = flatMap { it.catchErrWhenApply(appErr, printTrace, block) }
+): Either<L, R> =
+    flatMap {
+        it.catchErrWhenApply(appErr, printTrace, block)
+    }
 
 suspend inline fun <L : AppErr, reified R, T> Either<L, R>.flatCatchErrWhenRun(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
-): Either<L, T> = flatMap { it.catchErrWhenRun(appErr, printTrace, block) }
+): Either<L, T> =
+    flatMap {
+        it.catchErrWhenRun(appErr, printTrace, block)
+    }
 
 fun <L : AppErr, R> R?.validErrWhenNull(
     appErr: L,
@@ -98,7 +113,8 @@ fun <L : AppErr, R> R?.validErrWhenNull(
         .fold(
             ifEmpty = { appErr.invalid() },
             ifSome = { it.valid() },
-        ).toValidatedNel()
+        )
+        .toValidatedNel()
 
 suspend fun <L : AppErr, R> R.validErrWhenTrue(
     appErr: L,
@@ -141,34 +157,49 @@ typealias EitherNel<A, B> = Either<Nel<A>, B>
 
 fun <L : AppErr, R> EitherNel<L, R?>.flatValidErrWhenNull(
     appErr: L,
-): EitherNel<L, R> = flatMap { it.validErrWhenNull(appErr).toEither() }
+): EitherNel<L, R> =
+    flatMap {
+        it.validErrWhenNull(appErr).toEither()
+    }
 
 suspend fun <L : AppErr, R> EitherNel<L, R>.flatValidErrWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
-): EitherNel<L, R> = flatMap { it.validErrWhenTrue(appErr, block).toEither() }
+): EitherNel<L, R> =
+    flatMap {
+        it.validErrWhenTrue(appErr, block).toEither()
+    }
 
 suspend fun <L : AppErr, R> EitherNel<L, R>.flatValidErrWhenFalse(
     appErr: L,
     block: suspend (R) -> Boolean,
-): EitherNel<L, R> = flatMap { it.validErrWhenFalse(appErr, block).toEither() }
+): EitherNel<L, R> =
+    flatMap {
+        it.validErrWhenFalse(appErr, block).toEither()
+    }
 
 suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.flatValidErrWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
-): EitherNel<L, R> = flatMap { it.validErrWhenApply(appErr, printTrace, block).toEither() }
+): EitherNel<L, R> =
+    flatMap {
+        it.validErrWhenApply(appErr, printTrace, block).toEither()
+    }
 
 suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.flatValidErrWhenRun(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
-): EitherNel<L, T> = flatMap { it.validErrWhenRun(appErr, printTrace, block).toEither() }
+): EitherNel<L, T> =
+    flatMap {
+        it.validErrWhenRun(appErr, printTrace, block).toEither()
+    }
 
 fun <L : AppErr> zipAllValid(
     vararg validateNels: ValidatedNel<L, *>
 ): EitherNel<L, List<*>> =
     validateNels
         .toList()
-        .traverseValidated { it }
+        .traverse { it }
         .toEither()

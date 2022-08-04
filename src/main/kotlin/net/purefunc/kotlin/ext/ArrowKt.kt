@@ -98,40 +98,31 @@ fun <L : AppErr, R> R?.validErrWhenNull(
         .fold(
             ifEmpty = { appErr.invalid() },
             ifSome = { it.valid() },
-        )
-        .toValidatedNel()
+        ).toValidatedNel()
 
 suspend fun <L : AppErr, R> R.validErrWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): ValidatedNel<L, R> =
-    run {
-        if (block.invoke(this)) appErr.invalid()
-        else valid()
-    }.toValidatedNel()
+    (if (block.invoke(this)) appErr.invalid() else valid()).toValidatedNel()
 
 suspend fun <L : AppErr, R> R.validErrWhenFalse(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): ValidatedNel<L, R> =
-    run {
-        if (!block.invoke(this)) appErr.invalid()
-        else valid()
-    }.toValidatedNel()
+    (if (!block.invoke(this)) appErr.invalid() else valid()).toValidatedNel()
 
 suspend inline fun <L : AppErr, reified R, T> R.validErrWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: suspend (R) -> T,
 ): ValidatedNel<L, R> =
-    run {
-        try {
-            block.invoke(this)
-            valid()
-        } catch (tw: Throwable) {
-            if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
-            appErr.invalid()
-        }
+    try {
+        block.invoke(this)
+        valid()
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.invalid()
     }.toValidatedNel()
 
 suspend inline fun <L : AppErr, reified R, T> R.validErrWhenRun(
@@ -139,13 +130,11 @@ suspend inline fun <L : AppErr, reified R, T> R.validErrWhenRun(
     printTrace: Boolean = false,
     block: suspend (R) -> T,
 ): ValidatedNel<L, T> =
-    run {
-        try {
-            block.invoke(this).valid()
-        } catch (tw: Throwable) {
-            if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
-            appErr.invalid()
-        }
+    try {
+        block.invoke(this).valid()
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.invalid()
     }.toValidatedNel()
 
 typealias EitherNel<A, B> = Either<Nel<A>, B>

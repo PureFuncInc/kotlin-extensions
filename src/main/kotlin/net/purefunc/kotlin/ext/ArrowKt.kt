@@ -33,6 +33,13 @@ suspend fun <L : AppErr, R> R.catchErrWhenTrue(
     if (block.invoke(this)) appErr.left()
     else right()
 
+suspend fun <L : AppErr, R> R.catchErrWhenFalse(
+    appErr: L,
+    block: suspend (R) -> Boolean,
+): Either<L, R> =
+    if (!block.invoke(this)) appErr.left()
+    else right()
+
 suspend inline fun <L : AppErr, reified R, T> R.catchErrWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -67,6 +74,11 @@ suspend fun <L : AppErr, R> Either<L, R>.flatCatchErrWhenTrue(
     block: suspend (R) -> Boolean,
 ): Either<L, R> = flatMap { it.catchErrWhenTrue(appErr, block) }
 
+suspend fun <L : AppErr, R> Either<L, R>.flatCatchErrWhenFalse(
+    appErr: L,
+    block: suspend (R) -> Boolean,
+): Either<L, R> = flatMap { it.catchErrWhenFalse(appErr, block) }
+
 suspend inline fun <L : AppErr, reified R, T> Either<L, R>.flatCatchErrWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -95,6 +107,15 @@ suspend fun <L : AppErr, R> R.validErrWhenTrue(
 ): ValidatedNel<L, R> =
     run {
         if (block.invoke(this)) appErr.invalid()
+        else valid()
+    }.toValidatedNel()
+
+suspend fun <L : AppErr, R> R.validErrWhenFalse(
+    appErr: L,
+    block: suspend (R) -> Boolean,
+): ValidatedNel<L, R> =
+    run {
+        if (!block.invoke(this)) appErr.invalid()
         else valid()
     }.toValidatedNel()
 
@@ -137,6 +158,11 @@ suspend fun <L : AppErr, R> EitherNel<L, R>.flatValidErrWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): EitherNel<L, R> = flatMap { it.validErrWhenTrue(appErr, block).toEither() }
+
+suspend fun <L : AppErr, R> EitherNel<L, R>.flatValidErrWhenFalse(
+    appErr: L,
+    block: suspend (R) -> Boolean,
+): EitherNel<L, R> = flatMap { it.validErrWhenFalse(appErr, block).toEither() }
 
 suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.flatValidErrWhenApply(
     appErr: L,

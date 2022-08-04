@@ -31,11 +31,22 @@ fun randomAlphanumeric(
 private val alphabetic: List<Char> = ('a'..'z') + ('A'..'Z')
 private val alphanumerics: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
-fun ByteArray.encodeBase64(charset: Charset = Charsets.UTF_8): String =
+fun ByteArray.encodeBase64(
+    charset: Charset = Charsets.UTF_8
+): String =
     String(Base64.getEncoder().encode(this), charset)
 
-fun String.base64Decode(charset: Charset = Charsets.UTF_8): String =
+fun String.base64Decode(
+    charset: Charset = Charsets.UTF_8
+): String =
     String(Base64.getDecoder().decode(toByteArray()), charset)
 
-fun String.urlEncode(charset: Charset = Charsets.UTF_8): String = URLEncoder.encode(this, charset)
-fun String.urlDecode(charset: Charset = Charsets.UTF_8): String = URLDecoder.decode(this, charset)
+fun String.urlEncode(
+    charset: Charset = Charsets.UTF_8
+): String =
+    URLEncoder.encode(this, charset)
+
+fun String.urlDecode(
+    charset: Charset = Charsets.UTF_8
+): String =
+    URLDecoder.decode(this, charset)

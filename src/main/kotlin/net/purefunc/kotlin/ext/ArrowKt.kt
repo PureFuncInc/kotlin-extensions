@@ -108,6 +108,13 @@ suspend inline fun <L : AppErr, reified R, T> Either<L, R>.flatCatchErrWhenRun(
         it.catchErrWhenRun(appErr, printTrace, block)
     }
 
+fun <L : AppErr> zipAllEither(
+    vararg eithers: Either<L, *>,
+): Either<L, List<*>> =
+    eithers
+        .toList()
+        .traverse { it }
+
 fun <L : AppErr, R> R?.validErrWhenNull(
     appErr: L,
     block: () -> Unit = {},

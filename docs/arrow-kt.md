@@ -30,6 +30,11 @@ typealias CastClassErr = TestErr.CastClass
 * catchErrWhenFalse
 * catchErrWhenApply
 * catchErrWhenRun
+* flatCatchErrWhenNull
+* flatCatchErrWhenTrue
+* flatCatchErrWhenFalse
+* flatCatchErrWhenApply
+* flatCatchErrWhenRun
 
 ```kotlin
 val list = list("value1")
@@ -40,19 +45,6 @@ val either: Either<AppErr, String?> = map["key1"].catchErrWhenTrue(AssertErr) { 
 val either: Either<AppErr, String?> = map["key1"].catchErrWhenFalse(AssertErr) { it!!.length < 3 }
 val either: Either<AppErr, List<String>> = list.catchErrWhenApply(OutBoundErr) { it[100] }
 val either: Either<AppErr, Map<*, *>> = list.catchErrWhenRun(CastClassErr) { it as Map<*, *> }
-```
-
-# flatCatchErr
-
-* flatCatchErrWhenNull
-* flatCatchErrWhenTrue
-* flatCatchErrWhenFalse
-* flatCatchErrWhenApply
-* flatCatchErrWhenRun
-
-```kotlin
-val list = list("value1")
-val map = mapOf("key1", "value1")
 
 val eitherLeft: Either<AppErr, Map<*, *>> = map["key1"]
     .catchErrWhenTrue(AssertErr) { it == null }

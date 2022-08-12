@@ -19,7 +19,7 @@ open class AppErr(
 
 suspend fun <L : AppErr, R> R?.catchErrWhenNull(
     appErr: L,
-    block: suspend () -> Unit,
+    block: suspend () -> Unit = {},
 ): Either<L, R> =
     toOption()
         .fold(
@@ -73,7 +73,7 @@ inline fun <L : AppErr, reified R, T> R.catchErrWhenRun(
 
 suspend fun <L : AppErr, R> Either<L, R?>.flatCatchErrWhenNull(
     appErr: L,
-    block: suspend () -> Unit,
+    block: suspend () -> Unit = {},
 ): Either<L, R> =
     flatMap {
         it.catchErrWhenNull(appErr, block)
@@ -122,7 +122,7 @@ fun <L : AppErr> zipAllEither(
 
 suspend fun <L : AppErr, R> R?.validErrWhenNull(
     appErr: L,
-    block: suspend () -> Unit,
+    block: suspend () -> Unit = {},
 ): ValidatedNel<L, R> =
     toOption()
         .fold(
@@ -176,7 +176,7 @@ typealias EitherNel<A, B> = Either<Nel<A>, B>
 
 suspend fun <L : AppErr, R> EitherNel<L, R?>.flatValidErrWhenNull(
     appErr: L,
-    block: suspend () -> Unit,
+    block: suspend () -> Unit = {},
 ): EitherNel<L, R> =
     flatMap {
         it.validErrWhenNull(appErr, block).toEither()

@@ -24,7 +24,7 @@ val junitVersion = "5.9.0"
 dependencies {
     implementation(kotlin("stdlib"))
 
-    // Arrow-kt
+    // Arrow-Kt
     api("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
     kapt("io.arrow-kt:arrow-meta:$arrowKtMetaVersion")
 

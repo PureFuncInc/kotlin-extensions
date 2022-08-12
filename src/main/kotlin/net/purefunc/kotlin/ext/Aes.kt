@@ -37,17 +37,18 @@ private fun String.aes(
     mode: Int,
     key: String,
     iv: String,
-): String = also {
-    Security.addProvider(BouncyCastleProvider())
-}.let {
-    Cipher.getInstance(transformation)
-}.also {
-    it.init(
-        mode,
-        SecretKeySpec(key.toByteArray(StandardCharsets.UTF_8), "AES"),
-        IvParameterSpec(iv.toByteArray(StandardCharsets.UTF_8))
-    )
-}.let {
-    if (mode == Cipher.ENCRYPT_MODE) String(Base64.getEncoder().encode(it.doFinal(toByteArray())))
-    else String(it.doFinal(Base64.getDecoder().decode(this)))
-}
+): String =
+    also {
+        Security.addProvider(BouncyCastleProvider())
+    }.let {
+        Cipher.getInstance(transformation)
+    }.also {
+        it.init(
+            mode,
+            SecretKeySpec(key.toByteArray(StandardCharsets.UTF_8), "AES"),
+            IvParameterSpec(iv.toByteArray(StandardCharsets.UTF_8))
+        )
+    }.let {
+        if (mode == Cipher.ENCRYPT_MODE) String(Base64.getEncoder().encode(it.doFinal(toByteArray())))
+        else String(it.doFinal(Base64.getDecoder().decode(this)))
+    }

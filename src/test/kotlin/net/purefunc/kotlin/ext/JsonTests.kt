@@ -16,6 +16,10 @@ class JsonTests {
         val user = User("Vincent", 10)
 
         Assertions.assertEquals(user, user.toJson().toClass(User::class.java))
+        Assertions.assertEquals(
+            user,
+            user.toPrettyJson().toClass(clazz = User::class.java, prettyJson = true)
+        )
     }
 
     @Test
@@ -24,5 +28,13 @@ class JsonTests {
 
         Assertions.assertEquals(map, map.toJson().toType(object : TypeReference<Map<String, Any>>() {}))
         Assertions.assertEquals(map, map.toJson().toMap(String::class.java, Any::class.java))
+        Assertions.assertEquals(
+            map,
+            map.toPrettyJson().toType(typeRef = object : TypeReference<Map<String, Any>>() {}, prettyJson = true)
+        )
+        Assertions.assertEquals(
+            map,
+            map.toJson().toMap(k = String::class.java, v = Any::class.java, prettyJson = true)
+        )
     }
 }

@@ -137,65 +137,65 @@ class ArrowKtTests {
             val eitherLeftNull: Either<AppErr, Map<*, *>> =
                 map["key2"]
                     .catchErrWhenTrue(AssertErr) { it != null }
-                    .flatCatchErrWhenNull(NullErr) // <- fail here
-                    .flatCatchErrWhenTrue(AssertErr) { it.length > 3 }
-                    .flatCatchErrWhenFalse(AssertErr) { it.length < 3 }
-                    .flatCatchErrWhenApply(OutBoundErr) { listOf(it)[1] }
-                    .flatCatchErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
+                    .catchNextErrWhenNull(NullErr) // <- fail here
+                    .catchNextErrWhenTrue(AssertErr) { it.length > 3 }
+                    .catchNextErrWhenFalse(AssertErr) { it.length < 3 }
+                    .catchNextErrWhenApply(OutBoundErr) { listOf(it)[1] }
+                    .catchNextErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
             Assertions.assertEquals("E500001", eitherLeftNull.assertEitherLeft().code)
             Assertions.assertEquals("Null", eitherLeftNull.assertEitherLeft().message)
 
             val eitherLeftTrue: Either<AppErr, Map<*, *>> =
                 map["key1"]
                     .catchErrWhenTrue(AssertErr) { it == null }
-                    .flatCatchErrWhenNull(NullErr)
-                    .flatCatchErrWhenTrue(AssertErr) { it.length > 3 } // <- fail here
-                    .flatCatchErrWhenFalse(AssertErr) { it.length < 3 }
-                    .flatCatchErrWhenApply(OutBoundErr) { listOf(it)[1] }
-                    .flatCatchErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
+                    .catchNextErrWhenNull(NullErr)
+                    .catchNextErrWhenTrue(AssertErr) { it.length > 3 } // <- fail here
+                    .catchNextErrWhenFalse(AssertErr) { it.length < 3 }
+                    .catchNextErrWhenApply(OutBoundErr) { listOf(it)[1] }
+                    .catchNextErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
             Assertions.assertEquals("E500002", eitherLeftTrue.assertEitherLeft().code)
             Assertions.assertEquals("Assert", eitherLeftTrue.assertEitherLeft().message)
 
             val eitherLeftFalse: Either<AppErr, Map<*, *>> =
                 map["key1"]
                     .catchErrWhenTrue(AssertErr) { it == null }
-                    .flatCatchErrWhenNull(NullErr)
-                    .flatCatchErrWhenTrue(AssertErr) { it.length < 3 }
-                    .flatCatchErrWhenFalse(AssertErr) { it.length < 3 } // <- fail here
-                    .flatCatchErrWhenApply(OutBoundErr) { listOf(it)[1] }
-                    .flatCatchErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
+                    .catchNextErrWhenNull(NullErr)
+                    .catchNextErrWhenTrue(AssertErr) { it.length < 3 }
+                    .catchNextErrWhenFalse(AssertErr) { it.length < 3 } // <- fail here
+                    .catchNextErrWhenApply(OutBoundErr) { listOf(it)[1] }
+                    .catchNextErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
             Assertions.assertEquals("E500002", eitherLeftFalse.assertEitherLeft().code)
             Assertions.assertEquals("Assert", eitherLeftFalse.assertEitherLeft().message)
 
             val eitherLeftApply: Either<AppErr, Map<*, *>> = map["key1"]
                 .catchErrWhenTrue(AssertErr) { it == null }
-                .flatCatchErrWhenNull(NullErr)
-                .flatCatchErrWhenTrue(AssertErr) { it.length < 3 }
-                .flatCatchErrWhenFalse(AssertErr) { it.length > 3 }
-                .flatCatchErrWhenApply(OutBoundErr) { listOf(it)[1] } // <- fail here
-                .flatCatchErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
+                .catchNextErrWhenNull(NullErr)
+                .catchNextErrWhenTrue(AssertErr) { it.length < 3 }
+                .catchNextErrWhenFalse(AssertErr) { it.length > 3 }
+                .catchNextErrWhenApply(OutBoundErr) { listOf(it)[1] } // <- fail here
+                .catchNextErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
             Assertions.assertEquals("E500003", eitherLeftApply.assertEitherLeft().code)
             Assertions.assertEquals("Out Bound", eitherLeftApply.assertEitherLeft().message)
 
             val eitherLeftRun: Either<AppErr, Map<*, *>> =
                 map["key1"]
                     .catchErrWhenTrue(AssertErr) { it == null }
-                    .flatCatchErrWhenNull(NullErr)
-                    .flatCatchErrWhenTrue(AssertErr) { it.length < 3 }
-                    .flatCatchErrWhenFalse(AssertErr) { it.length > 3 }
-                    .flatCatchErrWhenApply(OutBoundErr) { listOf(it)[0] }
-                    .flatCatchErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> } // <- fail here
+                    .catchNextErrWhenNull(NullErr)
+                    .catchNextErrWhenTrue(AssertErr) { it.length < 3 }
+                    .catchNextErrWhenFalse(AssertErr) { it.length > 3 }
+                    .catchNextErrWhenApply(OutBoundErr) { listOf(it)[0] }
+                    .catchNextErrWhenRun(CastClassErr) { listOf(it) as Map<*, *> } // <- fail here
             Assertions.assertEquals("E500004", eitherLeftRun.assertEitherLeft().code)
             Assertions.assertEquals("Cast Class", eitherLeftRun.assertEitherLeft().message)
 
             val eitherRight: Either<AppErr, List<*>> =
                 map["key1"]
                     .catchErrWhenTrue(AssertErr) { it == null }
-                    .flatCatchErrWhenNull(NullErr)
-                    .flatCatchErrWhenTrue(AssertErr) { it.length < 3 }
-                    .flatCatchErrWhenFalse(AssertErr) { it.length > 3 }
-                    .flatCatchErrWhenApply(OutBoundErr) { listOf(it)[0] }
-                    .flatCatchErrWhenRun(CastClassErr) { listOf(it) as MutableList<*> }
+                    .catchNextErrWhenNull(NullErr)
+                    .catchNextErrWhenTrue(AssertErr) { it.length < 3 }
+                    .catchNextErrWhenFalse(AssertErr) { it.length > 3 }
+                    .catchNextErrWhenApply(OutBoundErr) { listOf(it)[0] }
+                    .catchNextErrWhenRun(CastClassErr) { listOf(it) as MutableList<*> }
             Assertions.assertEquals(list.toMutableList(), eitherRight.assertEitherRight())
         }
 
@@ -247,12 +247,12 @@ class ArrowKtTests {
                     validatedRightApply,
                     validatedRightRun,
                 )
-                    .flatValidErrWhenNull(NullErr)
-                    .flatValidErrWhenTrue(AssertErr) { it.size > 2 } // <- fail here
-                    .flatValidErrWhenFalse(AssertErr) { it.size > 2 }
-                    .flatValidErrWhenApply(OutBoundErr) { it[2] }
-                    .flatValidErrWhenRun(CastClassErr) { map[it[0]] }
-                    .flatValidErrWhenNull(NullErr)
+                    .validNextErrWhenNull(NullErr)
+                    .validNextErrWhenTrue(AssertErr) { it.size > 2 } // <- fail here
+                    .validNextErrWhenFalse(AssertErr) { it.size > 2 }
+                    .validNextErrWhenApply(OutBoundErr) { it[2] }
+                    .validNextErrWhenRun(CastClassErr) { map[it[0]] }
+                    .validNextErrWhenNull(NullErr)
             Assertions.assertEquals(1, eitherValidLeftTrue.assertEitherLeft().size)
             Assertions.assertEquals("E500002", eitherValidLeftTrue.assertEitherLeft()[0].code)
             Assertions.assertEquals("Assert", eitherValidLeftTrue.assertEitherLeft()[0].message)
@@ -265,12 +265,12 @@ class ArrowKtTests {
                     validatedRightApply,
                     validatedRightRun,
                 )
-                    .flatValidErrWhenNull(NullErr)
-                    .flatValidErrWhenTrue(AssertErr) { it.size < 2 }
-                    .flatValidErrWhenFalse(AssertErr) { it.size < 2 }  // <- fail here
-                    .flatValidErrWhenApply(OutBoundErr) { it[2] }
-                    .flatValidErrWhenRun(CastClassErr) { map[it[0]] }
-                    .flatValidErrWhenNull(NullErr)
+                    .validNextErrWhenNull(NullErr)
+                    .validNextErrWhenTrue(AssertErr) { it.size < 2 }
+                    .validNextErrWhenFalse(AssertErr) { it.size < 2 }  // <- fail here
+                    .validNextErrWhenApply(OutBoundErr) { it[2] }
+                    .validNextErrWhenRun(CastClassErr) { map[it[0]] }
+                    .validNextErrWhenNull(NullErr)
             Assertions.assertEquals(1, eitherValidLeftFalse.assertEitherLeft().size)
             Assertions.assertEquals("E500002", eitherValidLeftFalse.assertEitherLeft()[0].code)
             Assertions.assertEquals("Assert", eitherValidLeftFalse.assertEitherLeft()[0].message)
@@ -283,12 +283,12 @@ class ArrowKtTests {
                     validatedRightApply,
                     validatedRightRun,
                 )
-                    .flatValidErrWhenNull(NullErr)
-                    .flatValidErrWhenTrue(AssertErr) { it.size < 2 }
-                    .flatValidErrWhenFalse(AssertErr) { it.size > 2 }
-                    .flatValidErrWhenApply(OutBoundErr) { it[100] } // <- fail here
-                    .flatValidErrWhenRun(CastClassErr) { map[it[0]] }
-                    .flatValidErrWhenNull(NullErr)
+                    .validNextErrWhenNull(NullErr)
+                    .validNextErrWhenTrue(AssertErr) { it.size < 2 }
+                    .validNextErrWhenFalse(AssertErr) { it.size > 2 }
+                    .validNextErrWhenApply(OutBoundErr) { it[100] } // <- fail here
+                    .validNextErrWhenRun(CastClassErr) { map[it[0]] }
+                    .validNextErrWhenNull(NullErr)
             Assertions.assertEquals(1, eitherValidLeftApply.assertEitherLeft().size)
             Assertions.assertEquals("E500003", eitherValidLeftApply.assertEitherLeft()[0].code)
             Assertions.assertEquals("Out Bound", eitherValidLeftApply.assertEitherLeft()[0].message)
@@ -301,12 +301,12 @@ class ArrowKtTests {
                     validatedRightApply,
                     validatedRightRun,
                 )
-                    .flatValidErrWhenNull(NullErr)
-                    .flatValidErrWhenTrue(AssertErr) { it.size < 2 }
-                    .flatValidErrWhenFalse(AssertErr) { it.size > 2 }
-                    .flatValidErrWhenApply(OutBoundErr) { it[2] }
-                    .flatValidErrWhenRun(CastClassErr) { it as Map<*, *> } // <- fail here
-                    .flatValidErrWhenNull(NullErr)
+                    .validNextErrWhenNull(NullErr)
+                    .validNextErrWhenTrue(AssertErr) { it.size < 2 }
+                    .validNextErrWhenFalse(AssertErr) { it.size > 2 }
+                    .validNextErrWhenApply(OutBoundErr) { it[2] }
+                    .validNextErrWhenRun(CastClassErr) { it as Map<*, *> } // <- fail here
+                    .validNextErrWhenNull(NullErr)
             Assertions.assertEquals(1, eitherValidLeftRun.assertEitherLeft().size)
             Assertions.assertEquals("E500004", eitherValidLeftRun.assertEitherLeft()[0].code)
             Assertions.assertEquals("Cast Class", eitherValidLeftRun.assertEitherLeft()[0].message)
@@ -319,12 +319,12 @@ class ArrowKtTests {
                     validatedRightApply,
                     validatedRightRun,
                 )
-                    .flatValidErrWhenNull(NullErr)
-                    .flatValidErrWhenTrue(AssertErr) { it.size < 2 }
-                    .flatValidErrWhenFalse(AssertErr) { it.size > 2 }
-                    .flatValidErrWhenApply(OutBoundErr) { it[2] }
-                    .flatValidErrWhenRun(CastClassErr) { map[it[0]] }
-                    .flatValidErrWhenNull(NullErr) // <- fail here
+                    .validNextErrWhenNull(NullErr)
+                    .validNextErrWhenTrue(AssertErr) { it.size < 2 }
+                    .validNextErrWhenFalse(AssertErr) { it.size > 2 }
+                    .validNextErrWhenApply(OutBoundErr) { it[2] }
+                    .validNextErrWhenRun(CastClassErr) { map[it[0]] }
+                    .validNextErrWhenNull(NullErr) // <- fail here
             Assertions.assertEquals(1, eitherValidLeftNull.assertEitherLeft().size)
             Assertions.assertEquals("E500001", eitherValidLeftNull.assertEitherLeft()[0].code)
             Assertions.assertEquals("Null", eitherValidLeftNull.assertEitherLeft()[0].message)

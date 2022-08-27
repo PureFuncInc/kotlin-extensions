@@ -161,7 +161,7 @@ inline fun <L : AppErr, reified R, T> R.flatCatchErrWhenRun(
         appErr.left()
     }
 
-suspend fun <L : AppErr, R> Either<L, R>.flatNextCatchErrWhenTrue(
+suspend fun <L : AppErr, R> Either<L, R>.flatCatchNextErrWhenTrue(
     appErr: L,
     block: suspend (R) -> Either<L, Boolean>,
 ): Either<L, R> =
@@ -169,7 +169,7 @@ suspend fun <L : AppErr, R> Either<L, R>.flatNextCatchErrWhenTrue(
         it.flatCatchErrWhenTrue(appErr, block)
     }
 
-suspend fun <L : AppErr, R> Either<L, R>.flatNextCatchErrWhenFalse(
+suspend fun <L : AppErr, R> Either<L, R>.flatCatchNextErrWhenFalse(
     appErr: L,
     block: suspend (R) -> Either<L, Boolean>,
 ): Either<L, R> =
@@ -177,7 +177,7 @@ suspend fun <L : AppErr, R> Either<L, R>.flatNextCatchErrWhenFalse(
         it.flatCatchErrWhenFalse(appErr, block)
     }
 
-inline fun <L : AppErr, reified R, T> Either<L, R>.flatNextCatchErrWhenApply(
+inline fun <L : AppErr, reified R, T> Either<L, R>.flatCatchNextErrWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> Either<L, T>,
@@ -186,7 +186,7 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatNextCatchErrWhenApply(
         it.flatCatchErrWhenApply(appErr, printTrace, block)
     }
 
-inline fun <L : AppErr, reified R, T> Either<L, R>.flatNextCatchErrWhenRun(
+inline fun <L : AppErr, reified R, T> Either<L, R>.flatCatchNextErrWhenRun(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> Either<L, T>,

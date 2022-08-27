@@ -113,6 +113,62 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatCatchErrWhenRun(
         it.catchErrWhenRun(appErr, printTrace, block)
     }
 
+suspend fun <L : AppErr, R> Either<L, R>.flattenCatchErrWhenTrue(
+    appErr: L,
+    block: suspend (R) -> Either<L, Boolean>,
+): Either<L, R> =
+    flatMap {
+        block
+            .invoke(it)
+            .map { bool ->
+                if (bool) return@flatMap appErr.left()
+                it
+            }
+    }
+
+suspend fun <L : AppErr, R> Either<L, R>.flattenCatchErrWhenFalse(
+    appErr: L,
+    block: suspend (R) -> Either<L, Boolean>,
+): Either<L, R> =
+    flatMap {
+        block
+            .invoke(it)
+            .map { bool ->
+                if (!bool) return@flatMap appErr.left()
+                it
+            }
+    }
+
+inline fun <L : AppErr, reified R, T> Either<L, R>.flattenCatchErrWhenApply(
+    appErr: L,
+    printTrace: Boolean = false,
+    block: (R) -> Either<L, T>,
+): Either<L, R> =
+    try {
+        flatMap {
+            block
+                .invoke(it)
+                .map { _ -> it }
+        }
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.left()
+    }
+
+inline fun <L : AppErr, reified R, T> Either<L, R>.flattenCatchErrWhenRun(
+    appErr: L,
+    printTrace: Boolean = false,
+    block: (R) -> Either<L, T>,
+): Either<L, T> =
+    try {
+        flatMap {
+            block.invoke(it)
+        }
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.left()
+    }
+
 fun <L : AppErr> zipAllEither(
     vararg eithers: Either<L, *>,
 ): Either<L, List<*>> =

@@ -17,7 +17,17 @@ open class AppErr(
     val message: String,
 )
 
-suspend fun <L : AppErr, R> R?.catchErrWhenNull(
+/*
+ *     eitherCatchWhenRun -> in R           , block (R) -> T           , out Either<L, T>
+ *      eitherNextWhenRun -> in Either<L, R>, block (R) -> T           , out Either<L, T>
+ * flatEitherCatchWhenRun -> in R           , block (R) -> Either<L, T>, out Either<L, T>
+ *  flatEitherNextWhenRun -> in Either<L, R>, block (R) -> Either<L, T>, out Either<L, T>
+ *
+ *   validCatchErrWhenRun -> in R           , block (R) -> T           , out ValidatedNel<L, T>
+ *    validNextErrWhenRun -> in Either<L, R>, block (R) -> T           , out ValidatedNel<L, T>
+ */
+
+suspend fun <L : AppErr, R> R?.eitherCatchWhenNull(
     appErr: L,
     block: suspend () -> Unit = {},
 ): Either<L, R> =
@@ -32,21 +42,21 @@ suspend fun <L : AppErr, R> R?.catchErrWhenNull(
             },
         )
 
-suspend fun <L : AppErr, R> R.catchErrWhenTrue(
+suspend fun <L : AppErr, R> R.eitherCatchWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): Either<L, R> =
     if (block.invoke(this)) appErr.left()
     else right()
 
-suspend fun <L : AppErr, R> R.catchErrWhenFalse(
+suspend fun <L : AppErr, R> R.eitherCatchWhenFalse(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): Either<L, R> =
     if (!block.invoke(this)) appErr.left()
     else right()
 
-inline fun <L : AppErr, reified R, T> R.catchErrWhenApply(
+inline fun <L : AppErr, reified R, T> R.eitherCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
@@ -59,7 +69,7 @@ inline fun <L : AppErr, reified R, T> R.catchErrWhenApply(
         appErr.left()
     }
 
-inline fun <L : AppErr, reified R, T> R.catchErrWhenRun(
+inline fun <L : AppErr, reified R, T> R.eitherCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
@@ -71,49 +81,49 @@ inline fun <L : AppErr, reified R, T> R.catchErrWhenRun(
         appErr.left()
     }
 
-suspend fun <L : AppErr, R> Either<L, R?>.catchNextErrWhenNull(
+suspend fun <L : AppErr, R> Either<L, R?>.eitherNextWhenNull(
     appErr: L,
     block: suspend () -> Unit = {},
 ): Either<L, R> =
     flatMap {
-        it.catchErrWhenNull(appErr, block)
+        it.eitherCatchWhenNull(appErr, block)
     }
 
-suspend fun <L : AppErr, R> Either<L, R>.catchNextErrWhenTrue(
+suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): Either<L, R> =
     flatMap {
-        it.catchErrWhenTrue(appErr, block)
+        it.eitherCatchWhenTrue(appErr, block)
     }
 
-suspend fun <L : AppErr, R> Either<L, R>.catchNextErrWhenFalse(
+suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenFalse(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): Either<L, R> =
     flatMap {
-        it.catchErrWhenFalse(appErr, block)
+        it.eitherCatchWhenFalse(appErr, block)
     }
 
-inline fun <L : AppErr, reified R, T> Either<L, R>.catchNextErrWhenApply(
+inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
 ): Either<L, R> =
     flatMap {
-        it.catchErrWhenApply(appErr, printTrace, block)
+        it.eitherCatchWhenApply(appErr, printTrace, block)
     }
 
-inline fun <L : AppErr, reified R, T> Either<L, R>.catchNextErrWhenRun(
+inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
 ): Either<L, T> =
     flatMap {
-        it.catchErrWhenRun(appErr, printTrace, block)
+        it.eitherCatchWhenRun(appErr, printTrace, block)
     }
 
-suspend fun <L : AppErr, R> R.flatCatchErrWhenTrue(
+suspend fun <L : AppErr, R> R.flatEitherCatchWhenTrue(
     appErr: L,
     block: suspend (R) -> Either<L, Boolean>,
 ): Either<L, R> =
@@ -124,7 +134,7 @@ suspend fun <L : AppErr, R> R.flatCatchErrWhenTrue(
             else this.right()
         }
 
-suspend fun <L : AppErr, R> R.flatCatchErrWhenFalse(
+suspend fun <L : AppErr, R> R.flatEitherCatchWhenFalse(
     appErr: L,
     block: suspend (R) -> Either<L, Boolean>,
 ): Either<L, R> =
@@ -135,7 +145,7 @@ suspend fun <L : AppErr, R> R.flatCatchErrWhenFalse(
             else this.right()
         }
 
-inline fun <L : AppErr, reified R, T> R.flatCatchErrWhenApply(
+inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> Either<L, T>,
@@ -149,7 +159,7 @@ inline fun <L : AppErr, reified R, T> R.flatCatchErrWhenApply(
         appErr.left()
     }
 
-inline fun <L : AppErr, reified R, T> R.flatCatchErrWhenRun(
+inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> Either<L, T>,
@@ -161,48 +171,48 @@ inline fun <L : AppErr, reified R, T> R.flatCatchErrWhenRun(
         appErr.left()
     }
 
-suspend fun <L : AppErr, R> Either<L, R>.flatCatchNextErrWhenTrue(
+suspend fun <L : AppErr, R> Either<L, R>.flatEitherNextWhenTrue(
     appErr: L,
     block: suspend (R) -> Either<L, Boolean>,
 ): Either<L, R> =
     flatMap {
-        it.flatCatchErrWhenTrue(appErr, block)
+        it.flatEitherCatchWhenTrue(appErr, block)
     }
 
-suspend fun <L : AppErr, R> Either<L, R>.flatCatchNextErrWhenFalse(
+suspend fun <L : AppErr, R> Either<L, R>.flatEitherNextWhenFalse(
     appErr: L,
     block: suspend (R) -> Either<L, Boolean>,
 ): Either<L, R> =
     flatMap {
-        it.flatCatchErrWhenFalse(appErr, block)
+        it.flatEitherCatchWhenFalse(appErr, block)
     }
 
-inline fun <L : AppErr, reified R, T> Either<L, R>.flatCatchNextErrWhenApply(
+inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> Either<L, T>,
 ): Either<L, R> =
     flatMap {
-        it.flatCatchErrWhenApply(appErr, printTrace, block)
+        it.flatEitherCatchWhenApply(appErr, printTrace, block)
     }
 
-inline fun <L : AppErr, reified R, T> Either<L, R>.flatCatchNextErrWhenRun(
+inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> Either<L, T>,
 ): Either<L, T> =
     flatMap {
-        it.flatCatchErrWhenRun(appErr, printTrace, block)
+        it.flatEitherCatchWhenRun(appErr, printTrace, block)
     }
 
-fun <L : AppErr> zipAllEither(
+fun <L : AppErr> zipAllEithers(
     vararg eithers: Either<L, *>,
 ): Either<L, List<*>> =
     eithers
         .toList()
         .traverse { it }
 
-suspend fun <L : AppErr, R> R?.validErrWhenNull(
+suspend fun <L : AppErr, R> R?.validCatchWhenNull(
     appErr: L,
     block: suspend () -> Unit = {},
 ): ValidatedNel<L, R> =
@@ -217,19 +227,19 @@ suspend fun <L : AppErr, R> R?.validErrWhenNull(
             },
         ).toValidatedNel()
 
-suspend fun <L : AppErr, R> R.validErrWhenTrue(
+suspend fun <L : AppErr, R> R.validCatchWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): ValidatedNel<L, R> =
     (if (block.invoke(this)) appErr.invalid() else valid()).toValidatedNel()
 
-suspend fun <L : AppErr, R> R.validErrWhenFalse(
+suspend fun <L : AppErr, R> R.validCatchWhenFalse(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): ValidatedNel<L, R> =
     (if (!block.invoke(this)) appErr.invalid() else valid()).toValidatedNel()
 
-inline fun <L : AppErr, reified R, T> R.validErrWhenApply(
+inline fun <L : AppErr, reified R, T> R.validCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
@@ -242,7 +252,7 @@ inline fun <L : AppErr, reified R, T> R.validErrWhenApply(
         appErr.invalid()
     }.toValidatedNel()
 
-inline fun <L : AppErr, reified R, T> R.validErrWhenRun(
+inline fun <L : AppErr, reified R, T> R.validCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
@@ -256,49 +266,49 @@ inline fun <L : AppErr, reified R, T> R.validErrWhenRun(
 
 typealias EitherNel<A, B> = Either<Nel<A>, B>
 
-suspend fun <L : AppErr, R> EitherNel<L, R?>.validNextErrWhenNull(
+suspend fun <L : AppErr, R> EitherNel<L, R?>.validNextWhenNull(
     appErr: L,
     block: suspend () -> Unit = {},
 ): EitherNel<L, R> =
     flatMap {
-        it.validErrWhenNull(appErr, block).toEither()
+        it.validCatchWhenNull(appErr, block).toEither()
     }
 
-suspend fun <L : AppErr, R> EitherNel<L, R>.validNextErrWhenTrue(
+suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): EitherNel<L, R> =
     flatMap {
-        it.validErrWhenTrue(appErr, block).toEither()
+        it.validCatchWhenTrue(appErr, block).toEither()
     }
 
-suspend fun <L : AppErr, R> EitherNel<L, R>.validNextErrWhenFalse(
+suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenFalse(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): EitherNel<L, R> =
     flatMap {
-        it.validErrWhenFalse(appErr, block).toEither()
+        it.validCatchWhenFalse(appErr, block).toEither()
     }
 
-inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextErrWhenApply(
+inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
 ): EitherNel<L, R> =
     flatMap {
-        it.validErrWhenApply(appErr, printTrace, block).toEither()
+        it.validCatchWhenApply(appErr, printTrace, block).toEither()
     }
 
-inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextErrWhenRun(
+inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
     block: (R) -> T,
 ): EitherNel<L, T> =
     flatMap {
-        it.validErrWhenRun(appErr, printTrace, block).toEither()
+        it.validCatchWhenRun(appErr, printTrace, block).toEither()
     }
 
-fun <L : AppErr> zipAllValid(
+fun <L : AppErr> zipAllValids(
     vararg validateNels: ValidatedNel<L, *>,
 ): EitherNel<L, List<*>> =
     validateNels

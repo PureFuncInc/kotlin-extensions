@@ -8,7 +8,9 @@ class TimeTests {
 
     @Test
     internal fun `test generate unix milli`() {
-        Assertions.assertTrue(unixTimeMilli > 0)
+        Assertions.assertTrue(unixTime.toString().length == 10)
+        Assertions.assertTrue(unixTimeMilli.toString().length == 13)
+        Assertions.assertTrue(unixTimeNano.toString().length == 19)
     }
 
     @Test

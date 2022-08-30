@@ -97,14 +97,6 @@ suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenTrue(
         it.eitherCatchWhenTrue(appErr, block)
     }
 
-suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Boolean,
-): Either<L, R> =
-    flatMap {
-        it.eitherCatchWhenFalse(appErr, block)
-    }
-
 inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -131,17 +123,6 @@ suspend fun <L : AppErr, R> R.flatEitherCatchWhenTrue(
         .invoke(this)
         .flatMap { bool ->
             if (bool) return@flatMap appErr.left()
-            else this.right()
-        }
-
-suspend fun <L : AppErr, R> R.flatEitherCatchWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Either<L, Boolean>,
-): Either<L, R> =
-    block
-        .invoke(this)
-        .flatMap { bool ->
-            if (!bool) return@flatMap appErr.left()
             else this.right()
         }
 
@@ -177,14 +158,6 @@ suspend fun <L : AppErr, R> Either<L, R>.flatEitherNextWhenTrue(
 ): Either<L, R> =
     flatMap {
         it.flatEitherCatchWhenTrue(appErr, block)
-    }
-
-suspend fun <L : AppErr, R> Either<L, R>.flatEitherNextWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Either<L, Boolean>,
-): Either<L, R> =
-    flatMap {
-        it.flatEitherCatchWhenFalse(appErr, block)
     }
 
 inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
@@ -233,12 +206,6 @@ suspend fun <L : AppErr, R> R.validCatchWhenTrue(
 ): ValidatedNel<L, R> =
     (if (block.invoke(this)) appErr.invalid() else valid()).toValidatedNel()
 
-suspend fun <L : AppErr, R> R.validCatchWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Boolean,
-): ValidatedNel<L, R> =
-    (if (!block.invoke(this)) appErr.invalid() else valid()).toValidatedNel()
-
 inline fun <L : AppErr, reified R, T> R.validCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -280,14 +247,6 @@ suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenTrue(
 ): EitherNel<L, R> =
     flatMap {
         it.validCatchWhenTrue(appErr, block).toEither()
-    }
-
-suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Boolean,
-): EitherNel<L, R> =
-    flatMap {
-        it.validCatchWhenFalse(appErr, block).toEither()
     }
 
 inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenApply(

@@ -4,10 +4,10 @@ import net.purefunc.kotlin.ddd.infrastructure.enu.Deleted
 
 abstract class BasePo {
     abstract val uuid: Long
-    abstract val deleted: Deleted
+    abstract var deleted: Deleted
     abstract val createDate: Long
-    abstract val lastModifiedDate: Long
+    abstract var lastModifiedDate: Long
     abstract val createUser: String
-    abstract val lastModifiedUser: String
-    abstract val memo: String
+    abstract var lastModifiedUser: String
+    abstract var memo: String
 }

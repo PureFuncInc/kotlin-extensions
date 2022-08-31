@@ -9,7 +9,29 @@ class DddTests {
 
     @Test
     internal fun `test ddd classed`() {
-        println(Sample(unixTimeMilli).toPrettyJson())
+        println(
+            SampleAggregateRoot(
+                entityId = SampleId(
+                    identify = 1,
+                    uuid = unixTimeMilli,
+                    memo = "memo",
+                ),
+                key = Key("key"),
+                value = "value",
+            ).toPrettyJson()
+        )
+
+        println(
+            SampleEntity(
+                entityId = SampleId(
+                    identify = 1,
+                    uuid = unixTimeMilli,
+                    memo = "memo",
+                ),
+                key = Key("key"),
+            ).toPrettyJson()
+        )
+
         println(
             SamplePO(
                 id = null,
@@ -20,7 +42,7 @@ class DddTests {
                 createUser = "create user",
                 lastModifiedUser = "last modified date",
                 memo = "memo",
-            )
+            ).toPrettyJson()
         )
     }
 }

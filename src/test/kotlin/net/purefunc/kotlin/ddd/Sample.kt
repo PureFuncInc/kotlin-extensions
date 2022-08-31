@@ -26,6 +26,7 @@ data class SampleId(
 data class SampleAggregateRoot<SampleId : DomainEntityId>(
     override val entityId: SampleId,
     val key: Key,
+    val value: String,
 ) : DomainEntity<SampleId>()
 
 data class SampleEntity<SampleId : DomainEntityId>(

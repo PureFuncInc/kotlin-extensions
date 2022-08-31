@@ -6,7 +6,7 @@ import java.io.File
 class FileTests {
 
     @Test
-    internal fun `test hash`() {
+    internal fun `test file`() {
         val content = "Hello World"
 
         content.asFile("test.txt")

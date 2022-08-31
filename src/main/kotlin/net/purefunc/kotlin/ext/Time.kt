@@ -9,9 +9,14 @@ val unixTime: Long
 val unixTimeMilli: Long
     inline get() = Instant.now().toEpochMilli()
 
-val unixTimeNano: Long
-    inline get() = Instant.now().run { (epochSecond * 1000000000) + nano }
-
+/**
+ * Shift Time
+ *
+ * @param delta
+ * @param timeUnit
+ *
+ * @return
+ */
 fun Long.shift(
     delta: Long,
     timeUnit: TimeUnit,

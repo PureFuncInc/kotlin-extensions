@@ -10,6 +10,14 @@ import kotlin.random.Random.Default.nextInt
 val randomUUID: String
     inline get() = UUID.randomUUID().toString()
 
+/**
+ * Random Alphabetic
+ *
+ * @param length
+ * @param spliterator
+ *
+ * @return
+ */
 fun randomAlphabetic(
     length: Int,
     spliterator: String = "",
@@ -19,6 +27,14 @@ fun randomAlphabetic(
         .map { alphabetic[it] }
         .joinToString(spliterator)
 
+/**
+ * Random Alphanumeric
+ *
+ * @param length
+ * @param spliterator
+ *
+ * @return
+ */
 fun randomAlphanumeric(
     length: Int,
     spliterator: String = "",
@@ -31,21 +47,49 @@ fun randomAlphanumeric(
 private val alphabetic: List<Char> = ('a'..'z') + ('A'..'Z')
 private val alphanumerics: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
+/**
+ * Encode Base64
+ *
+ * @param charset
+ *
+ * @return
+ */
 fun ByteArray.encodeBase64(
     charset: Charset = Charsets.UTF_8
 ): String =
     String(Base64.getEncoder().encode(this), charset)
 
+/**
+ * Base64 Decode
+ *
+ * @param charset
+ *
+ * @return
+ */
 fun String.base64Decode(
     charset: Charset = Charsets.UTF_8
 ): String =
     String(Base64.getDecoder().decode(toByteArray()), charset)
 
+/**
+ * Url Encode
+ *
+ * @param charset
+ *
+ * @return
+ */
 fun String.urlEncode(
     charset: Charset = Charsets.UTF_8
 ): String =
     URLEncoder.encode(this, charset)
 
+/**
+ * Url Decode
+ *
+ * @param charset
+ *
+ * @return
+ */
 fun String.urlDecode(
     charset: Charset = Charsets.UTF_8
 ): String =

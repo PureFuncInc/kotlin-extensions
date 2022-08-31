@@ -18,15 +18,30 @@ open class AppErr(
 )
 
 /*
- *     eitherCatchWhenRun -> in R           , block (R) -> T           , out Either<L, T>
- *      eitherNextWhenRun -> in Either<L, R>, block (R) -> T           , out Either<L, T>
- * flatEitherCatchWhenRun -> in R           , block (R) -> Either<L, T>, out Either<L, T>
- *  flatEitherNextWhenRun -> in Either<L, R>, block (R) -> Either<L, T>, out Either<L, T>
+ * next represent extended Either<L, R>
+ * flat represent block return Either<L, R>
  *
- *   validCatchErrWhenRun -> in R           , block (R) -> T           , out ValidatedNel<L, T>
- *    validNextErrWhenRun -> in Either<L, R>, block (R) -> T           , out ValidatedNel<L, T>
+ *     eitherCatchWhenRun -> receiver R           , block (R) -> T           , return Either<L, T>
+ *      eitherNextWhenRun -> receiver Either<L, R>, block (R) -> T           , return Either<L, T>
+ * flatEitherCatchWhenRun -> receiver R           , block (R) -> Either<L, T>, return Either<L, T>
+ *  flatEitherNextWhenRun -> receiver Either<L, R>, block (R) -> Either<L, T>, return Either<L, T>
+ *
+ *   validCatchErrWhenRun -> receiver R           , block (R) -> T           , return ValidatedNel<L, T>
+ *    validNextErrWhenRun -> receiver Either<L, R>, block (R) -> T           , return ValidatedNel<L, T>
  */
 
+/**
+ * Either Catch When Null
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> R?.eitherCatchWhenNull(
     appErr: L,
     block: suspend () -> Unit = {},
@@ -42,6 +57,18 @@ suspend fun <L : AppErr, R> R?.eitherCatchWhenNull(
             },
         )
 
+/**
+ * Either Catch When True
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> R.eitherCatchWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
@@ -49,13 +76,20 @@ suspend fun <L : AppErr, R> R.eitherCatchWhenTrue(
     if (block.invoke(this)) appErr.left()
     else right()
 
-suspend fun <L : AppErr, R> R.eitherCatchWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Boolean,
-): Either<L, R> =
-    if (!block.invoke(this)) appErr.left()
-    else right()
-
+/**
+ * Either Catch When Apply
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> R.eitherCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -69,6 +103,20 @@ inline fun <L : AppErr, reified R, T> R.eitherCatchWhenApply(
         appErr.left()
     }
 
+/**
+ * Either Catch When Run
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> R.eitherCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
@@ -81,6 +129,18 @@ inline fun <L : AppErr, reified R, T> R.eitherCatchWhenRun(
         appErr.left()
     }
 
+/**
+ * Either Next When Null
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> Either<L, R?>.eitherNextWhenNull(
     appErr: L,
     block: suspend () -> Unit = {},
@@ -89,6 +149,18 @@ suspend fun <L : AppErr, R> Either<L, R?>.eitherNextWhenNull(
         it.eitherCatchWhenNull(appErr, block)
     }
 
+/**
+ * Either Next When True
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
@@ -97,14 +169,20 @@ suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenTrue(
         it.eitherCatchWhenTrue(appErr, block)
     }
 
-suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Boolean,
-): Either<L, R> =
-    flatMap {
-        it.eitherCatchWhenFalse(appErr, block)
-    }
-
+/**
+ * Either Next When Apply
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -114,6 +192,20 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenApply(
         it.eitherCatchWhenApply(appErr, printTrace, block)
     }
 
+/**
+ * Either Next When Run
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
@@ -123,6 +215,18 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenRun(
         it.eitherCatchWhenRun(appErr, printTrace, block)
     }
 
+/**
+ * Flat Either Catch When True
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> R.flatEitherCatchWhenTrue(
     appErr: L,
     block: suspend (R) -> Either<L, Boolean>,
@@ -134,17 +238,20 @@ suspend fun <L : AppErr, R> R.flatEitherCatchWhenTrue(
             else this.right()
         }
 
-suspend fun <L : AppErr, R> R.flatEitherCatchWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Either<L, Boolean>,
-): Either<L, R> =
-    block
-        .invoke(this)
-        .flatMap { bool ->
-            if (!bool) return@flatMap appErr.left()
-            else this.right()
-        }
-
+/**
+ * Flat Either Catch When Apply
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -159,6 +266,20 @@ inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenApply(
         appErr.left()
     }
 
+/**
+ * Flat Either Catch When Run
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
@@ -171,6 +292,18 @@ inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
         appErr.left()
     }
 
+/**
+ * Flat Either Next When True
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> Either<L, R>.flatEitherNextWhenTrue(
     appErr: L,
     block: suspend (R) -> Either<L, Boolean>,
@@ -179,14 +312,20 @@ suspend fun <L : AppErr, R> Either<L, R>.flatEitherNextWhenTrue(
         it.flatEitherCatchWhenTrue(appErr, block)
     }
 
-suspend fun <L : AppErr, R> Either<L, R>.flatEitherNextWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Either<L, Boolean>,
-): Either<L, R> =
-    flatMap {
-        it.flatEitherCatchWhenFalse(appErr, block)
-    }
-
+/**
+ * Flat Either Next When Apply
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -196,6 +335,20 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
         it.flatEitherCatchWhenApply(appErr, printTrace, block)
     }
 
+/**
+ * Flat Either Next When Run
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
@@ -205,6 +358,14 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenRun(
         it.flatEitherCatchWhenRun(appErr, printTrace, block)
     }
 
+/**
+ * Zip All Eithers
+ *
+ * @param L
+ * @param eithers
+ *
+ * @return
+ */
 fun <L : AppErr> zipAllEithers(
     vararg eithers: Either<L, *>,
 ): Either<L, List<*>> =
@@ -212,6 +373,18 @@ fun <L : AppErr> zipAllEithers(
         .toList()
         .traverse { it }
 
+/**
+ * Valid Catch When Null
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> R?.validCatchWhenNull(
     appErr: L,
     block: suspend () -> Unit = {},
@@ -227,18 +400,38 @@ suspend fun <L : AppErr, R> R?.validCatchWhenNull(
             },
         ).toValidatedNel()
 
+/**
+ * Valid Catch When True
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> R.validCatchWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): ValidatedNel<L, R> =
     (if (block.invoke(this)) appErr.invalid() else valid()).toValidatedNel()
 
-suspend fun <L : AppErr, R> R.validCatchWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Boolean,
-): ValidatedNel<L, R> =
-    (if (!block.invoke(this)) appErr.invalid() else valid()).toValidatedNel()
-
+/**
+ * Valid Catch When Apply
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> R.validCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -252,6 +445,20 @@ inline fun <L : AppErr, reified R, T> R.validCatchWhenApply(
         appErr.invalid()
     }.toValidatedNel()
 
+/**
+ * Valid Catch When Run
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> R.validCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
@@ -266,6 +473,18 @@ inline fun <L : AppErr, reified R, T> R.validCatchWhenRun(
 
 typealias EitherNel<A, B> = Either<Nel<A>, B>
 
+/**
+ * Valid Next When Null
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> EitherNel<L, R?>.validNextWhenNull(
     appErr: L,
     block: suspend () -> Unit = {},
@@ -274,6 +493,18 @@ suspend fun <L : AppErr, R> EitherNel<L, R?>.validNextWhenNull(
         it.validCatchWhenNull(appErr, block).toEither()
     }
 
+/**
+ * Valid Next When True
+ *
+ * @param L
+ * @param R
+ * @param appErr
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
@@ -282,14 +513,20 @@ suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenTrue(
         it.validCatchWhenTrue(appErr, block).toEither()
     }
 
-suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenFalse(
-    appErr: L,
-    block: suspend (R) -> Boolean,
-): EitherNel<L, R> =
-    flatMap {
-        it.validCatchWhenFalse(appErr, block).toEither()
-    }
-
+/**
+ * Valid Next When Apply
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -299,6 +536,20 @@ inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenApply(
         it.validCatchWhenApply(appErr, printTrace, block).toEither()
     }
 
+/**
+ * Valid Next When Run
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
 inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
@@ -308,6 +559,14 @@ inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenRun(
         it.validCatchWhenRun(appErr, printTrace, block).toEither()
     }
 
+/**
+ * Zip All Valids
+ *
+ * @param L
+ * @param validateNels
+ *
+ * @return
+ */
 fun <L : AppErr> zipAllValids(
     vararg validateNels: ValidatedNel<L, *>,
 ): EitherNel<L, List<*>> =

@@ -35,10 +35,6 @@ class ArrowKtTests {
             Assertions.assertEquals("E500002", eitherLeftTrue.assertEitherLeft().code)
             Assertions.assertEquals("Assert", eitherLeftTrue.assertEitherLeft().message)
 
-            val eitherLeftFalse: Either<AppErr, String?> = map["key1"].eitherCatchWhenFalse(AssertErr) { it!!.length < 3 }
-            Assertions.assertEquals("E500002", eitherLeftFalse.assertEitherLeft().code)
-            Assertions.assertEquals("Assert", eitherLeftFalse.assertEitherLeft().message)
-
             val eitherLeftApply: Either<AppErr, List<String>> = list.eitherCatchWhenApply(OutBoundErr) { it[100] }
             Assertions.assertEquals("E500003", eitherLeftApply.assertEitherLeft().code)
             Assertions.assertEquals("Out Bound", eitherLeftApply.assertEitherLeft().message)
@@ -53,9 +49,6 @@ class ArrowKtTests {
             val eitherRightTrue: Either<AppErr, String?> = map["key1"].eitherCatchWhenTrue(AssertErr) { it!!.length < 3 }
             Assertions.assertEquals("value1", eitherRightTrue.assertEitherRight()!!)
 
-            val eitherRightFalse: Either<AppErr, String?> = map["key1"].eitherCatchWhenFalse(AssertErr) { it!!.length > 3 }
-            Assertions.assertEquals("value1", eitherRightFalse.assertEitherRight()!!)
-
             val eitherRightApply: Either<AppErr, List<String>> = list.eitherCatchWhenApply(OutBoundErr) { it[0] }
             Assertions.assertEquals(list, eitherRightApply.assertEitherRight())
 
@@ -66,7 +59,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherRightTrue,
-                    eitherRightFalse,
                     eitherRightApply,
                     eitherRightRun,
                 )
@@ -76,7 +68,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherLeftNull,
                     eitherRightTrue,
-                    eitherRightFalse,
                     eitherRightApply,
                     eitherRightRun,
                 )
@@ -87,7 +78,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherLeftTrue,
-                    eitherRightFalse,
                     eitherRightApply,
                     eitherRightRun,
                 )
@@ -98,7 +88,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherRightTrue,
-                    eitherLeftFalse,
                     eitherRightApply,
                     eitherRightRun,
                 )
@@ -109,7 +98,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherRightTrue,
-                    eitherRightFalse,
                     eitherLeftApply,
                     eitherRightRun,
                 )
@@ -120,7 +108,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherRightTrue,
-                    eitherRightFalse,
                     eitherRightApply,
                     eitherLeftRun,
                 )
@@ -139,7 +126,6 @@ class ArrowKtTests {
                     .eitherCatchWhenTrue(AssertErr) { it != null }
                     .eitherNextWhenNull(NullErr) // <- fail here
                     .eitherNextWhenTrue(AssertErr) { it.length > 3 }
-                    .eitherNextWhenFalse(AssertErr) { it.length < 3 }
                     .eitherNextWhenApply(OutBoundErr) { listOf(it)[1] }
                     .eitherNextWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
             Assertions.assertEquals("E500001", eitherLeftNull.assertEitherLeft().code)
@@ -150,28 +136,15 @@ class ArrowKtTests {
                     .eitherCatchWhenTrue(AssertErr) { it == null }
                     .eitherNextWhenNull(NullErr)
                     .eitherNextWhenTrue(AssertErr) { it.length > 3 } // <- fail here
-                    .eitherNextWhenFalse(AssertErr) { it.length < 3 }
                     .eitherNextWhenApply(OutBoundErr) { listOf(it)[1] }
                     .eitherNextWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
             Assertions.assertEquals("E500002", eitherLeftTrue.assertEitherLeft().code)
             Assertions.assertEquals("Assert", eitherLeftTrue.assertEitherLeft().message)
 
-            val eitherLeftFalse: Either<AppErr, Map<*, *>> =
-                map["key1"]
-                    .eitherCatchWhenTrue(AssertErr) { it == null }
-                    .eitherNextWhenNull(NullErr)
-                    .eitherNextWhenTrue(AssertErr) { it.length < 3 }
-                    .eitherNextWhenFalse(AssertErr) { it.length < 3 } // <- fail here
-                    .eitherNextWhenApply(OutBoundErr) { listOf(it)[1] }
-                    .eitherNextWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
-            Assertions.assertEquals("E500002", eitherLeftFalse.assertEitherLeft().code)
-            Assertions.assertEquals("Assert", eitherLeftFalse.assertEitherLeft().message)
-
             val eitherLeftApply: Either<AppErr, Map<*, *>> = map["key1"]
                 .eitherCatchWhenTrue(AssertErr) { it == null }
                 .eitherNextWhenNull(NullErr)
                 .eitherNextWhenTrue(AssertErr) { it.length < 3 }
-                .eitherNextWhenFalse(AssertErr) { it.length > 3 }
                 .eitherNextWhenApply(OutBoundErr) { listOf(it)[1] } // <- fail here
                 .eitherNextWhenRun(CastClassErr) { listOf(it) as Map<*, *> }
             Assertions.assertEquals("E500003", eitherLeftApply.assertEitherLeft().code)
@@ -182,7 +155,6 @@ class ArrowKtTests {
                     .eitherCatchWhenTrue(AssertErr) { it == null }
                     .eitherNextWhenNull(NullErr)
                     .eitherNextWhenTrue(AssertErr) { it.length < 3 }
-                    .eitherNextWhenFalse(AssertErr) { it.length > 3 }
                     .eitherNextWhenApply(OutBoundErr) { listOf(it)[0] }
                     .eitherNextWhenRun(CastClassErr) { listOf(it) as Map<*, *> } // <- fail here
             Assertions.assertEquals("E500004", eitherLeftRun.assertEitherLeft().code)
@@ -193,7 +165,6 @@ class ArrowKtTests {
                     .eitherCatchWhenTrue(AssertErr) { it == null }
                     .eitherNextWhenNull(NullErr)
                     .eitherNextWhenTrue(AssertErr) { it.length < 3 }
-                    .eitherNextWhenFalse(AssertErr) { it.length > 3 }
                     .eitherNextWhenApply(OutBoundErr) { listOf(it)[0] }
                     .eitherNextWhenRun(CastClassErr) { listOf(it) as MutableList<*> }
             Assertions.assertEquals(list.toMutableList(), eitherRight.assertEitherRight())
@@ -207,12 +178,10 @@ class ArrowKtTests {
 
             val validatedLeftNull: ValidatedNel<NullErr, String> = map["key2"].validCatchWhenNull(NullErr)
             val validatedLeftTrue: ValidatedNel<AssertErr, String?> = map["key1"].validCatchWhenTrue(AssertErr) { it!!.length > 3 }
-            val validatedLeftFalse: ValidatedNel<AssertErr, String?> = map["key1"].validCatchWhenFalse(AssertErr) { it!!.length < 3 }
             val validatedLeftApply: ValidatedNel<OutBoundErr, List<String>> = list.validCatchWhenApply(OutBoundErr) { it[100] }
             val validatedLeftRun: ValidatedNel<CastClassErr, Map<*, *>> = list.validCatchWhenRun(CastClassErr) { it as Map<*, *> }
             val validatedRightNull: ValidatedNel<NullErr, String> = map["key1"].validCatchWhenNull(NullErr)
             val validatedRightTrue: ValidatedNel<AssertErr, String?> = map["key1"].validCatchWhenTrue(AssertErr) { it!!.length < 3 }
-            val validatedRightFalse: ValidatedNel<AssertErr, String?> = map["key1"].validCatchWhenFalse(AssertErr) { it!!.length > 3 }
             val validatedRightApply: ValidatedNel<OutBoundErr, List<String>> = list.validCatchWhenApply(OutBoundErr) { it[0] }
             val validatedRightRun: ValidatedNel<CastClassErr, MutableList<String>> = list.validCatchWhenRun(CastClassErr) { it as MutableList<String> }
 
@@ -220,22 +189,20 @@ class ArrowKtTests {
                 zipAllValids(
                     validatedLeftNull,
                     validatedLeftTrue,
-                    validatedLeftFalse,
                     validatedLeftApply,
                     validatedLeftRun,
                 )
-            Assertions.assertEquals(5, zipAllValidLeft.assertEitherLeft().size)
+            Assertions.assertEquals(4, zipAllValidLeft.assertEitherLeft().size)
 
             val zipAllValidRight: EitherNel<AppErr, List<*>> =
                 zipAllValids(
                     validatedRightNull,
                     validatedRightTrue,
-                    validatedRightFalse,
                     validatedRightApply,
                     validatedRightRun,
                 )
             Assertions.assertIterableEquals(
-                listOf("value1", "value1", "value1", list, list),
+                listOf("value1", "value1", list, list),
                 zipAllValidRight.assertEitherRight()
             )
 
@@ -243,13 +210,11 @@ class ArrowKtTests {
                 zipAllValids(
                     validatedRightNull,
                     validatedRightTrue,
-                    validatedRightFalse,
                     validatedRightApply,
                     validatedRightRun,
                 )
                     .validNextWhenNull(NullErr)
                     .validNextWhenTrue(AssertErr) { it.size > 2 } // <- fail here
-                    .validNextWhenFalse(AssertErr) { it.size > 2 }
                     .validNextWhenApply(OutBoundErr) { it[2] }
                     .validNextWhenRun(CastClassErr) { map[it[0]] }
                     .validNextWhenNull(NullErr)
@@ -257,35 +222,15 @@ class ArrowKtTests {
             Assertions.assertEquals("E500002", eitherValidLeftTrue.assertEitherLeft()[0].code)
             Assertions.assertEquals("Assert", eitherValidLeftTrue.assertEitherLeft()[0].message)
 
-            val eitherValidLeftFalse: EitherNel<AppErr, String> =
-                zipAllValids(
-                    validatedRightNull,
-                    validatedRightTrue,
-                    validatedRightFalse,
-                    validatedRightApply,
-                    validatedRightRun,
-                )
-                    .validNextWhenNull(NullErr)
-                    .validNextWhenTrue(AssertErr) { it.size < 2 }
-                    .validNextWhenFalse(AssertErr) { it.size < 2 }  // <- fail here
-                    .validNextWhenApply(OutBoundErr) { it[2] }
-                    .validNextWhenRun(CastClassErr) { map[it[0]] }
-                    .validNextWhenNull(NullErr)
-            Assertions.assertEquals(1, eitherValidLeftFalse.assertEitherLeft().size)
-            Assertions.assertEquals("E500002", eitherValidLeftFalse.assertEitherLeft()[0].code)
-            Assertions.assertEquals("Assert", eitherValidLeftFalse.assertEitherLeft()[0].message)
-
             val eitherValidLeftApply: EitherNel<AppErr, String> =
                 zipAllValids(
                     validatedRightNull,
                     validatedRightTrue,
-                    validatedRightFalse,
                     validatedRightApply,
                     validatedRightRun,
                 )
                     .validNextWhenNull(NullErr)
                     .validNextWhenTrue(AssertErr) { it.size < 2 }
-                    .validNextWhenFalse(AssertErr) { it.size > 2 }
                     .validNextWhenApply(OutBoundErr) { it[100] } // <- fail here
                     .validNextWhenRun(CastClassErr) { map[it[0]] }
                     .validNextWhenNull(NullErr)
@@ -296,14 +241,12 @@ class ArrowKtTests {
             val eitherValidLeftRun: Either<NonEmptyList<AppErr>, Map<*, *>> =
                 zipAllValids(
                     validatedRightNull,
-                    validatedRightFalse,
                     validatedRightTrue,
                     validatedRightApply,
                     validatedRightRun,
                 )
                     .validNextWhenNull(NullErr)
                     .validNextWhenTrue(AssertErr) { it.size < 2 }
-                    .validNextWhenFalse(AssertErr) { it.size > 2 }
                     .validNextWhenApply(OutBoundErr) { it[2] }
                     .validNextWhenRun(CastClassErr) { it as Map<*, *> } // <- fail here
                     .validNextWhenNull(NullErr)
@@ -314,14 +257,12 @@ class ArrowKtTests {
             val eitherValidLeftNull: EitherNel<AppErr, String> =
                 zipAllValids(
                     validatedRightNull,
-                    validatedRightFalse,
                     validatedRightTrue,
                     validatedRightApply,
                     validatedRightRun,
                 )
                     .validNextWhenNull(NullErr)
                     .validNextWhenTrue(AssertErr) { it.size < 2 }
-                    .validNextWhenFalse(AssertErr) { it.size > 2 }
                     .validNextWhenApply(OutBoundErr) { it[2] }
                     .validNextWhenRun(CastClassErr) { map[it[0]] }
                     .validNextWhenNull(NullErr) // <- fail here

@@ -3,6 +3,11 @@ package net.purefunc.kotlin.ext
 import java.io.File
 import java.io.FileOutputStream
 
+/**
+ * As File
+ *
+ * @param path
+ */
 fun String.asFile(path: String) =
     FileOutputStream(File(path))
         .let {

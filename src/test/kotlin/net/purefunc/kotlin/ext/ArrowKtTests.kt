@@ -35,10 +35,6 @@ class ArrowKtTests {
             Assertions.assertEquals("E500002", eitherLeftTrue.assertEitherLeft().code)
             Assertions.assertEquals("Assert", eitherLeftTrue.assertEitherLeft().message)
 
-            val eitherLeftFalse: Either<AppErr, String?> = map["key1"].eitherCatchWhenFalse(AssertErr) { it!!.length < 3 }
-            Assertions.assertEquals("E500002", eitherLeftFalse.assertEitherLeft().code)
-            Assertions.assertEquals("Assert", eitherLeftFalse.assertEitherLeft().message)
-
             val eitherLeftApply: Either<AppErr, List<String>> = list.eitherCatchWhenApply(OutBoundErr) { it[100] }
             Assertions.assertEquals("E500003", eitherLeftApply.assertEitherLeft().code)
             Assertions.assertEquals("Out Bound", eitherLeftApply.assertEitherLeft().message)
@@ -53,9 +49,6 @@ class ArrowKtTests {
             val eitherRightTrue: Either<AppErr, String?> = map["key1"].eitherCatchWhenTrue(AssertErr) { it!!.length < 3 }
             Assertions.assertEquals("value1", eitherRightTrue.assertEitherRight()!!)
 
-            val eitherRightFalse: Either<AppErr, String?> = map["key1"].eitherCatchWhenFalse(AssertErr) { it!!.length > 3 }
-            Assertions.assertEquals("value1", eitherRightFalse.assertEitherRight()!!)
-
             val eitherRightApply: Either<AppErr, List<String>> = list.eitherCatchWhenApply(OutBoundErr) { it[0] }
             Assertions.assertEquals(list, eitherRightApply.assertEitherRight())
 
@@ -66,7 +59,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherRightTrue,
-                    eitherRightFalse,
                     eitherRightApply,
                     eitherRightRun,
                 )
@@ -76,7 +68,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherLeftNull,
                     eitherRightTrue,
-                    eitherRightFalse,
                     eitherRightApply,
                     eitherRightRun,
                 )
@@ -87,7 +78,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherLeftTrue,
-                    eitherRightFalse,
                     eitherRightApply,
                     eitherRightRun,
                 )
@@ -98,7 +88,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherRightTrue,
-                    eitherLeftFalse,
                     eitherRightApply,
                     eitherRightRun,
                 )
@@ -109,7 +98,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherRightTrue,
-                    eitherRightFalse,
                     eitherLeftApply,
                     eitherRightRun,
                 )
@@ -120,7 +108,6 @@ class ArrowKtTests {
                 zipAllEithers(
                     eitherRightNull,
                     eitherRightTrue,
-                    eitherRightFalse,
                     eitherRightApply,
                     eitherLeftRun,
                 )

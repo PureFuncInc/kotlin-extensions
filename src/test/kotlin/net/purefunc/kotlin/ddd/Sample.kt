@@ -9,12 +9,12 @@ import net.purefunc.kotlin.ddd.infrastructure.po.BasePo
 data class SamplePO(
     val id: Long?,
     override val uuid: Long,
-    override val deleted: Deleted,
+    override var deleted: Deleted,
     override val createDate: Long,
-    override val lastModifiedDate: Long,
+    override var lastModifiedDate: Long,
     override val createUser: String,
-    override val lastModifiedUser: String,
-    override val memo: String,
+    override var lastModifiedUser: String,
+    override var memo: String,
 ) : BasePo()
 
 data class SampleId(

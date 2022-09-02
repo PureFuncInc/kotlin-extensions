@@ -62,7 +62,7 @@ class ArrowKtTests {
                     eitherRightApply,
                     eitherRightRun,
                 )
-            Assertions.assertEquals(5, eitherAllRight.assertEitherRight().size)
+            Assertions.assertEquals(4, eitherAllRight.assertEitherRight().size)
 
             val eitherAllLeftNull: Either<AppErr, List<*>> =
                 zipAllEithers(
@@ -83,16 +83,6 @@ class ArrowKtTests {
                 )
             Assertions.assertEquals("E500002", eitherAllLeftTrue.assertEitherLeft().code)
             Assertions.assertEquals("Assert", eitherAllLeftTrue.assertEitherLeft().message)
-
-            val eitherAllLeftFalse: Either<AppErr, List<*>> =
-                zipAllEithers(
-                    eitherRightNull,
-                    eitherRightTrue,
-                    eitherRightApply,
-                    eitherRightRun,
-                )
-            Assertions.assertEquals("E500002", eitherAllLeftFalse.assertEitherLeft().code)
-            Assertions.assertEquals("Assert", eitherAllLeftFalse.assertEitherLeft().message)
 
             val eitherAllLeftApply: Either<AppErr, List<*>> =
                 zipAllEithers(

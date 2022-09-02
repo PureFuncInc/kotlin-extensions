@@ -14,7 +14,7 @@
 * [String](docs/string.md)
 * [Time](docs/time.md)
 
-# Dependency
+# [Dependency](https://jitpack.io/#PureFuncInc/kotlin-extensions)
 
 * Maven
 

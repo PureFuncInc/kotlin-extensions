@@ -1,5 +1,5 @@
 package net.purefunc.kotlin.ddd.domain.vo
 
-abstract class DomainValueObject {
+abstract class DomainVO {
     abstract val memo: String
 }

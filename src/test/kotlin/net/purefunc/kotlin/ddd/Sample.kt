@@ -2,7 +2,7 @@ package net.purefunc.kotlin.ddd
 
 import net.purefunc.kotlin.ddd.domain.entity.DomainEntity
 import net.purefunc.kotlin.ddd.domain.entity.DomainEntityId
-import net.purefunc.kotlin.ddd.domain.vo.DomainValueObject
+import net.purefunc.kotlin.ddd.domain.vo.DomainVO
 import net.purefunc.kotlin.ddd.infrastructure.enu.Deleted
 import net.purefunc.kotlin.ddd.infrastructure.po.BasePo
 
@@ -36,4 +36,4 @@ data class SampleEntity<SampleId : DomainEntityId>(
 
 data class Key(
     override val memo: String,
-) : DomainValueObject()
+) : DomainVO()

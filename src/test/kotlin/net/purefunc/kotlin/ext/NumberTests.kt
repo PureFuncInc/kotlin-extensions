@@ -9,4 +9,11 @@ class NumberTests {
     internal fun `test random`() {
         Assertions.assertTrue(random.nextInt(10) > -1)
     }
+
+    @Test
+    internal fun `test snowflake sequence`() {
+        val snowflakeSeq = SnowflakeSeq(128)
+
+        Assertions.assertTrue(snowflakeSeq.next() > 0)
+    }
 }

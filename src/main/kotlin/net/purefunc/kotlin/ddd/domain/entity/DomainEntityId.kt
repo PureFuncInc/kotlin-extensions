@@ -1,8 +1,8 @@
 package net.purefunc.kotlin.ddd.domain.entity
 
-import net.purefunc.kotlin.ddd.domain.vo.DomainValueObject
+import net.purefunc.kotlin.ddd.domain.vo.DomainVO
 
-abstract class DomainEntityId : DomainValueObject() {
+abstract class DomainEntityId : DomainVO() {
     abstract val identify: Int
     abstract val uuid: Long
     abstract override val memo: String

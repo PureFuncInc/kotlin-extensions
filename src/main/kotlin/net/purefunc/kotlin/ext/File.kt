@@ -8,10 +8,10 @@ import java.io.FileOutputStream
  *
  * @param path
  */
-fun String.asFile(path: String) =
+fun ByteArray.asFile(path: String) =
     FileOutputStream(File(path))
         .let {
-            it.write(toByteArray())
+            it.write(this)
             it.flush()
             it.close()
         }

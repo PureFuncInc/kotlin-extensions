@@ -9,7 +9,7 @@ class FileTests {
     internal fun `test file`() {
         val content = "Hello World"
 
-        content.asFile("test.txt")
+        content.toByteArray().asFile("test.txt")
 
         File("test.txt").delete()
     }

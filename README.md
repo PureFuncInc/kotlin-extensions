@@ -7,7 +7,6 @@
 * [Aes](docs/aes.md)
 * [Arrow-kt](docs/arrow-kt.md)
 * [Emoji](docs/emoji.md)
-* [File](docs/file.md)
 * [Hash](docs/hash.md)
 * [Json](docs/json.md)
 * [Regex](docs/regex.md)

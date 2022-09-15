@@ -24,15 +24,25 @@ data class SampleId(
     override val lastModifiedUser: String,
     override val identity: Long,
     override val memo: String,
-) : DomainEntityId()
+) : DomainEntityId<SampleId>() {
 
-data class SampleAggregateRoot<SampleId : DomainEntityId>(
+    override fun create(uuid: Long): SampleId =
+        SampleId(
+            uuid = uuid,
+            createUser = "",
+            lastModifiedUser = "",
+            identity = 0,
+            memo = "",
+        )
+}
+
+data class SampleAggregateRoot<SampleId : DomainEntityId<SampleId>>(
     override val entityId: SampleId,
     val key: Key,
     val value: String,
 ) : DomainEntity<SampleId>()
 
-data class SampleEntity<SampleId : DomainEntityId>(
+data class SampleEntity<SampleId : DomainEntityId<SampleId>>(
     override val entityId: SampleId,
     val key: Key,
 ) : DomainEntity<SampleId>()

@@ -5,7 +5,7 @@ import net.purefunc.kotlin.ddd.domain.entity.DomainAggRoot
 import net.purefunc.kotlin.ddd.domain.entity.DomainEntityId
 import net.purefunc.kotlin.ext.AppErr
 
-interface DomainRepo<ID : DomainEntityId, R : DomainAggRoot<ID>, E : AppErr> {
+interface DomainRepo<ID : DomainEntityId<ID>, R : DomainAggRoot<ID>, E : AppErr> {
 
     suspend fun save(entity: R): Either<E, R>
 

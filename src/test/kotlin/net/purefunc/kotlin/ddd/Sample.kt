@@ -14,7 +14,6 @@ data class SamplePO(
     override var lastModifiedDate: Long,
     override val createUser: String,
     override var lastModifiedUser: String,
-    override var identity: Long,
     override var memo: String,
 ) : BasePo()
 
@@ -22,7 +21,6 @@ data class SampleId(
     override val uuid: Long,
     override val createUser: String,
     override val lastModifiedUser: String,
-    override val identity: Long,
     override val memo: String,
 ) : DomainEntityId()
 

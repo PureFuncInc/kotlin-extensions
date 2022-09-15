@@ -15,7 +15,6 @@ class DddTests {
                     uuid = unixTimeMilli,
                     createUser = "",
                     lastModifiedUser = "",
-                    identity = 1,
                     memo = "memo",
                 ),
                 key = Key("key"),
@@ -29,7 +28,6 @@ class DddTests {
                     uuid = unixTimeMilli,
                     createUser = "",
                     lastModifiedUser = "",
-                    identity = 1,
                     memo = "memo",
                 ),
                 key = Key("key"),
@@ -45,7 +43,6 @@ class DddTests {
                 lastModifiedDate = unixTimeMilli,
                 createUser = "create user",
                 lastModifiedUser = "last modified date",
-                identity = 1,
                 memo = "memo",
             ).toPrettyJson()
         )

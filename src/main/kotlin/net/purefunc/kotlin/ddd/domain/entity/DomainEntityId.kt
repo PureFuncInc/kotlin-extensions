@@ -6,6 +6,5 @@ abstract class DomainEntityId : DomainVO() {
     abstract val uuid: Long
     abstract val createUser: String
     abstract val lastModifiedUser: String
-    abstract val identity: Long
     abstract override val memo: String
 }

@@ -5,13 +5,11 @@ import net.purefunc.kotlin.ddd.domain.entity.DomainAggRoot
 import net.purefunc.kotlin.ddd.domain.entity.DomainEntityId
 import net.purefunc.kotlin.ext.AppErr
 
-interface DomainRepo<ID : DomainEntityId<ID>, R : DomainAggRoot<ID>, E : AppErr> {
+interface DomainRepo<ID : DomainEntityId, R : DomainAggRoot<ID>, E : AppErr> {
 
-    suspend fun save(entity: R): Either<E, R>
+    suspend fun insert(entity: R): Either<E, R>
 
-    suspend fun findById(id: ID): Either<E, R?>
-
-    suspend fun existsById(id: ID): Either<E, Boolean>
+    suspend fun selectById(id: ID): Either<E, R?>
 
     suspend fun count(): Either<E, Long>
 

@@ -22,7 +22,7 @@ data class SampleId(
     override val uuid: Long,
     override val createUser: String,
     override val lastModifiedUser: String,
-    override val identify: Int,
+    override val identity: Long,
     override val memo: String,
 ) : DomainEntityId()
 

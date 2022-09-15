@@ -1,5 +1,5 @@
 package net.purefunc.kotlin.ddd.domain.entity
 
-abstract class DomainEntity<ID : DomainEntityId<ID>> {
+abstract class DomainEntity<ID : DomainEntityId> {
     abstract val entityId: ID
 }

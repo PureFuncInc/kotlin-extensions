@@ -12,8 +12,10 @@ class DddTests {
         println(
             SampleAggregateRoot(
                 entityId = SampleId(
-                    identify = 1,
                     uuid = unixTimeMilli,
+                    createUser = "",
+                    lastModifiedUser = "",
+                    identify = 1,
                     memo = "memo",
                 ),
                 key = Key("key"),
@@ -24,8 +26,10 @@ class DddTests {
         println(
             SampleEntity(
                 entityId = SampleId(
-                    identify = 1,
                     uuid = unixTimeMilli,
+                    createUser = "",
+                    lastModifiedUser = "",
+                    identify = 1,
                     memo = "memo",
                 ),
                 key = Key("key"),
@@ -41,6 +45,7 @@ class DddTests {
                 lastModifiedDate = unixTimeMilli,
                 createUser = "create user",
                 lastModifiedUser = "last modified date",
+                identity = 1,
                 memo = "memo",
             ).toPrettyJson()
         )

@@ -9,6 +9,8 @@ interface DomainRepo<ID : DomainEntityId, R : DomainAggRoot<ID>, E : AppErr> {
 
     suspend fun insert(entity: R): Either<E, R>
 
+    suspend fun save(entity: R): Either<E, R>
+
     suspend fun selectById(id: ID): Either<E, R?>
 
     suspend fun count(): Either<E, Long>

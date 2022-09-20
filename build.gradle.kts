@@ -30,6 +30,7 @@ dependencies {
 
     // Jackson
     api("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 
     // Slf4j
     api("org.slf4j:slf4j-api:$slf4jVersion")

@@ -3,9 +3,10 @@ package net.purefunc.kotlin.ext
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
-private val objectMapper: ObjectMapper = jacksonObjectMapper()
+private val objectMapper: ObjectMapper = jacksonObjectMapper().registerModule(JavaTimeModule())
 
 private val prettyObjectMapper: ObjectMapper = jacksonObjectMapper().enable(SerializationFeature.INDENT_OUTPUT)
 

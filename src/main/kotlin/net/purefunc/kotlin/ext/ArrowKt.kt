@@ -52,7 +52,7 @@ suspend fun <L : AppErr, R> R?.eitherCatchWhenNull(
                 appErr.left()
             },
             ifSome = {
-                block.invoke()
+                block()
                 it.right()
             },
         )
@@ -73,7 +73,7 @@ suspend fun <L : AppErr, R> R.eitherCatchWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): Either<L, R> =
-    if (block.invoke(this)) appErr.left()
+    if (block(this)) appErr.left()
     else right()
 
 /**
@@ -93,10 +93,37 @@ suspend fun <L : AppErr, R> R.eitherCatchWhenTrue(
 inline fun <L : AppErr, reified R, T> R.eitherCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
+    block: R.() -> T,
+): Either<L, R> =
+    try {
+        block()
+        right()
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.left()
+    }
+
+/**
+ * Either Catch When Also
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> R.eitherCatchWhenAlso(
+    appErr: L,
+    printTrace: Boolean = false,
     block: (R) -> T,
 ): Either<L, R> =
     try {
-        block.invoke(this)
+        block(this)
         right()
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
@@ -120,10 +147,36 @@ inline fun <L : AppErr, reified R, T> R.eitherCatchWhenApply(
 inline fun <L : AppErr, reified R, T> R.eitherCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
+    block: R.() -> T,
+): Either<L, T> =
+    try {
+        block().right()
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.left()
+    }
+
+/**
+ * Either Catch When Let
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> R.eitherCatchWhenLet(
+    appErr: L,
+    printTrace: Boolean = false,
     block: (R) -> T,
 ): Either<L, T> =
     try {
-        block.invoke(this).right()
+        block(this).right()
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
         appErr.left()
@@ -186,10 +239,33 @@ suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenTrue(
 inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
-    block: (R) -> T,
+    block: R.() -> T,
 ): Either<L, R> =
     flatMap {
         it.eitherCatchWhenApply(appErr, printTrace, block)
+    }
+
+/**
+ * Either Next When Also
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenAlso(
+    appErr: L,
+    printTrace: Boolean = false,
+    block: (R) -> T,
+): Either<L, R> =
+    flatMap {
+        it.eitherCatchWhenAlso(appErr, printTrace, block)
     }
 
 /**
@@ -209,10 +285,33 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenApply(
 inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
-    block: (R) -> T,
+    block: R.() -> T,
 ): Either<L, T> =
     flatMap {
         it.eitherCatchWhenRun(appErr, printTrace, block)
+    }
+
+/**
+ * Either Next When Let
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenLet(
+    appErr: L,
+    printTrace: Boolean = false,
+    block: (R) -> T,
+): Either<L, T> =
+    flatMap {
+        it.eitherCatchWhenLet(appErr, printTrace, block)
     }
 
 /**
@@ -231,8 +330,7 @@ suspend fun <L : AppErr, R> R.flatEitherCatchWhenTrue(
     appErr: L,
     block: suspend (R) -> Either<L, Boolean>,
 ): Either<L, R> =
-    block
-        .invoke(this)
+    block(this)
         .flatMap { bool ->
             if (bool) return@flatMap appErr.left()
             else this.right()
@@ -255,12 +353,36 @@ suspend fun <L : AppErr, R> R.flatEitherCatchWhenTrue(
 inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
+    block: R.() -> Either<L, T>,
+): Either<L, R> =
+    try {
+        block().map { _ -> this }
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.left()
+    }
+
+/**
+ * Flat Either Catch When Also
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenAlso(
+    appErr: L,
+    printTrace: Boolean = false,
     block: (R) -> Either<L, T>,
 ): Either<L, R> =
     try {
-        block
-            .invoke(this)
-            .map { _ -> this }
+        block(this).map { _ -> this }
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
         appErr.left()
@@ -283,10 +405,36 @@ inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenApply(
 inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
+    block: R.() -> Either<L, T>,
+): Either<L, T> =
+    try {
+        block()
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.left()
+    }
+
+/**
+ * Flat Either Catch When Let
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenLet(
+    appErr: L,
+    printTrace: Boolean = false,
     block: (R) -> Either<L, T>,
 ): Either<L, T> =
     try {
-        block.invoke(this)
+        block(this)
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
         appErr.left()
@@ -329,10 +477,33 @@ suspend fun <L : AppErr, R> Either<L, R>.flatEitherNextWhenTrue(
 inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
-    block: (R) -> Either<L, T>,
+    block: R.() -> Either<L, T>,
 ): Either<L, R> =
     flatMap {
         it.flatEitherCatchWhenApply(appErr, printTrace, block)
+    }
+
+/**
+ * Flat Either Next When Also
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenAlso(
+    appErr: L,
+    printTrace: Boolean = false,
+    block: (R) -> Either<L, T>,
+): Either<L, R> =
+    flatMap {
+        it.flatEitherCatchWhenAlso(appErr, printTrace, block)
     }
 
 /**
@@ -352,10 +523,33 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
 inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
-    block: (R) -> Either<L, T>,
+    block: R.() -> Either<L, T>,
 ): Either<L, T> =
     flatMap {
         it.flatEitherCatchWhenRun(appErr, printTrace, block)
+    }
+
+/**
+ * Flat Either Next When Let
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenLet(
+    appErr: L,
+    printTrace: Boolean = false,
+    block: (R) -> Either<L, T>,
+): Either<L, T> =
+    flatMap {
+        it.flatEitherCatchWhenLet(appErr, printTrace, block)
     }
 
 /**
@@ -395,7 +589,7 @@ suspend fun <L : AppErr, R> R?.validCatchWhenNull(
                 appErr.invalid()
             },
             ifSome = {
-                block.invoke()
+                block()
                 it.valid()
             },
         ).toValidatedNel()
@@ -416,7 +610,7 @@ suspend fun <L : AppErr, R> R.validCatchWhenTrue(
     appErr: L,
     block: suspend (R) -> Boolean,
 ): ValidatedNel<L, R> =
-    (if (block.invoke(this)) appErr.invalid() else valid()).toValidatedNel()
+    (if (block(this)) appErr.invalid() else valid()).toValidatedNel()
 
 /**
  * Valid Catch When Apply
@@ -435,10 +629,37 @@ suspend fun <L : AppErr, R> R.validCatchWhenTrue(
 inline fun <L : AppErr, reified R, T> R.validCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
+    block: R.() -> T,
+): ValidatedNel<L, R> =
+    try {
+        block()
+        valid()
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.invalid()
+    }.toValidatedNel()
+
+/**
+ * Valid Catch When Also
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> R.validCatchWhenAlso(
+    appErr: L,
+    printTrace: Boolean = false,
     block: (R) -> T,
 ): ValidatedNel<L, R> =
     try {
-        block.invoke(this)
+        block(this)
         valid()
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
@@ -462,10 +683,36 @@ inline fun <L : AppErr, reified R, T> R.validCatchWhenApply(
 inline fun <L : AppErr, reified R, T> R.validCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
+    block: R.() -> T,
+): ValidatedNel<L, T> =
+    try {
+        block().valid()
+    } catch (tw: Throwable) {
+        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        appErr.invalid()
+    }.toValidatedNel()
+
+/**
+ * Valid Catch When Let
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> R.validCatchWhenLet(
+    appErr: L,
+    printTrace: Boolean = false,
     block: (R) -> T,
 ): ValidatedNel<L, T> =
     try {
-        block.invoke(this).valid()
+        block(this).valid()
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
         appErr.invalid()
@@ -530,10 +777,33 @@ suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenTrue(
 inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
-    block: (R) -> T,
+    block: R.() -> T,
 ): EitherNel<L, R> =
     flatMap {
         it.validCatchWhenApply(appErr, printTrace, block).toEither()
+    }
+
+/**
+ * Valid Next When Also
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenAlso(
+    appErr: L,
+    printTrace: Boolean = false,
+    block: (R) -> T,
+): EitherNel<L, R> =
+    flatMap {
+        it.validCatchWhenAlso(appErr, printTrace, block).toEither()
     }
 
 /**
@@ -553,10 +823,33 @@ inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenApply(
 inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
-    block: (R) -> T,
+    block: R.() -> T,
 ): EitherNel<L, T> =
     flatMap {
         it.validCatchWhenRun(appErr, printTrace, block).toEither()
+    }
+
+/**
+ * Valid Next When Let
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param appErr
+ * @param printTrace
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenLet(
+    appErr: L,
+    printTrace: Boolean = false,
+    block: (R) -> T,
+): EitherNel<L, T> =
+    flatMap {
+        it.validCatchWhenLet(appErr, printTrace, block).toEither()
     }
 
 /**

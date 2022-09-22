@@ -34,6 +34,7 @@ dependencies {
 
     // Slf4j
     api("org.slf4j:slf4j-api:$slf4jVersion")
+    testImplementation("org.slf4j:slf4j-reload4j:$slf4jVersion")
 
     // Bcrypt
     api("at.favre.lib:bcrypt:$bcryptVersion")

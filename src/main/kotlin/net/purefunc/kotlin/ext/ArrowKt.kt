@@ -315,87 +315,11 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenLet(
     }
 
 /**
- * Flat Either Catch When True
- *
- * @param L
- * @param R
- * @param appErr
- * @param block
- *
- * @receiver
- *
- * @return
- */
-suspend fun <L : AppErr, R> R.flatEitherCatchWhenTrue(
-    appErr: L,
-    block: suspend (R) -> Either<L, Boolean>,
-): Either<L, R> =
-    block(this)
-        .flatMap { bool ->
-            if (bool) return@flatMap appErr.left()
-            else this.right()
-        }
-
-/**
- * Flat Either Catch When Apply
- *
- * @param L
- * @param R
- * @param T
- * @param appErr
- * @param printTrace
- * @param block
- *
- * @receiver
- *
- * @return
- */
-inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenApply(
-    appErr: L,
-    printTrace: Boolean = false,
-    block: R.() -> Either<L, T>,
-): Either<L, R> =
-    try {
-        block().map { _ -> this }
-    } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
-        appErr.left()
-    }
-
-/**
- * Flat Either Catch When Also
- *
- * @param L
- * @param R
- * @param T
- * @param appErr
- * @param printTrace
- * @param block
- *
- * @receiver
- *
- * @return
- */
-inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenAlso(
-    appErr: L,
-    printTrace: Boolean = false,
-    block: (R) -> Either<L, T>,
-): Either<L, R> =
-    try {
-        block(this).map { _ -> this }
-    } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
-        appErr.left()
-    }
-
-/**
  * Flat Either Catch When Run
  *
  * @param L
  * @param R
  * @param T
- * @param appErr
- * @param printTrace
  * @param block
  *
  * @receiver
@@ -403,16 +327,8 @@ inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenAlso(
  * @return
  */
 inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
-    appErr: L,
-    printTrace: Boolean = false,
     block: R.() -> Either<L, T>,
-): Either<L, T> =
-    try {
-        block()
-    } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
-        appErr.left()
-    }
+): Either<L, T> = block()
 
 /**
  * Flat Either Catch When Let
@@ -420,8 +336,6 @@ inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
  * @param L
  * @param R
  * @param T
- * @param appErr
- * @param printTrace
  * @param block
  *
  * @receiver
@@ -429,82 +343,8 @@ inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
  * @return
  */
 inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenLet(
-    appErr: L,
-    printTrace: Boolean = false,
     block: (R) -> Either<L, T>,
-): Either<L, T> =
-    try {
-        block(this)
-    } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
-        appErr.left()
-    }
-
-/**
- * Flat Either Next When True
- *
- * @param L
- * @param R
- * @param appErr
- * @param block
- *
- * @receiver
- *
- * @return
- */
-suspend fun <L : AppErr, R> Either<L, R>.flatEitherNextWhenTrue(
-    appErr: L,
-    block: suspend (R) -> Either<L, Boolean>,
-): Either<L, R> =
-    flatMap {
-        it.flatEitherCatchWhenTrue(appErr, block)
-    }
-
-/**
- * Flat Either Next When Apply
- *
- * @param L
- * @param R
- * @param T
- * @param appErr
- * @param printTrace
- * @param block
- *
- * @receiver
- *
- * @return
- */
-inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
-    appErr: L,
-    printTrace: Boolean = false,
-    block: R.() -> Either<L, T>,
-): Either<L, R> =
-    flatMap {
-        it.flatEitherCatchWhenApply(appErr, printTrace, block)
-    }
-
-/**
- * Flat Either Next When Also
- *
- * @param L
- * @param R
- * @param T
- * @param appErr
- * @param printTrace
- * @param block
- *
- * @receiver
- *
- * @return
- */
-inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenAlso(
-    appErr: L,
-    printTrace: Boolean = false,
-    block: (R) -> Either<L, T>,
-): Either<L, R> =
-    flatMap {
-        it.flatEitherCatchWhenAlso(appErr, printTrace, block)
-    }
+): Either<L, T> = block(this)
 
 /**
  * Flat Either Next When Run
@@ -512,8 +352,6 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenAlso(
  * @param L
  * @param R
  * @param T
- * @param appErr
- * @param printTrace
  * @param block
  *
  * @receiver
@@ -521,12 +359,10 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenAlso(
  * @return
  */
 inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenRun(
-    appErr: L,
-    printTrace: Boolean = false,
     block: R.() -> Either<L, T>,
 ): Either<L, T> =
     flatMap {
-        it.flatEitherCatchWhenRun(appErr, printTrace, block)
+        it.flatEitherCatchWhenRun(block)
     }
 
 /**
@@ -535,8 +371,6 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenRun(
  * @param L
  * @param R
  * @param T
- * @param appErr
- * @param printTrace
  * @param block
  *
  * @receiver
@@ -544,12 +378,10 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenRun(
  * @return
  */
 inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenLet(
-    appErr: L,
-    printTrace: Boolean = false,
     block: (R) -> Either<L, T>,
 ): Either<L, T> =
     flatMap {
-        it.flatEitherCatchWhenLet(appErr, printTrace, block)
+        it.flatEitherCatchWhenLet(block)
     }
 
 /**

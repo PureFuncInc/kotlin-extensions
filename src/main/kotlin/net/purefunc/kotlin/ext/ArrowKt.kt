@@ -332,6 +332,44 @@ inline fun <L : AppErr, reified R> Either<L, R>.returnUnit(
     }
 
 /**
+ * Flat Either Catch When Apply
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenApply(
+    block: R.() -> T,
+): Either<L, R> = run {
+    block()
+    right()
+}
+
+/**
+ * Flat Either Catch When Also
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenAlso(
+    block: (R) -> T,
+): Either<L, R> = run {
+    block(this)
+    right()
+}
+
+/**
  * Flat Either Catch When Run
  *
  * @param L
@@ -362,6 +400,44 @@ inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
 inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenLet(
     block: (R) -> Either<L, T>,
 ): Either<L, T> = block(this)
+
+/**
+ * Flat Either Next When Apply
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
+    block: R.() -> Either<L, T>,
+): Either<L, R> =
+    flatMap {
+        it.flatEitherCatchWhenApply(block)
+    }
+
+/**
+ * Flat Either Next When Also
+ *
+ * @param L
+ * @param R
+ * @param T
+ * @param block
+ *
+ * @receiver
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenAlso(
+    block: (R) -> Either<L, T>,
+): Either<L, R> =
+    flatMap {
+        it.flatEitherCatchWhenAlso(block)
+    }
 
 /**
  * Flat Either Next When Run

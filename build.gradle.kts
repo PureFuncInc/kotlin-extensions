@@ -39,7 +39,7 @@ dependencies {
     // Bcrypt
     api("at.favre.lib:bcrypt:$bcryptVersion")
 
-    // AES PKCS7PADDING
+    // AES/CBC/PKCS7PADDING
     api("org.bouncycastle:bcprov-jdk15on:$bcprovJdkVersion")
 
     // JUnit

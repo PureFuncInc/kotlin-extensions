@@ -8,7 +8,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 private val objectMapper: ObjectMapper = jacksonObjectMapper().registerModule(JavaTimeModule())
 
-private val prettyObjectMapper: ObjectMapper = jacksonObjectMapper().enable(SerializationFeature.INDENT_OUTPUT)
+private val prettyObjectMapper: ObjectMapper = jacksonObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).registerModule(JavaTimeModule())
 
 /**
  * To Json

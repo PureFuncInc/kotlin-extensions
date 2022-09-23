@@ -315,6 +315,23 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenLet(
     }
 
 /**
+ * Return Unit
+ *
+ * @param L
+ * @param R
+ * @param printR
+ *
+ * @return
+ */
+inline fun <L : AppErr, reified R> Either<L, R>.returnUnit(
+    printR: Boolean = false,
+): Either<L, Unit> =
+    flatMap {
+        if (printR) log.error(it.toString())
+        Unit.right()
+    }
+
+/**
  * Flat Either Catch When Run
  *
  * @param L

@@ -1,7 +1,7 @@
 package net.purefunc.kotlin
 
 import net.purefunc.kotlin.ext.NullErr
-import net.purefunc.kotlin.ext.eitherCatchWhenLet
+import net.purefunc.kotlin.ext.eitherCatchWhenRun
 
 data class Foo(
     val id: Long,
@@ -22,5 +22,5 @@ val foobar: (Foo) -> (Bar) =
 fun main() {
     Foo(0, "", "").run(foobar)
 
-    Foo(0, "", "").eitherCatchWhenLet(NullErr) { foobar }
+    Foo(0, "", "").eitherCatchWhenRun(NullErr) { foobar }
 }

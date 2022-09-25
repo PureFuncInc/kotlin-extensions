@@ -2878,283 +2878,73 @@ enum class Emoji1(
     PEOPLE_HOLDING_HANDS_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FB, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FB)),
 
     // 🧑🏻‍🤝‍🧑🏼 🧑🏻‍🤝‍🧑🏼 🧑🏻‍🤝‍🧑🏼
-    PEOPLE_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FB,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FC
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FB, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FC)),
 
     // 🧑🏻‍🤝‍🧑🏽 🧑🏻‍🤝‍🧑🏽 🧑🏻‍🤝‍🧑🏽
-    PEOPLE_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FB,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FD
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FB, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FD)),
 
     // 🧑🏻‍🤝‍🧑🏾 🧑🏻‍🤝‍🧑🏾 🧑🏻‍🤝‍🧑🏾
-    PEOPLE_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FB,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FE
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FB, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FE)),
 
     // 🧑🏻‍🤝‍🧑🏿 🧑🏻‍🤝‍🧑🏿 🧑🏻‍🤝‍🧑🏿
-    PEOPLE_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FB,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FF
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FB, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FF)),
 
     // 🧑🏼‍🤝‍🧑🏻 🧑🏼‍🤝‍🧑🏻 🧑🏼‍🤝‍🧑🏻
-    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FC,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FB
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FC, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FB)),
 
     // 🧑🏼‍🤝‍🧑🏼 🧑🏼‍🤝‍🧑🏼 🧑🏼‍🤝‍🧑🏼
-    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FC,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FC
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FC, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FC)),
 
     // 🧑🏼‍🤝‍🧑🏽 🧑🏼‍🤝‍🧑🏽 🧑🏼‍🤝‍🧑🏽
-    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FC,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FD
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FC, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FD)),
 
     // 🧑🏼‍🤝‍🧑🏾 🧑🏼‍🤝‍🧑🏾 🧑🏼‍🤝‍🧑🏾
-    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FC,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FE
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FC, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FE)),
 
     // 🧑🏼‍🤝‍🧑🏿 🧑🏼‍🤝‍🧑🏿 🧑🏼‍🤝‍🧑🏿
-    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FC,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FF
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FC, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FF)),
 
     // 🧑🏽‍🤝‍🧑🏻 🧑🏽‍🤝‍🧑🏻 🧑🏽‍🤝‍🧑🏻
-    PEOPLE_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FD,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FB
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FD, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FB)),
 
     // 🧑🏽‍🤝‍🧑🏼 🧑🏽‍🤝‍🧑🏼 🧑🏽‍🤝‍🧑🏼
-    PEOPLE_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FD,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FC
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FD, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FC)),
 
     // 🧑🏽‍🤝‍🧑🏽 🧑🏽‍🤝‍🧑🏽 🧑🏽‍🤝‍🧑🏽
     PEOPLE_HOLDING_HANDS_MEDIUM_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FD, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FD)),
 
     // 🧑🏽‍🤝‍🧑🏾 🧑🏽‍🤝‍🧑🏾 🧑🏽‍🤝‍🧑🏾
-    PEOPLE_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FD,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FE
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FD, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FE)),
 
     // 🧑🏽‍🤝‍🧑🏿 🧑🏽‍🤝‍🧑🏿 🧑🏽‍🤝‍🧑🏿
-    PEOPLE_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FD,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FF
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FD, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FF)),
 
     // 🧑🏾‍🤝‍🧑🏻 🧑🏾‍🤝‍🧑🏻 🧑🏾‍🤝‍🧑🏻
-    PEOPLE_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FE,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FB
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FE, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FB)),
 
     // 🧑🏾‍🤝‍🧑🏼 🧑🏾‍🤝‍🧑🏼 🧑🏾‍🤝‍🧑🏼
-    PEOPLE_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FE,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FC
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FE, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FC)),
 
     // 🧑🏾‍🤝‍🧑🏽 🧑🏾‍🤝‍🧑🏽 🧑🏾‍🤝‍🧑🏽
-    PEOPLE_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FE,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FD
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FE, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FD)),
 
     // 🧑🏾‍🤝‍🧑🏾 🧑🏾‍🤝‍🧑🏾 🧑🏾‍🤝‍🧑🏾
     PEOPLE_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FE, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FE)),
 
     // 🧑🏾‍🤝‍🧑🏿 🧑🏾‍🤝‍🧑🏿 🧑🏾‍🤝‍🧑🏿
-    PEOPLE_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FE,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FF
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FE, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FF)),
 
     // 🧑🏿‍🤝‍🧑🏻 🧑🏿‍🤝‍🧑🏻 🧑🏿‍🤝‍🧑🏻
-    PEOPLE_HOLDING_HANDS_DARK_SKIN_TONECOMMA_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FF,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FB
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_DARK_SKIN_TONECOMMA_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FF, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FB)),
 
     // 🧑🏿‍🤝‍🧑🏼 🧑🏿‍🤝‍🧑🏼 🧑🏿‍🤝‍🧑🏼
-    PEOPLE_HOLDING_HANDS_DARK_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FF,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FC
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_DARK_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FF, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FC)),
 
     // 🧑🏿‍🤝‍🧑🏽 🧑🏿‍🤝‍🧑🏽 🧑🏿‍🤝‍🧑🏽
-    PEOPLE_HOLDING_HANDS_DARK_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FF,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FD
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_DARK_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FF, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FD)),
 
     // 🧑🏿‍🤝‍🧑🏾 🧑🏿‍🤝‍🧑🏾 🧑🏿‍🤝‍🧑🏾
-    PEOPLE_HOLDING_HANDS_DARK_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F9D1,
-            0x1F3FF,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F9D1,
-            0x1F3FE
-        )
-    ),
+    PEOPLE_HOLDING_HANDS_DARK_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FF, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FE)),
 
     // 🧑🏿‍🤝‍🧑🏿 🧑🏿‍🤝‍🧑🏿 🧑🏿‍🤝‍🧑🏿
     PEOPLE_HOLDING_HANDS_DARK_SKIN_TONE(intArrayOf(0x1F9D1, 0x1F3FF, 0x200D, 0x1F91D, 0x200D, 0x1F9D1, 0x1F3FF)),
@@ -3166,192 +2956,52 @@ enum class Emoji1(
     WOMEN_HOLDING_HANDS_LIGHT_SKIN_TONE(intArrayOf(0x1F46D, 0x1F3FB)),
 
     // 👩🏻‍🤝‍👩🏼 👩🏻‍🤝‍👩🏼 👩🏻‍🤝‍👩🏼
-    WOMEN_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FB,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FC
-        )
-    ),
+    WOMEN_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FB, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FC)),
 
     // 👩🏻‍🤝‍👩🏽 👩🏻‍🤝‍👩🏽 👩🏻‍🤝‍👩🏽
-    WOMEN_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FB,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FD
-        )
-    ),
+    WOMEN_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FB, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FD)),
 
     // 👩🏻‍🤝‍👩🏾 👩🏻‍🤝‍👩🏾 👩🏻‍🤝‍👩🏾
-    WOMEN_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FB,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FE
-        )
-    ),
+    WOMEN_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FB, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FE)),
 
     // 👩🏻‍🤝‍👩🏿 👩🏻‍🤝‍👩🏿 👩🏻‍🤝‍👩🏿
-    WOMEN_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FB,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FF
-        )
-    ),
+    WOMEN_HOLDING_HANDS_LIGHT_SKIN_TONECOMMA_DARK_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FB, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FF)),
 
     // 👩🏼‍🤝‍👩🏻 👩🏼‍🤝‍👩🏻 👩🏼‍🤝‍👩🏻
-    WOMEN_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FC,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FB
-        )
-    ),
+    WOMEN_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_LIGHT_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FC, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FB)),
 
     // 👭🏼 👭🏼 👭🏼
     WOMEN_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONE(intArrayOf(0x1F46D, 0x1F3FC)),
 
     // 👩🏼‍🤝‍👩🏽 👩🏼‍🤝‍👩🏽 👩🏼‍🤝‍👩🏽
-    WOMEN_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FC,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FD
-        )
-    ),
+    WOMEN_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_MEDIUM_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FC, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FD)),
 
     // 👩🏼‍🤝‍👩🏾 👩🏼‍🤝‍👩🏾 👩🏼‍🤝‍👩🏾
-    WOMEN_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FC,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FE
-        )
-    ),
+    WOMEN_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FC, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FE)),
 
     // 👩🏼‍🤝‍👩🏿 👩🏼‍🤝‍👩🏿 👩🏼‍🤝‍👩🏿
-    WOMEN_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FC,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FF
-        )
-    ),
+    WOMEN_HOLDING_HANDS_MEDIUM_LIGHT_SKIN_TONECOMMA_DARK_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FC, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FF)),
 
     // 👩🏽‍🤝‍👩🏻 👩🏽‍🤝‍👩🏻 👩🏽‍🤝‍👩🏻
-    WOMEN_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FD,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FB
-        )
-    ),
+    WOMEN_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_LIGHT_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FD, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FB)),
 
     // 👩🏽‍🤝‍👩🏼 👩🏽‍🤝‍👩🏼 👩🏽‍🤝‍👩🏼
-    WOMEN_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FD,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FC
-        )
-    ),
+    WOMEN_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FD, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FC)),
 
     // 👭🏽 👭🏽 👭🏽
     WOMEN_HOLDING_HANDS_MEDIUM_SKIN_TONE(intArrayOf(0x1F46D, 0x1F3FD)),
 
     // 👩🏽‍🤝‍👩🏾 👩🏽‍🤝‍👩🏾 👩🏽‍🤝‍👩🏾
-    WOMEN_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FD,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FE
-        )
-    ),
+    WOMEN_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_MEDIUM_DARK_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FD, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FE)),
 
     // 👩🏽‍🤝‍👩🏿 👩🏽‍🤝‍👩🏿 👩🏽‍🤝‍👩🏿
-    WOMEN_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_DARK_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FD,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FF
-        )
-    ),
+    WOMEN_HOLDING_HANDS_MEDIUM_SKIN_TONECOMMA_DARK_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FD, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FF)),
 
     // 👩🏾‍🤝‍👩🏻 👩🏾‍🤝‍👩🏻 👩🏾‍🤝‍👩🏻
-    WOMEN_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FE,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FB
-        )
-    ),
+    WOMEN_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_LIGHT_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FE, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FB)),
 
     // 👩🏾‍🤝‍👩🏼 👩🏾‍🤝‍👩🏼 👩🏾‍🤝‍👩🏼
-    WOMEN_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(
-        intArrayOf(
-            0x1F469,
-            0x1F3FE,
-            0x200D,
-            0x1F91D,
-            0x200D,
-            0x1F469,
-            0x1F3FC
-        )
-    );
+    WOMEN_HOLDING_HANDS_MEDIUM_DARK_SKIN_TONECOMMA_MEDIUM_LIGHT_SKIN_TONE(intArrayOf(0x1F469, 0x1F3FE, 0x200D, 0x1F91D, 0x200D, 0x1F469, 0x1F3FC));
 
     override fun toString() = String(intArray, 0, intArray.size)
 }

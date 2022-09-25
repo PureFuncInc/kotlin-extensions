@@ -30,7 +30,10 @@ class StringTests {
     internal fun `test base64 encode & decode`() {
         val rawString = "Hello World"
 
-        Assertions.assertEquals(rawString, rawString.toByteArray().encodeBase64().base64Decode())
+        val encodeBase64 = rawString.toByteArray().encodeBase64()
+        val base64Decode = encodeBase64.base64Decode()
+
+        Assertions.assertEquals(rawString, base64Decode.string())
     }
 
     @Test

@@ -43,6 +43,7 @@ fun Double.isPositive(): Boolean = this > 0
  */
 fun BigDecimal.isPositive(): Boolean = this > BigDecimal.ZERO
 
+
 /**
  * Is Zero
  *
@@ -112,6 +113,17 @@ fun Double.isNegative(): Boolean = this < 0
  * @return
  */
 fun BigDecimal.isNegative(): Boolean = this < BigDecimal.ZERO
+
+fun Long.isNotPositive(): Boolean = isZero() || isNegative()
+fun Int.isNotPositive(): Boolean = isZero() || isNegative()
+fun Float.isNotPositive(): Boolean = isZero() || isNegative()
+fun Double.isNotPositive(): Boolean = isZero() || isNegative()
+fun BigDecimal.isNotPositive(): Boolean = isZero() || isNegative()
+fun Long.isNotNegative(): Boolean = isZero() || isPositive()
+fun Int.isNotNegative(): Boolean = isZero() || isPositive()
+fun Float.isNotNegative(): Boolean = isZero() || isPositive()
+fun Double.isNotNegative(): Boolean = isZero() || isPositive()
+fun BigDecimal.isNotNegative(): Boolean = isZero() || isPositive()
 
 /**
  * Is Even

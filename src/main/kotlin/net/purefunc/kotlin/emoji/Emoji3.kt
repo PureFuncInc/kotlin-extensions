@@ -17,28 +17,20 @@ enum class Emoji3(
 
     // 💰 💰 💰
     MONEY_BAG(intArrayOf(0x1F4B0)),
-
     // 🪙 🪙 🪙
     COIN(intArrayOf(0x1FA99)),
-
     // 💴 💴 💴
     YEN_BANKNOTE(intArrayOf(0x1F4B4)),
-
     // 💵 💵 💵
     DOLLAR_BANKNOTE(intArrayOf(0x1F4B5)),
-
     // 💶 💶 💶
     EURO_BANKNOTE(intArrayOf(0x1F4B6)),
-
     // 💷 💷 💷
     POUND_BANKNOTE(intArrayOf(0x1F4B7)),
-
     // 💸 💸 💸
     MONEY_WITH_WINGS(intArrayOf(0x1F4B8)),
-
     // 💳 💳 💳
     CREDIT_CARD(intArrayOf(0x1F4B3)),
-
     // 🧾 🧾 🧾
     RECEIPT(intArrayOf(0x1F9FE)),
 
@@ -50,31 +42,22 @@ enum class Emoji3(
 
     // 📧 📧 📧
     E_MAIL(intArrayOf(0x1F4E7)),
-
     // 📨 📨 📨
     INCOMING_ENVELOPE(intArrayOf(0x1F4E8)),
-
     // 📩 📩 📩
     ENVELOPE_WITH_ARROW(intArrayOf(0x1F4E9)),
-
     // 📤 📤 📤
     OUTBOX_TRAY(intArrayOf(0x1F4E4)),
-
     // 📥 📥 📥
     INBOX_TRAY(intArrayOf(0x1F4E5)),
-
     // 📦 📦 📦
     PACKAGES(intArrayOf(0x1F4E6)),
-
     // 📫 📫 📫
     CLOSED_MAILBOX_WITH_RAISED_FLAG(intArrayOf(0x1F4EB)),
-
     // 📪 📪 📪
     CLOSED_MAILBOX_WITH_LOWERED_FLAG(intArrayOf(0x1F4EA)),
-
     // 📬 📬 📬
     OPEN_MAILBOX_WITH_RAISED_FLAG(intArrayOf(0x1F4EC)),
-
     // 📭 📭 📭
     OPEN_MAILBOX_WITH_LOWERED_FLAG(intArrayOf(0x1F4ED)),
 
@@ -104,10 +87,8 @@ enum class Emoji3(
 
     // 📝 📝 📝
     MEMO(intArrayOf(0x1F4DD)),
-
     // 💼 💼 💼
     BRIEFCASE(intArrayOf(0x1F4BC)),
-
     // 📁 📁 📁
     FILE_FOLDER(intArrayOf(0x1F4C1)),
 
@@ -131,22 +112,16 @@ enum class Emoji3(
 
     // 📇 📇 📇
     CARD_INDEX(intArrayOf(0x1F4C7)),
-
     // 📈 📈 📈
     CHART_INCREASING(intArrayOf(0x1F4C8)),
-
     // 📉 📉 📉
     CHART_DECREASING(intArrayOf(0x1F4C9)),
-
     // 📊 📊 📊
     BAR_CHART(intArrayOf(0x1F4CA)),
-
     // 📋 📋 📋
     CLIPBOARD(intArrayOf(0x1F4CB)),
-
     // 📌 📌 📌
     PUSHPIN(intArrayOf(0x1F4CC)),
-
     // 📍 📍 📍
     ROUND_PUSHPIN(intArrayOf(0x1F4CD)),
 
@@ -176,13 +151,10 @@ enum class Emoji3(
 
     // 🔒 🔒 🔒
     LOCKED(intArrayOf(0x1F512)),
-
     // 🔓 🔓 🔓
     UNLOCKED(intArrayOf(0x1F513)),
-
     // 🔏 🔏 🔏
     LOCKED_WITH_PEN(intArrayOf(0x1F50F)),
-
     // 🔐 🔐 🔐
     LOCKED_WITH_KEY(intArrayOf(0x1F510)),
 
@@ -215,7 +187,6 @@ enum class Emoji3(
 
     // 🔫 🔫 🔫
     WATER_PISTOL(intArrayOf(0x1F52B)),
-
     // 🪃 🪃 🪃
     BOOMERANG(intArrayOf(0x1FA83)),
 
@@ -227,10 +198,8 @@ enum class Emoji3(
 
     // 🪚 🪚 🪚
     CARPENTRY_SAW(intArrayOf(0x1FA9A)),
-
     // 🔧 🔧 🔧
     WRENCH(intArrayOf(0x1F527)),
-
     // 🪛 🪛 🪛
     SCREWDRIVER(intArrayOf(0x1FA9B)),
 
@@ -257,10 +226,8 @@ enum class Emoji3(
 
     // 🪝 🪝 🪝
     HOOK(intArrayOf(0x1FA9D)),
-
     // 🧰 🧰 🧰
     TOOLBOX(intArrayOf(0x1F9F0)),
-
     // 🧲 🧲 🧲
     MAGNET(intArrayOf(0x1F9F2)),
 
@@ -272,49 +239,34 @@ enum class Emoji3(
 
     // 🧪 🧪 🧪
     TEST_TUBE(intArrayOf(0x1F9EA)),
-
     // 🧫 🧫 🧫
     PETRI_DISH(intArrayOf(0x1F9EB)),
-
     // 🧬 🧬 🧬
     DNA(intArrayOf(0x1F9EC)),
-
     // 🔬 🔬 🔬
     MICROSCOPE(intArrayOf(0x1F52C)),
-
     // 🔭 🔭 🔭
     TELESCOPE(intArrayOf(0x1F52D)),
-
     // 📡 📡 📡
     SATELLITE_ANTENNA(intArrayOf(0x1F4E1)),
-
     // 💉 💉 💉
     SYRINGE(intArrayOf(0x1F489)),
-
     // 🩸 🩸 🩸
     DROP_OF_BLOOD(intArrayOf(0x1FA78)),
-
     // 💊 💊 💊
     PILL(intArrayOf(0x1F48A)),
-
     // 🩹 🩹 🩹
     ADHESIVE_BANDAGE(intArrayOf(0x1FA79)),
-
     // 🩼 🩼 🩼
     CRUTCH(intArrayOf(0x1FA7C)),
-
     // 🩺 🩺 🩺
     STETHOSCOPE(intArrayOf(0x1FA7A)),
-
     // 🩻 🩻 🩻
     X_RAY(intArrayOf(0x1FA7B)),
-
     // 🚪 🚪 🚪
     DOOR(intArrayOf(0x1F6AA)),
-
     // 🛗 🛗 🛗
     ELEVATOR(intArrayOf(0x1F6D7)),
-
     // 🪞 🪞 🪞
     MIRROR(intArrayOf(0x1FA9E)),
 
@@ -329,58 +281,40 @@ enum class Emoji3(
 
     // 🪑 🪑 🪑
     CHAIR(intArrayOf(0x1FA91)),
-
     // 🚽 🚽 🚽
     TOILET(intArrayOf(0x1F6BD)),
-
     // 🪠 🪠 🪠
     PLUNGER(intArrayOf(0x1FAA0)),
-
     // 🚿 🚿 🚿
     SHOWER(intArrayOf(0x1F6BF)),
-
     // 🛁 🛁 🛁
     BATHTUB(intArrayOf(0x1F6C1)),
-
     // 🪤 🪤 🪤
     MOUSE_TRAP(intArrayOf(0x1FAA4)),
-
     // 🪒 🪒 🪒
     RAZOR(intArrayOf(0x1FA92)),
-
     // 🧴 🧴 🧴
     LOTION_BOTTLE(intArrayOf(0x1F9F4)),
-
     // 🧷 🧷 🧷
     SAFETY_PIN(intArrayOf(0x1F9F7)),
-
     // 🧹 🧹 🧹
     BROOM(intArrayOf(0x1F9F9)),
-
     // 🧺 🧺 🧺
     BASKET(intArrayOf(0x1F9FA)),
-
     // 🧻 🧻 🧻
     ROLL_OF_PAPER(intArrayOf(0x1F9FB)),
-
     // 🪣 🪣 🪣
     BUCKET(intArrayOf(0x1FAA3)),
-
     // 🧼 🧼 🧼
     SOAP(intArrayOf(0x1F9FC)),
-
     // 🫧 🫧 🫧
     BUBBLES(intArrayOf(0x1FAE7)),
-
     // 🪥 🪥 🪥
     TOOTHBRUSH(intArrayOf(0x1FAA5)),
-
     // 🧽 🧽 🧽
     SPONGE(intArrayOf(0x1F9FD)),
-
     // 🧯 🧯 🧯
     FIRE_EXTINGUISHER(intArrayOf(0x1F9EF)),
-
     // 🛒 🛒 🛒
     SHOPPING_CART(intArrayOf(0x1F6D2)),
 
@@ -398,46 +332,32 @@ enum class Emoji3(
 
     // 🗿 🗿 🗿
     MOAI(intArrayOf(0x1F5FF)),
-
     // 🪧 🪧 🪧
     PLACARD(intArrayOf(0x1FAA7)),
-
     // 🪪 🪪 🪪
     IDENTIFICATION_CARD(intArrayOf(0x1FAAA)),
-
     // 🏧 🏧 🏧
     ATM_SIGN(intArrayOf(0x1F3E7)),
-
     // 🚮 🚮 🚮
     LITTER_IN_BIN_SIGN(intArrayOf(0x1F6AE)),
-
     // 🚰 🚰 🚰
     POTABLE_WATER(intArrayOf(0x1F6B0)),
-
     // ♿ ♿ ♿
     WHEELCHAIR_SYMBOL(intArrayOf(0x267F)),
-
     // 🚹 🚹 🚹
     MENS_ROOM(intArrayOf(0x1F6B9)),
-
     // 🚺 🚺 🚺
     WOMENS_ROOM(intArrayOf(0x1F6BA)),
-
     // 🚻 🚻 🚻
     RESTROOM(intArrayOf(0x1F6BB)),
-
     // 🚼 🚼 🚼
     BABY_SYMBOL(intArrayOf(0x1F6BC)),
-
     // 🚾 🚾 🚾
     WATER_CLOSET(intArrayOf(0x1F6BE)),
-
     // 🛂 🛂 🛂
     PASSPORT_CONTROL(intArrayOf(0x1F6C2)),
-
     // 🛃 🛃 🛃
     CUSTOMS(intArrayOf(0x1F6C3)),
-
     // 🛄 🛄 🛄
     BAGGAGE_CLAIM(intArrayOf(0x1F6C4)),
 
@@ -449,28 +369,20 @@ enum class Emoji3(
 
     // 🚸 🚸 🚸
     CHILDREN_CROSSING(intArrayOf(0x1F6B8)),
-
     // ⛔ ⛔ ⛔
     NO_ENTRY(intArrayOf(0x26D4)),
-
     // 🚫 🚫 🚫
     PROHIBITED(intArrayOf(0x1F6AB)),
-
     // 🚳 🚳 🚳
     NO_BICYCLES(intArrayOf(0x1F6B3)),
-
     // 🚭 🚭 🚭
     NO_SMOKING(intArrayOf(0x1F6AD)),
-
     // 🚯 🚯 🚯
     NO_LITTERING(intArrayOf(0x1F6AF)),
-
     // 🚱 🚱 🚱
     NON_POTABLE_WATER(intArrayOf(0x1F6B1)),
-
     // 🚷 🚷 🚷
     NO_PEDESTRIANS(intArrayOf(0x1F6B7)),
-
     // 📵 📵 📵
     NO_MOBILE_PHONES(intArrayOf(0x1F4F5)),
 
@@ -527,22 +439,16 @@ enum class Emoji3(
 
     // 🔃 🔃 🔃
     CLOCKWISE_VERTICAL_ARROWS(intArrayOf(0x1F503)),
-
     // 🔄 🔄 🔄
     COUNTERCLOCKWISE_ARROWS_BUTTON(intArrayOf(0x1F504)),
-
     // 🔙 🔙 🔙
     BACK_ARROW(intArrayOf(0x1F519)),
-
     // 🔚 🔚 🔚
     END_ARROW(intArrayOf(0x1F51A)),
-
     // 🔛 🔛 🔛
     ON_ARROW(intArrayOf(0x1F51B)),
-
     // 🔜 🔜 🔜
     SOON_ARROW(intArrayOf(0x1F51C)),
-
     // 🔝 🔝 🔝
     TOP_ARROW(intArrayOf(0x1F51D)),
 
@@ -578,52 +484,36 @@ enum class Emoji3(
 
     // 🕎 🕎 🕎
     MENORAH(intArrayOf(0x1F54E)),
-
     // 🔯 🔯 🔯
     DOTTED_SIX_POINTED_STAR(intArrayOf(0x1F52F)),
-
     // ♈ ♈ ♈
     ARIES(intArrayOf(0x2648)),
-
     // ♉ ♉ ♉
     TAURUS(intArrayOf(0x2649)),
-
     // ♊ ♊ ♊
     GEMINI(intArrayOf(0x264A)),
-
     // ♋ ♋ ♋
     CANCER(intArrayOf(0x264B)),
-
     // ♌ ♌ ♌
     LEO(intArrayOf(0x264C)),
-
     // ♍ ♍ ♍
     VIRGO(intArrayOf(0x264D)),
-
     // ♎ ♎ ♎
     LIBRA(intArrayOf(0x264E)),
-
     // ♏ ♏ ♏
     SCORPIO(intArrayOf(0x264F)),
-
     // ♐ ♐ ♐
     SAGITTARIUS(intArrayOf(0x2650)),
-
     // ♑ ♑ ♑
     CAPRICORN(intArrayOf(0x2651)),
-
     // ♒ ♒ ♒
     AQUARIUS(intArrayOf(0x2652)),
-
     // ♓ ♓ ♓
     PISCES(intArrayOf(0x2653)),
-
     // ⛎ ⛎ ⛎
     OPHIUCHUS(intArrayOf(0x26CE)),
-
     // 🔀 🔀 🔀
     SHUFFLE_TRACKS_BUTTON(intArrayOf(0x1F500)),
-
     // 🔁 🔁 🔁
     REPEAT_BUTTON(intArrayOf(0x1F501)),
 
@@ -653,10 +543,8 @@ enum class Emoji3(
 
     // 🔼 🔼 🔼
     UPWARDS_BUTTON(intArrayOf(0x1F53C)),
-
     // ⏫ ⏫ ⏫
     FAST_UP_BUTTON(intArrayOf(0x23EB)),
-
     // 🔽 🔽 🔽
     DOWNWARDS_BUTTON(intArrayOf(0x1F53D)),
 
@@ -677,16 +565,12 @@ enum class Emoji3(
 
     // 🎦 🎦 🎦
     CINEMA(intArrayOf(0x1F3A6)),
-
     // 🔅 🔅 🔅
     DIM_BUTTON(intArrayOf(0x1F505)),
-
     // 🔆 🔆 🔆
     BRIGHT_BUTTON(intArrayOf(0x1F506)),
-
     // 📶 📶 📶
     ANTENNA_BARS(intArrayOf(0x1F4F6)),
-
     // 📳 📳 📳
     VIBRATION_MODE(intArrayOf(0x1F4F3)),
 
@@ -707,10 +591,8 @@ enum class Emoji3(
 
     // ➕ ➕ ➕
     PLUS(intArrayOf(0x2795)),
-
     // ➖ ➖ ➖
     MINUS(intArrayOf(0x2796)),
-
     // ➗ ➗ ➗
     DIVIDE(intArrayOf(0x2797)),
 
@@ -728,10 +610,8 @@ enum class Emoji3(
 
     // ❓ ❓ ❓
     RED_QUESTION_MARK(intArrayOf(0x2753)),
-
     // ❔ ❔ ❔
     WHITE_QUESTION_MARK(intArrayOf(0x2754)),
-
     // ❕ ❕ ❕
     WHITE_EXCLAMATION_MARK(intArrayOf(0x2755)),
 
@@ -758,13 +638,10 @@ enum class Emoji3(
 
     // 🔱 🔱 🔱
     TRIDENT_EMBLEM(intArrayOf(0x1F531)),
-
     // 📛 📛 📛
     NAME_BADGE(intArrayOf(0x1F4DB)),
-
     // 🔰 🔰 🔰
     JAPANESE_SYMBOL_FOR_BEGINNER(intArrayOf(0x1F530)),
-
     // ⭕ ⭕ ⭕
     HOLLOW_RED_CIRCLE(intArrayOf(0x2B55)),
 
@@ -779,10 +656,8 @@ enum class Emoji3(
 
     // ❌ ❌ ❌
     CROSS_MARK(intArrayOf(0x274C)),
-
     // ❎ ❎ ❎
     CROSS_MARK_BUTTON(intArrayOf(0x274E)),
-
     // ➰ ➰ ➰
     CURLY_LOOP(intArrayOf(0x27B0)),
 
@@ -848,16 +723,12 @@ enum class Emoji3(
 
     // 🔟 🔟 🔟
     KEYCAP_10(intArrayOf(0x1F51F)),
-
     // 🔠 🔠 🔠
     INPUT_LATIN_UPPERCASE(intArrayOf(0x1F520)),
-
     // 🔡 🔡 🔡
     INPUT_LATIN_LOWERCASE(intArrayOf(0x1F521)),
-
     // 🔢 🔢 🔢
     INPUT_NUMBERS(intArrayOf(0x1F522)),
-
     // 🔣 🔣 🔣
     INPUT_SYMBOLS(intArrayOf(0x1F523)),
 
@@ -875,7 +746,6 @@ enum class Emoji3(
 
     // 🆑 🆑 🆑
     CL_BUTTON(intArrayOf(0x1F191)),
-
     // 🆒 🆒 🆒
     COOL_BUTTON(intArrayOf(0x1F192)),
 
@@ -908,10 +778,8 @@ enum class Emoji3(
 
     // 🆘 🆘 🆘
     SOS_BUTTON(intArrayOf(0x1F198)),
-
     // 🆙 🆙 🆙
     UP_BUTTON(intArrayOf(0x1F199)),
-
     // 🆚 🆚 🆚
     VS_BUTTON(intArrayOf(0x1F19A)),
 
@@ -926,28 +794,20 @@ enum class Emoji3(
 
     // 🈶 🈶 🈶
     JAPANESE_NOT_FREE_OF_CHARGE_BUTTON(intArrayOf(0x1F236)),
-
     // 🈯 🈯 🈯
     JAPANESE_RESERVED_BUTTON(intArrayOf(0x1F22F)),
-
     // 🉐 🉐 🉐
     JAPANESE_BARGAIN_BUTTON(intArrayOf(0x1F250)),
-
     // 🈹 🈹 🈹
     JAPANESE_DISCOUNT_BUTTON(intArrayOf(0x1F239)),
-
     // 🈚 🈚 🈚
     JAPANESE_FREE_OF_CHARGE_BUTTON(intArrayOf(0x1F21A)),
-
     // 🈲 🈲 🈲
     JAPANESE_PROHIBITED_BUTTON(intArrayOf(0x1F232)),
-
     // 🉑 🉑 🉑
     JAPANESE_ACCEPTABLE_BUTTON(intArrayOf(0x1F251)),
-
     // 🈸 🈸 🈸
     JAPANESE_APPLICATION_BUTTON(intArrayOf(0x1F238)),
-
     // 🈴 🈴 🈴
     JAPANESE_PASSING_GRADE_BUTTON(intArrayOf(0x1F234)),
 
@@ -962,58 +822,40 @@ enum class Emoji3(
 
     // 🈺 🈺 🈺
     JAPANESE_OPEN_FOR_BUSINESS_BUTTON(intArrayOf(0x1F23A)),
-
     // 🈵 🈵 🈵
     JAPANESE_NO_VACANCY_BUTTON(intArrayOf(0x1F235)),
-
     // 🔴 🔴 🔴
     RED_CIRCLE(intArrayOf(0x1F534)),
-
     // 🟠 🟠 🟠
     ORANGE_CIRCLE(intArrayOf(0x1F7E0)),
-
     // 🟡 🟡 🟡
     YELLOW_CIRCLE(intArrayOf(0x1F7E1)),
-
     // 🟢 🟢 🟢
     GREEN_CIRCLE(intArrayOf(0x1F7E2)),
-
     // 🔵 🔵 🔵
     BLUE_CIRCLE(intArrayOf(0x1F535)),
-
     // 🟣 🟣 🟣
     PURPLE_CIRCLE(intArrayOf(0x1F7E3)),
-
     // 🟤 🟤 🟤
     BROWN_CIRCLE(intArrayOf(0x1F7E4)),
-
     // ⚫ ⚫ ⚫
     BLACK_CIRCLE(intArrayOf(0x26AB)),
-
     // ⚪ ⚪ ⚪
     WHITE_CIRCLE(intArrayOf(0x26AA)),
-
     // 🟥 🟥 🟥
     RED_SQUARE(intArrayOf(0x1F7E5)),
-
     // 🟧 🟧 🟧
     ORANGE_SQUARE(intArrayOf(0x1F7E7)),
-
     // 🟨 🟨 🟨
     YELLOW_SQUARE(intArrayOf(0x1F7E8)),
-
     // 🟩 🟩 🟩
     GREEN_SQUARE(intArrayOf(0x1F7E9)),
-
     // 🟦 🟦 🟦
     BLUE_SQUARE(intArrayOf(0x1F7E6)),
-
     // 🟪 🟪 🟪
     PURPLE_SQUARE(intArrayOf(0x1F7EA)),
-
     // 🟫 🟫 🟫
     BROWN_SQUARE(intArrayOf(0x1F7EB)),
-
     // ⬛ ⬛ ⬛
     BLACK_LARGE_SQUARE(intArrayOf(0x2B1B)),
 
@@ -1040,40 +882,28 @@ enum class Emoji3(
 
     // 🔶 🔶 🔶
     LARGE_ORANGE_DIAMOND(intArrayOf(0x1F536)),
-
     // 🔷 🔷 🔷
     LARGE_BLUE_DIAMOND(intArrayOf(0x1F537)),
-
     // 🔸 🔸 🔸
     SMALL_ORANGE_DIAMOND(intArrayOf(0x1F538)),
-
     // 🔹 🔹 🔹
     SMALL_BLUE_DIAMOND(intArrayOf(0x1F539)),
-
     // 🔺 🔺 🔺
     RED_TRIANGLE_POINTED_UP(intArrayOf(0x1F53A)),
-
     // 🔻 🔻 🔻
     RED_TRIANGLE_POINTED_DOWN(intArrayOf(0x1F53B)),
-
     // 💠 💠 💠
     DIAMOND_WITH_A_DOT(intArrayOf(0x1F4A0)),
-
     // 🔘 🔘 🔘
     RADIO_BUTTON(intArrayOf(0x1F518)),
-
     // 🔳 🔳 🔳
     WHITE_SQUARE_BUTTON(intArrayOf(0x1F533)),
-
     // 🔲 🔲 🔲
     BLACK_SQUARE_BUTTON(intArrayOf(0x1F532)),
-
     // 🏁 🏁 🏁
     CHEQUERED_FLAG(intArrayOf(0x1F3C1)),
-
     // 🚩 🚩 🚩
     TRIANGULAR_FLAG(intArrayOf(0x1F6A9)),
-
     // 🎌 🎌 🎌
     CROSSED_FLAGS(intArrayOf(0x1F38C)),
 

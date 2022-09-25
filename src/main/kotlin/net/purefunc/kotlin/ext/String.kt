@@ -50,26 +50,30 @@ private val alphanumerics: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 /**
  * Encode Base64
  *
- * @param charset
- *
  * @return
  */
-fun ByteArray.encodeBase64(
-    charset: Charset = Charsets.UTF_8
-): String =
-    String(Base64.getEncoder().encode(this), charset)
+fun ByteArray.encodeBase64(): ByteArray =
+    Base64.getEncoder().encode(this)
 
 /**
  * Base64 Decode
  *
+ * @return
+ */
+fun ByteArray.base64Decode(): ByteArray =
+    Base64.getDecoder().decode(this)
+
+/**
+ * ByteArray toString
+ *
  * @param charset
  *
  * @return
  */
-fun String.base64Decode(
-    charset: Charset = Charsets.UTF_8
+fun ByteArray.string(
+    charset: Charset = Charsets.UTF_8,
 ): String =
-    String(Base64.getDecoder().decode(toByteArray()), charset)
+    String(this, charset)
 
 /**
  * Url Encode
@@ -79,7 +83,7 @@ fun String.base64Decode(
  * @return
  */
 fun String.urlEncode(
-    charset: Charset = Charsets.UTF_8
+    charset: Charset = Charsets.UTF_8,
 ): String =
     URLEncoder.encode(this, charset)
 
@@ -91,6 +95,6 @@ fun String.urlEncode(
  * @return
  */
 fun String.urlDecode(
-    charset: Charset = Charsets.UTF_8
+    charset: Charset = Charsets.UTF_8,
 ): String =
     URLDecoder.decode(this, charset)

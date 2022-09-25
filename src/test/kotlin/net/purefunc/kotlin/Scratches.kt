@@ -1,5 +1,6 @@
 package net.purefunc.kotlin
 
+import arrow.core.Either
 import net.purefunc.kotlin.ext.NullErr
 import net.purefunc.kotlin.ext.eitherCatchWhenRun
 
@@ -20,7 +21,14 @@ val foobar: (Foo) -> (Bar) =
     }
 
 fun main() {
-    Foo(0, "", "").run(foobar)
+    val bar1: Bar =
+        Foo(0, "", "")
+            .run(foobar)
 
-    Foo(0, "", "").eitherCatchWhenRun(NullErr) { foobar }
+    val bar2: Either<NullErr, Bar> =
+        Foo(0, "", "")
+            .eitherCatchWhenRun(
+                appErr = NullErr,
+                block = foobar,
+            )
 }

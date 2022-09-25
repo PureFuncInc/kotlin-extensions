@@ -5,58 +5,40 @@ enum class Emoji0(
 ) {
     // 😀 😀 😀
     GRINNING_FACE(intArrayOf(0x1F600)),
-
     // 😃 😃 😃
     GRINNING_FACE_WITH_BIG_EYES(intArrayOf(0x1F603)),
-
     // 😄 😄 😄
     GRINNING_FACE_WITH_SMILING_EYES(intArrayOf(0x1F604)),
-
     // 😁 😁 😁
     BEAMING_FACE_WITH_SMILING_EYES(intArrayOf(0x1F601)),
-
     // 😆 😆 😆
     GRINNING_SQUINTING_FACE(intArrayOf(0x1F606)),
-
     // 😅 😅 😅
     GRINNING_FACE_WITH_SWEAT(intArrayOf(0x1F605)),
-
     // 🤣 🤣 🤣
     ROLLING_ON_THE_FLOOR_LAUGHING(intArrayOf(0x1F923)),
-
     // 😂 😂 😂
     FACE_WITH_TEARS_OF_JOY(intArrayOf(0x1F602)),
-
     // 🙂 🙂 🙂
     SLIGHTLY_SMILING_FACE(intArrayOf(0x1F642)),
-
     // 🙃 🙃 🙃
     UPSIDE_DOWN_FACE(intArrayOf(0x1F643)),
-
     // 🫠 🫠 🫠
     MELTING_FACE(intArrayOf(0x1FAE0)),
-
     // 😉 😉 😉
     WINKING_FACE(intArrayOf(0x1F609)),
-
     // 😊 😊 😊
     SMILING_FACE_WITH_SMILING_EYES(intArrayOf(0x1F60A)),
-
     // 😇 😇 😇
     SMILING_FACE_WITH_HALO(intArrayOf(0x1F607)),
-
     // 🥰 🥰 🥰
     SMILING_FACE_WITH_HEARTS(intArrayOf(0x1F970)),
-
     // 😍 😍 😍
     SMILING_FACE_WITH_HEART_EYES(intArrayOf(0x1F60D)),
-
     // 🤩 🤩 🤩
     STAR_STRUCK(intArrayOf(0x1F929)),
-
     // 😘 😘 😘
     FACE_BLOWING_A_KISS(intArrayOf(0x1F618)),
-
     // 😗 😗 😗
     KISSING_FACE(intArrayOf(0x1F617)),
 
@@ -65,64 +47,44 @@ enum class Emoji0(
 
     // 😚 😚 😚
     KISSING_FACE_WITH_CLOSED_EYES(intArrayOf(0x1F61A)),
-
     // 😙 😙 😙
     KISSING_FACE_WITH_SMILING_EYES(intArrayOf(0x1F619)),
-
     // 🥲 🥲 🥲
     SMILING_FACE_WITH_TEAR(intArrayOf(0x1F972)),
-
     // 😋 😋 😋
     FACE_SAVORING_FOOD(intArrayOf(0x1F60B)),
-
     // 😛 😛 😛
     FACE_WITH_TONGUE(intArrayOf(0x1F61B)),
-
     // 😜 😜 😜
     WINKING_FACE_WITH_TONGUE(intArrayOf(0x1F61C)),
-
     // 🤪 🤪 🤪
     ZANY_FACE(intArrayOf(0x1F92A)),
-
     // 😝 😝 😝
     SQUINTING_FACE_WITH_TONGUE(intArrayOf(0x1F61D)),
-
     // 🤑 🤑 🤑
     MONEY_MOUTH_FACE(intArrayOf(0x1F911)),
-
     // 🤗 🤗 🤗
     SMILING_FACE_WITH_OPEN_HANDS(intArrayOf(0x1F917)),
-
     // 🤭 🤭 🤭
     FACE_WITH_HAND_OVER_MOUTH(intArrayOf(0x1F92D)),
-
     // 🫢 🫢 🫢
     FACE_WITH_OPEN_EYES_AND_HAND_OVER_MOUTH(intArrayOf(0x1FAE2)),
-
     // 🫣 🫣 🫣
     FACE_WITH_PEEKING_EYE(intArrayOf(0x1FAE3)),
-
     // 🤫 🤫 🤫
     SHUSHING_FACE(intArrayOf(0x1F92B)),
-
     // 🤔 🤔 🤔
     THINKING_FACE(intArrayOf(0x1F914)),
-
     // 🫡 🫡 🫡
     SALUTING_FACE(intArrayOf(0x1FAE1)),
-
     // 🤐 🤐 🤐
     ZIPPER_MOUTH_FACE(intArrayOf(0x1F910)),
-
     // 🤨 🤨 🤨
     FACE_WITH_RAISED_EYEBROW(intArrayOf(0x1F928)),
-
     // 😐 😐 😐
     NEUTRAL_FACE(intArrayOf(0x1F610)),
-
     // 😑 😑 😑
     EXPRESSIONLESS_FACE(intArrayOf(0x1F611)),
-
     // 😶 😶 😶
     FACE_WITHOUT_MOUTH(intArrayOf(0x1F636)),
 
@@ -134,10 +96,8 @@ enum class Emoji0(
 
     // 😏 😏 😏
     SMIRKING_FACE(intArrayOf(0x1F60F)),
-
     // 😒 😒 😒
     UNAMUSED_FACE(intArrayOf(0x1F612)),
-
     // 🙄 🙄 🙄
     FACE_WITH_ROLLING_EYES(intArrayOf(0x1F644)),
 
@@ -149,46 +109,32 @@ enum class Emoji0(
 
     // 🤥 🤥 🤥
     LYING_FACE(intArrayOf(0x1F925)),
-
     // 😌 😌 😌
     RELIEVED_FACE(intArrayOf(0x1F60C)),
-
     // 😔 😔 😔
     PENSIVE_FACE(intArrayOf(0x1F614)),
-
     // 😪 😪 😪
     SLEEPY_FACE(intArrayOf(0x1F62A)),
-
     // 🤤 🤤 🤤
     DROOLING_FACE(intArrayOf(0x1F924)),
-
     // 😴 😴 😴
     SLEEPING_FACE(intArrayOf(0x1F634)),
-
     // 😷 😷 😷
     FACE_WITH_MEDICAL_MASK(intArrayOf(0x1F637)),
-
     // 🤒 🤒 🤒
     FACE_WITH_THERMOMETER(intArrayOf(0x1F912)),
-
     // 🤕 🤕 🤕
     FACE_WITH_HEAD_BANDAGE(intArrayOf(0x1F915)),
-
     // 🤢 🤢 🤢
     NAUSEATED_FACE(intArrayOf(0x1F922)),
-
     // 🤮 🤮 🤮
     FACE_VOMITING(intArrayOf(0x1F92E)),
-
     // 🤧 🤧 🤧
     SNEEZING_FACE(intArrayOf(0x1F927)),
-
     // 🥵 🥵 🥵
     HOT_FACE(intArrayOf(0x1F975)),
-
     // 🥶 🥶 🥶
     COLD_FACE(intArrayOf(0x1F976)),
-
     // 🥴 🥴 🥴
     WOOZY_FACE(intArrayOf(0x1F974)),
 
@@ -200,31 +146,22 @@ enum class Emoji0(
 
     // 🤯 🤯 🤯
     EXPLODING_HEAD(intArrayOf(0x1F92F)),
-
     // 🤠 🤠 🤠
     COWBOY_HAT_FACE(intArrayOf(0x1F920)),
-
     // 🥳 🥳 🥳
     PARTYING_FACE(intArrayOf(0x1F973)),
-
     // 🥸 🥸 🥸
     DISGUISED_FACE(intArrayOf(0x1F978)),
-
     // 😎 😎 😎
     SMILING_FACE_WITH_SUNGLASSES(intArrayOf(0x1F60E)),
-
     // 🤓 🤓 🤓
     NERD_FACE(intArrayOf(0x1F913)),
-
     // 🧐 🧐 🧐
     FACE_WITH_MONOCLE(intArrayOf(0x1F9D0)),
-
     // 😕 😕 😕
     CONFUSED_FACE(intArrayOf(0x1F615)),
-
     // 🫤 🫤 🫤
     FACE_WITH_DIAGONAL_MOUTH(intArrayOf(0x1FAE4)),
-
     // 😟 😟 😟
     WORRIED_FACE(intArrayOf(0x1F61F)),
 
@@ -236,82 +173,56 @@ enum class Emoji0(
 
     // 😮 😮 😮
     FACE_WITH_OPEN_MOUTH(intArrayOf(0x1F62E)),
-
     // 😯 😯 😯
     HUSHED_FACE(intArrayOf(0x1F62F)),
-
     // 😲 😲 😲
     ASTONISHED_FACE(intArrayOf(0x1F632)),
-
     // 😳 😳 😳
     FLUSHED_FACE(intArrayOf(0x1F633)),
-
     // 🥺 🥺 🥺
     PLEADING_FACE(intArrayOf(0x1F97A)),
-
     // 🥹 🥹 🥹
     FACE_HOLDING_BACK_TEARS(intArrayOf(0x1F979)),
-
     // 😦 😦 😦
     FROWNING_FACE_WITH_OPEN_MOUTH(intArrayOf(0x1F626)),
-
     // 😧 😧 😧
     ANGUISHED_FACE(intArrayOf(0x1F627)),
-
     // 😨 😨 😨
     FEARFUL_FACE(intArrayOf(0x1F628)),
-
     // 😰 😰 😰
     ANXIOUS_FACE_WITH_SWEAT(intArrayOf(0x1F630)),
-
     // 😥 😥 😥
     SAD_BUT_RELIEVED_FACE(intArrayOf(0x1F625)),
-
     // 😢 😢 😢
     CRYING_FACE(intArrayOf(0x1F622)),
-
     // 😭 😭 😭
     LOUDLY_CRYING_FACE(intArrayOf(0x1F62D)),
-
     // 😱 😱 😱
     FACE_SCREAMING_IN_FEAR(intArrayOf(0x1F631)),
-
     // 😖 😖 😖
     CONFOUNDED_FACE(intArrayOf(0x1F616)),
-
     // 😣 😣 😣
     PERSEVERING_FACE(intArrayOf(0x1F623)),
-
     // 😞 😞 😞
     DISAPPOINTED_FACE(intArrayOf(0x1F61E)),
-
     // 😓 😓 😓
     DOWNCAST_FACE_WITH_SWEAT(intArrayOf(0x1F613)),
-
     // 😩 😩 😩
     WEARY_FACE(intArrayOf(0x1F629)),
-
     // 😫 😫 😫
     TIRED_FACE(intArrayOf(0x1F62B)),
-
     // 🥱 🥱 🥱
     YAWNING_FACE(intArrayOf(0x1F971)),
-
     // 😤 😤 😤
     FACE_WITH_STEAM_FROM_NOSE(intArrayOf(0x1F624)),
-
     // 😡 😡 😡
     POUTING_FACE(intArrayOf(0x1F621)),
-
     // 😠 😠 😠
     ANGRY_FACE(intArrayOf(0x1F620)),
-
     // 🤬 🤬 🤬
     FACE_WITH_SYMBOLS_ON_MOUTH(intArrayOf(0x1F92C)),
-
     // 😈 😈 😈
     SMILING_FACE_WITH_HORNS(intArrayOf(0x1F608)),
-
     // 👿 👿 👿
     ANGRY_FACE_WITH_HORNS(intArrayOf(0x1F47F)),
 
@@ -323,88 +234,60 @@ enum class Emoji0(
 
     // 💩 💩 💩
     PILE_OF_POO(intArrayOf(0x1F4A9)),
-
     // 🤡 🤡 🤡
     CLOWN_FACE(intArrayOf(0x1F921)),
-
     // 👹 👹 👹
     OGRE(intArrayOf(0x1F479)),
-
     // 👺 👺 👺
     GOBLIN(intArrayOf(0x1F47A)),
-
     // 👻 👻 👻
     GHOST(intArrayOf(0x1F47B)),
-
     // 👽 👽 👽
     ALIEN(intArrayOf(0x1F47D)),
-
     // 👾 👾 👾
     ALIEN_MONSTER(intArrayOf(0x1F47E)),
-
     // 🤖 🤖 🤖
     ROBOT(intArrayOf(0x1F916)),
-
     // 😺 😺 😺
     GRINNING_CAT(intArrayOf(0x1F63A)),
-
     // 😸 😸 😸
     GRINNING_CAT_WITH_SMILING_EYES(intArrayOf(0x1F638)),
-
     // 😹 😹 😹
     CAT_WITH_TEARS_OF_JOY(intArrayOf(0x1F639)),
-
     // 😻 😻 😻
     SMILING_CAT_WITH_HEART_EYES(intArrayOf(0x1F63B)),
-
     // 😼 😼 😼
     CAT_WITH_WRY_SMILE(intArrayOf(0x1F63C)),
-
     // 😽 😽 😽
     KISSING_CAT(intArrayOf(0x1F63D)),
-
     // 🙀 🙀 🙀
     WEARY_CAT(intArrayOf(0x1F640)),
-
     // 😿 😿 😿
     CRYING_CAT(intArrayOf(0x1F63F)),
-
     // 😾 😾 😾
     POUTING_CAT(intArrayOf(0x1F63E)),
-
     // 🙈 🙈 🙈
     SEE_NO_EVIL_MONKEY(intArrayOf(0x1F648)),
-
     // 🙉 🙉 🙉
     HEAR_NO_EVIL_MONKEY(intArrayOf(0x1F649)),
-
     // 🙊 🙊 🙊
     SPEAK_NO_EVIL_MONKEY(intArrayOf(0x1F64A)),
-
     // 💋 💋 💋
     KISS_MARK(intArrayOf(0x1F48B)),
-
     // 💌 💌 💌
     LOVE_LETTER(intArrayOf(0x1F48C)),
-
     // 💘 💘 💘
     HEART_WITH_ARROW(intArrayOf(0x1F498)),
-
     // 💝 💝 💝
     HEART_WITH_RIBBON(intArrayOf(0x1F49D)),
-
     // 💖 💖 💖
     SPARKLING_HEART(intArrayOf(0x1F496)),
-
     // 💗 💗 💗
     GROWING_HEART(intArrayOf(0x1F497)),
-
     // 💓 💓 💓
     BEATING_HEART(intArrayOf(0x1F493)),
-
     // 💞 💞 💞
     REVOLVING_HEARTS(intArrayOf(0x1F49E)),
-
     // 💕 💕 💕
     TWO_HEARTS(intArrayOf(0x1F495)),
 
@@ -428,40 +311,28 @@ enum class Emoji0(
 
     // 🧡 🧡 🧡
     ORANGE_HEART(intArrayOf(0x1F9E1)),
-
     // 💛 💛 💛
     YELLOW_HEART(intArrayOf(0x1F49B)),
-
     // 💚 💚 💚
     GREEN_HEART(intArrayOf(0x1F49A)),
-
     // 💙 💙 💙
     BLUE_HEART(intArrayOf(0x1F499)),
-
     // 💜 💜 💜
     PURPLE_HEART(intArrayOf(0x1F49C)),
-
     // 🤎 🤎 🤎
     BROWN_HEART(intArrayOf(0x1F90E)),
-
     // 🖤 🖤 🖤
     BLACK_HEART(intArrayOf(0x1F5A4)),
-
     // 🤍 🤍 🤍
     WHITE_HEART(intArrayOf(0x1F90D)),
-
     // 💯 💯 💯
     HUNDRED_POINTS(intArrayOf(0x1F4AF)),
-
     // 💢 💢 💢
     ANGER_SYMBOL(intArrayOf(0x1F4A2)),
-
     // 💥 💥 💥
     COLLISION(intArrayOf(0x1F4A5)),
-
     // 💫 💫 💫
     DIZZY(intArrayOf(0x1F4AB)),
-
     // 💦 💦 💦
     SWEAT_DROPLETS(intArrayOf(0x1F4A6)),
 
@@ -488,7 +359,6 @@ enum class Emoji0(
 
     // 💭 💭 💭
     THOUGHT_BALLOON(intArrayOf(0x1F4AD)),
-
     // 💤 💤 💤
     ZZZ(intArrayOf(0x1F4A4)),
 
@@ -1310,7 +1180,6 @@ enum class Emoji0(
 
     // 🦾 🦾 🦾
     MECHANICAL_ARM(intArrayOf(0x1F9BE)),
-
     // 🦿 🦿 🦿
     MECHANICAL_LEG(intArrayOf(0x1F9BF)),
 
@@ -1406,16 +1275,12 @@ enum class Emoji0(
 
     // 🧠 🧠 🧠
     BRAIN(intArrayOf(0x1F9E0)),
-
     // 🫀 🫀 🫀
     ANATOMICAL_HEART(intArrayOf(0x1FAC0)),
-
     // 🫁 🫁 🫁
     LUNGS(intArrayOf(0x1FAC1)),
-
     // 🦷 🦷 🦷
     TOOTH(intArrayOf(0x1F9B7)),
-
     // 🦴 🦴 🦴
     BONE(intArrayOf(0x1F9B4)),
 
@@ -1427,10 +1292,8 @@ enum class Emoji0(
 
     // 👅 👅 👅
     TONGUE(intArrayOf(0x1F445)),
-
     // 👄 👄 👄
     MOUTH(intArrayOf(0x1F444)),
-
     // 🫦 🫦 🫦
     BITING_LIP(intArrayOf(0x1FAE6)),
 

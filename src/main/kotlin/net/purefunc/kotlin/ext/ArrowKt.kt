@@ -19,24 +19,24 @@ open class AppErr(
 
 /*
  * next represent extended Either<L, R>
- * flat represent block return Either<L, R>
+ * flat represent λ return Either<L, R>
  *
- *     eitherCatchWhenApply -> receiver R           , block R.() -> T           , return Either<L, R>
- *      eitherNextWhenApply -> receiver Either<L, R>, block R.() -> T           , return Either<L, R>
- * flatEitherCatchWhenApply -> receiver R           , block R.() -> Either<L, T>, return Either<L, R>
- *  flatEitherNextWhenApply -> receiver Either<L, R>, block R.() -> Either<L, T>, return Either<L, R>
+ *     eitherCatchWhenApply -> receiver R           , λ R.() -> T           , return Either<L, R>
+ *      eitherNextWhenApply -> receiver Either<L, R>, λ R.() -> T           , return Either<L, R>
+ * flatEitherCatchWhenApply -> receiver R           , λ R.() -> Either<L, T>, return Either<L, R>
+ *  flatEitherNextWhenApply -> receiver Either<L, R>, λ R.() -> Either<L, T>, return Either<L, R>
  *
- *     eitherCatchWhenRun   -> receiver R           , block R.() -> T           , return Either<L, T>
- *      eitherNextWhenRun   -> receiver Either<L, R>, block R.() -> T           , return Either<L, T>
- * flatEitherCatchWhenRun   -> receiver R           , block R.() -> Either<L, T>, return Either<L, T>
- *  flatEitherNextWhenRun   -> receiver Either<L, R>, block R.() -> Either<L, T>, return Either<L, T>
+ *     eitherCatchWhenRun   -> receiver R           , λ R.() -> T           , return Either<L, T>
+ *      eitherNextWhenRun   -> receiver Either<L, R>, λ R.() -> T           , return Either<L, T>
+ * flatEitherCatchWhenRun   -> receiver R           , λ R.() -> Either<L, T>, return Either<L, T>
+ *  flatEitherNextWhenRun   -> receiver Either<L, R>, λ R.() -> Either<L, T>, return Either<L, T>
  *
  *
- *   validCatchErrWhenApply -> receiver R           , block R.() -> T           , return ValidatedNel<L, R>
- *    validNextErrWhenApply -> receiver Either<L, R>, block R.() -> T           , return ValidatedNel<L, R>
+ *   validCatchErrWhenApply -> receiver R           , λ R.() -> T           , return ValidatedNel<L, R>
+ *    validNextErrWhenApply -> receiver Either<L, R>, λ R.() -> T           , return ValidatedNel<L, R>
  *
- *   validCatchErrWhenRun   -> receiver R           , block R.() -> T           , return ValidatedNel<L, T>
- *    validNextErrWhenRun   -> receiver Either<L, R>, block R.() -> T           , return ValidatedNel<L, T>
+ *   validCatchErrWhenRun   -> receiver R           , λ R.() -> T           , return ValidatedNel<L, T>
+ *    validNextErrWhenRun   -> receiver Either<L, R>, λ R.() -> T           , return ValidatedNel<L, T>
  */
 
 /**
@@ -45,7 +45,7 @@ open class AppErr(
  * @param L
  * @param R
  * @param appErr
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -53,7 +53,7 @@ open class AppErr(
  */
 suspend fun <L : AppErr, R> R?.eitherCatchWhenNull(
     appErr: L,
-    block: suspend () -> Unit = {},
+    λ: suspend () -> Unit = {},
 ): Either<L, R> =
     toOption()
         .fold(
@@ -61,7 +61,7 @@ suspend fun <L : AppErr, R> R?.eitherCatchWhenNull(
                 appErr.left()
             },
             ifSome = {
-                block()
+                λ()
                 it.right()
             },
         )
@@ -72,7 +72,7 @@ suspend fun <L : AppErr, R> R?.eitherCatchWhenNull(
  * @param L
  * @param R
  * @param appErr
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -80,9 +80,9 @@ suspend fun <L : AppErr, R> R?.eitherCatchWhenNull(
  */
 suspend fun <L : AppErr, R> R.eitherCatchWhenTrue(
     appErr: L,
-    block: suspend (R) -> Boolean,
+    λ: suspend (R) -> Boolean,
 ): Either<L, R> =
-    if (block(this)) appErr.left()
+    if (λ(this)) appErr.left()
     else right()
 
 /**
@@ -93,7 +93,7 @@ suspend fun <L : AppErr, R> R.eitherCatchWhenTrue(
  * @param T
  * @param appErr
  * @param printTrace
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -102,10 +102,10 @@ suspend fun <L : AppErr, R> R.eitherCatchWhenTrue(
 inline fun <L : AppErr, reified R, T> R.eitherCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
-    block: R.() -> T,
+    λ: R.() -> T,
 ): Either<L, R> =
     try {
-        block()
+        λ()
         right()
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
@@ -120,7 +120,7 @@ inline fun <L : AppErr, reified R, T> R.eitherCatchWhenApply(
  * @param T
  * @param appErr
  * @param printTrace
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -129,10 +129,10 @@ inline fun <L : AppErr, reified R, T> R.eitherCatchWhenApply(
 inline fun <L : AppErr, reified R, T> R.eitherCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
-    block: R.() -> T,
+    λ: R.() -> T,
 ): Either<L, T> =
     try {
-        block().right()
+        λ().right()
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
         appErr.left()
@@ -144,7 +144,7 @@ inline fun <L : AppErr, reified R, T> R.eitherCatchWhenRun(
  * @param L
  * @param R
  * @param appErr
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -152,10 +152,10 @@ inline fun <L : AppErr, reified R, T> R.eitherCatchWhenRun(
  */
 suspend fun <L : AppErr, R> Either<L, R?>.eitherNextWhenNull(
     appErr: L,
-    block: suspend () -> Unit = {},
+    λ: suspend () -> Unit = {},
 ): Either<L, R> =
     flatMap {
-        it.eitherCatchWhenNull(appErr, block)
+        it.eitherCatchWhenNull(appErr, λ)
     }
 
 /**
@@ -164,7 +164,7 @@ suspend fun <L : AppErr, R> Either<L, R?>.eitherNextWhenNull(
  * @param L
  * @param R
  * @param appErr
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -172,10 +172,10 @@ suspend fun <L : AppErr, R> Either<L, R?>.eitherNextWhenNull(
  */
 suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenTrue(
     appErr: L,
-    block: suspend (R) -> Boolean,
+    λ: suspend (R) -> Boolean,
 ): Either<L, R> =
     flatMap {
-        it.eitherCatchWhenTrue(appErr, block)
+        it.eitherCatchWhenTrue(appErr, λ)
     }
 
 /**
@@ -186,7 +186,7 @@ suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenTrue(
  * @param T
  * @param appErr
  * @param printTrace
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -195,10 +195,10 @@ suspend fun <L : AppErr, R> Either<L, R>.eitherNextWhenTrue(
 inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
-    block: R.() -> T,
+    λ: R.() -> T,
 ): Either<L, R> =
     flatMap {
-        it.eitherCatchWhenApply(appErr, printTrace, block)
+        it.eitherCatchWhenApply(appErr, printTrace, λ)
     }
 
 /**
@@ -209,7 +209,7 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenApply(
  * @param T
  * @param appErr
  * @param printTrace
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -218,10 +218,10 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenApply(
 inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
-    block: R.() -> T,
+    λ: R.() -> T,
 ): Either<L, T> =
     flatMap {
-        it.eitherCatchWhenRun(appErr, printTrace, block)
+        it.eitherCatchWhenRun(appErr, printTrace, λ)
     }
 
 /**
@@ -229,15 +229,15 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextWhenRun(
  *
  * @param L
  * @param R
- * @param block
+ * @param λ
  *
  * @receiver
  *
  * @return
  */
 inline fun <L : AppErr, reified R> Either<L, R>.eitherNextUnit(
-    block: () -> Either<L, Unit> = { Unit.right() },
-): Either<L, Unit> = block()
+    λ: () -> Either<L, Unit> = { Unit.right() },
+): Either<L, Unit> = λ()
 
 /**
  * Flat Either Catch When Apply
@@ -245,16 +245,16 @@ inline fun <L : AppErr, reified R> Either<L, R>.eitherNextUnit(
  * @param L
  * @param R
  * @param T
- * @param block
+ * @param λ
  *
  * @receiver
  *
  * @return
  */
 inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenApply(
-    block: R.() -> T,
+    λ: R.() -> T,
 ): Either<L, R> = run {
-    block()
+    λ()
     right()
 }
 
@@ -264,15 +264,15 @@ inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenApply(
  * @param L
  * @param R
  * @param T
- * @param block
+ * @param λ
  *
  * @receiver
  *
  * @return
  */
 inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
-    block: R.() -> Either<L, T>,
-): Either<L, T> = block()
+    λ: R.() -> Either<L, T>,
+): Either<L, T> = λ()
 
 /**
  * Flat Either Next When Apply
@@ -280,17 +280,17 @@ inline fun <L : AppErr, reified R, T> R.flatEitherCatchWhenRun(
  * @param L
  * @param R
  * @param T
- * @param block
+ * @param λ
  *
  * @receiver
  *
  * @return
  */
 inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
-    block: R.() -> Either<L, T>,
+    λ: R.() -> Either<L, T>,
 ): Either<L, R> =
     flatMap {
-        it.flatEitherCatchWhenApply(block)
+        it.flatEitherCatchWhenApply(λ)
     }
 
 /**
@@ -299,17 +299,17 @@ inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenApply(
  * @param L
  * @param R
  * @param T
- * @param block
+ * @param λ
  *
  * @receiver
  *
  * @return
  */
 inline fun <L : AppErr, reified R, T> Either<L, R>.flatEitherNextWhenRun(
-    block: R.() -> Either<L, T>,
+    λ: R.() -> Either<L, T>,
 ): Either<L, T> =
     flatMap {
-        it.flatEitherCatchWhenRun(block)
+        it.flatEitherCatchWhenRun(λ)
     }
 
 /**
@@ -333,7 +333,7 @@ fun <L : AppErr> zipAllEithers(
  * @param L
  * @param R
  * @param appErr
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -341,7 +341,7 @@ fun <L : AppErr> zipAllEithers(
  */
 suspend fun <L : AppErr, R> R?.validCatchWhenNull(
     appErr: L,
-    block: suspend () -> Unit = {},
+    λ: suspend () -> Unit = {},
 ): ValidatedNel<L, R> =
     toOption()
         .fold(
@@ -349,7 +349,7 @@ suspend fun <L : AppErr, R> R?.validCatchWhenNull(
                 appErr.invalid()
             },
             ifSome = {
-                block()
+                λ()
                 it.valid()
             },
         ).toValidatedNel()
@@ -360,7 +360,7 @@ suspend fun <L : AppErr, R> R?.validCatchWhenNull(
  * @param L
  * @param R
  * @param appErr
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -368,9 +368,9 @@ suspend fun <L : AppErr, R> R?.validCatchWhenNull(
  */
 suspend fun <L : AppErr, R> R.validCatchWhenTrue(
     appErr: L,
-    block: suspend (R) -> Boolean,
+    λ: suspend (R) -> Boolean,
 ): ValidatedNel<L, R> =
-    (if (block(this)) appErr.invalid() else valid()).toValidatedNel()
+    (if (λ(this)) appErr.invalid() else valid()).toValidatedNel()
 
 /**
  * Valid Catch When Apply
@@ -380,7 +380,7 @@ suspend fun <L : AppErr, R> R.validCatchWhenTrue(
  * @param T
  * @param appErr
  * @param printTrace
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -389,10 +389,10 @@ suspend fun <L : AppErr, R> R.validCatchWhenTrue(
 inline fun <L : AppErr, reified R, T> R.validCatchWhenApply(
     appErr: L,
     printTrace: Boolean = false,
-    block: R.() -> T,
+    λ: R.() -> T,
 ): ValidatedNel<L, R> =
     try {
-        block()
+        λ()
         valid()
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
@@ -407,7 +407,7 @@ inline fun <L : AppErr, reified R, T> R.validCatchWhenApply(
  * @param T
  * @param appErr
  * @param printTrace
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -416,10 +416,10 @@ inline fun <L : AppErr, reified R, T> R.validCatchWhenApply(
 inline fun <L : AppErr, reified R, T> R.validCatchWhenRun(
     appErr: L,
     printTrace: Boolean = false,
-    block: R.() -> T,
+    λ: R.() -> T,
 ): ValidatedNel<L, T> =
     try {
-        block().valid()
+        λ().valid()
     } catch (tw: Throwable) {
         if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
         appErr.invalid()
@@ -433,7 +433,7 @@ typealias EitherNel<A, B> = Either<Nel<A>, B>
  * @param L
  * @param R
  * @param appErr
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -441,10 +441,10 @@ typealias EitherNel<A, B> = Either<Nel<A>, B>
  */
 suspend fun <L : AppErr, R> EitherNel<L, R?>.validNextWhenNull(
     appErr: L,
-    block: suspend () -> Unit = {},
+    λ: suspend () -> Unit = {},
 ): EitherNel<L, R> =
     flatMap {
-        it.validCatchWhenNull(appErr, block).toEither()
+        it.validCatchWhenNull(appErr, λ).toEither()
     }
 
 /**
@@ -453,7 +453,7 @@ suspend fun <L : AppErr, R> EitherNel<L, R?>.validNextWhenNull(
  * @param L
  * @param R
  * @param appErr
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -461,10 +461,10 @@ suspend fun <L : AppErr, R> EitherNel<L, R?>.validNextWhenNull(
  */
 suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenTrue(
     appErr: L,
-    block: suspend (R) -> Boolean,
+    λ: suspend (R) -> Boolean,
 ): EitherNel<L, R> =
     flatMap {
-        it.validCatchWhenTrue(appErr, block).toEither()
+        it.validCatchWhenTrue(appErr, λ).toEither()
     }
 
 /**
@@ -475,7 +475,7 @@ suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenTrue(
  * @param T
  * @param appErr
  * @param printTrace
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -484,10 +484,10 @@ suspend fun <L : AppErr, R> EitherNel<L, R>.validNextWhenTrue(
 inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenApply(
     appErr: L,
     printTrace: Boolean = false,
-    block: R.() -> T,
+    λ: R.() -> T,
 ): EitherNel<L, R> =
     flatMap {
-        it.validCatchWhenApply(appErr, printTrace, block).toEither()
+        it.validCatchWhenApply(appErr, printTrace, λ).toEither()
     }
 
 /**
@@ -498,7 +498,7 @@ inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenApply(
  * @param T
  * @param appErr
  * @param printTrace
- * @param block
+ * @param λ
  *
  * @receiver
  *
@@ -507,10 +507,10 @@ inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenApply(
 inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextWhenRun(
     appErr: L,
     printTrace: Boolean = false,
-    block: R.() -> T,
+    λ: R.() -> T,
 ): EitherNel<L, T> =
     flatMap {
-        it.validCatchWhenRun(appErr, printTrace, block).toEither()
+        it.validCatchWhenRun(appErr, printTrace, λ).toEither()
     }
 
 /**

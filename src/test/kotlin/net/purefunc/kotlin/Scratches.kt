@@ -29,6 +29,6 @@ fun main() {
         Foo(0, "", "")
             .eitherCatchWhenRun(
                 appErr = NullErr,
-                block = foobar,
+                λ = foobar,
             )
 }

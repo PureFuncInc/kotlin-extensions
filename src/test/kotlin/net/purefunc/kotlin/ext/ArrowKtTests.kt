@@ -4,6 +4,31 @@ import arrow.core.Either
 import arrow.core.Nel
 import arrow.core.ValidatedNel
 import kotlinx.coroutines.runBlocking
+import net.purefunc.kotlin.arrow.AppErr
+import net.purefunc.kotlin.arrow.EitherNel
+import net.purefunc.kotlin.arrow.eitherApply
+import net.purefunc.kotlin.arrow.eitherNextApply
+import net.purefunc.kotlin.arrow.eitherNextNull
+import net.purefunc.kotlin.arrow.eitherNextRun
+import net.purefunc.kotlin.arrow.eitherNextTrue
+import net.purefunc.kotlin.arrow.eitherNextUnit
+import net.purefunc.kotlin.arrow.eitherNull
+import net.purefunc.kotlin.arrow.eitherRun
+import net.purefunc.kotlin.arrow.eitherTrue
+import net.purefunc.kotlin.arrow.flatEitherApply
+import net.purefunc.kotlin.arrow.flatEitherNextApply
+import net.purefunc.kotlin.arrow.flatEitherNextRun
+import net.purefunc.kotlin.arrow.flatEitherRun
+import net.purefunc.kotlin.arrow.validApply
+import net.purefunc.kotlin.arrow.validNextApply
+import net.purefunc.kotlin.arrow.validNextNull
+import net.purefunc.kotlin.arrow.validNextRun
+import net.purefunc.kotlin.arrow.validNextTrue
+import net.purefunc.kotlin.arrow.validNull
+import net.purefunc.kotlin.arrow.validRun
+import net.purefunc.kotlin.arrow.validTrue
+import net.purefunc.kotlin.arrow.zipAllEithers
+import net.purefunc.kotlin.arrow.zipAllValids
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -121,19 +146,45 @@ class ArrowKtTests {
                     .eitherNextApply(OutBoundErr) { listOf(this)[0] }
                     .eitherNextRun(CastClassErr) { listOf(this) }
             Assertions.assertEquals(list.toMutableList(), eitherRight.assertEitherRight())
+
+            val eitherRightUnit: Either<AppErr, Unit> =
+                map["key1"]
+                    .eitherNull(NullErr)
+                    .eitherNextTrue(AssertErr) { it.length < 3 }
+                    .eitherNextApply(OutBoundErr) { listOf(this)[0] }
+                    .eitherNextRun(CastClassErr) { listOf(this) }
+                    .eitherNextUnit()
+            eitherRightUnit.assertEitherRight()
         }
 
     @Test
     internal fun `test flatEitherNext series`() =
         runBlocking {
+            val flatEitherApply: Either<AppErr, Map<String, String>> =
+                map.flatEitherApply {
+                    this["key1"].eitherTrue(AssertErr) { it!!.length > 2 }
+                }.flatEitherNextApply {
+                    this["key2"].eitherNull(NullErr)
+                }
+            flatEitherApply.assertEitherRight()
+
             val flatEitherRun: Either<AppErr, String> =
-                flatEitherRun {
-                    map["key1"].eitherTrue(AssertErr) { it!!.length > 2 }
+                map.flatEitherRun {
+                    this["key1"].eitherTrue(AssertErr) { it!!.length > 2 }
                 }.flatEitherNextRun {
                     map[this].eitherNull(NullErr)
                 }
             Assertions.assertEquals("E500002", flatEitherRun.assertEitherLeft().code)
             Assertions.assertEquals("Assert", flatEitherRun.assertEitherLeft().message)
+
+            val flatEitherNextRun: Either<AppErr, String> =
+                map.flatEitherRun {
+                    this["key1"].eitherTrue(AssertErr) { it!!.length < 2 }
+                }.flatEitherNextRun {
+                    map[this].eitherNull(NullErr)
+                }
+            Assertions.assertEquals("E500001", flatEitherNextRun.assertEitherLeft().code)
+            Assertions.assertEquals("Null", flatEitherNextRun.assertEitherLeft().message)
         }
 
     private inline fun <reified A, B> ValidatedNel<A, B>.assertValidateNelLeft(): Nel<A> =
@@ -201,14 +252,15 @@ class ArrowKtTests {
                     validatedRightTrue,
                     validatedRightApply,
                     validatedRightRun,
-                ).validNextNull(NullErr) {
-                }.validNextTrue(AssertErr) {
-                    it.isEmpty()
-                }.validNextApply(OutBoundErr) {
-                    this[0]
-                }.validNextRun(CastClassErr) {
-                    this as Map<*, *>
-                }
+                )
+                    .validNextNull(NullErr)
+                    .validNextTrue(AssertErr) {
+                        it.isEmpty()
+                    }.validNextApply(OutBoundErr) {
+                        this[0]
+                    }.validNextRun(CastClassErr) {
+                        this as Map<*, *>
+                    }
 
             Assertions.assertEquals(1, validLeftRun.assertEitherLeft().size)
             Assertions.assertEquals("E500004", validLeftRun.assertEitherLeft()[0].code)

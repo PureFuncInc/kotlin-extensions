@@ -1,5 +1,7 @@
 package net.purefunc.kotlin.ext
 
+import net.purefunc.kotlin.arrow.AppErr
+
 sealed class TestErr {
 
     object NullEntry : AppErr("E500001", "Null")

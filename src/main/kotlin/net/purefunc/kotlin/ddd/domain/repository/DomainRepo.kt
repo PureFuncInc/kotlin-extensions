@@ -1,9 +1,9 @@
 package net.purefunc.kotlin.ddd.domain.repository
 
 import arrow.core.Either
+import net.purefunc.kotlin.arrow.AppErr
 import net.purefunc.kotlin.ddd.domain.entity.DomainAggRoot
 import net.purefunc.kotlin.ddd.domain.entity.DomainEntityId
-import net.purefunc.kotlin.ext.AppErr
 
 interface DomainRepo<ID : DomainEntityId, R : DomainAggRoot<ID>, E : AppErr> {
 

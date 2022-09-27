@@ -1,4 +1,4 @@
-package net.purefunc.kotlin.ext
+package net.purefunc.kotlin.arrow
 
 import arrow.core.Either
 import arrow.core.Nel
@@ -27,14 +27,14 @@ class ArrowKtTests {
     @Test
     internal fun `test eitherCatch series`() =
         runBlocking {
-            val eitherLeftNull: Either<AppErr, String> = map["key2"].eitherCatchWhenNull(NullErr)
-            val eitherLeftTrue: Either<AppErr, String?> = map["key1"].eitherCatchWhenTrue(AssertErr) { it!!.length > 3 }
-            val eitherLeftApply: Either<AppErr, List<String>> = list.eitherCatchWhenApply(OutBoundErr) { this[100] }
-            val eitherLeftRun: Either<AppErr, Map<*, *>> = list.eitherCatchWhenRun(CastClassErr) { this as Map<*, *> }
-            val eitherRightNull: Either<AppErr, String> = map["key1"].eitherCatchWhenNull(NullErr)
-            val eitherRightTrue: Either<AppErr, String?> = map["key1"].eitherCatchWhenTrue(AssertErr) { it!!.length < 3 }
-            val eitherRightApply: Either<AppErr, List<String>> = list.eitherCatchWhenApply(OutBoundErr) { this[0] }
-            val eitherRightRun: Either<AppErr, MutableList<String>> = list.eitherCatchWhenRun(CastClassErr) { this as MutableList<String> }
+            val eitherLeftNull: Either<AppErr, String> = map["key2"].eitherNull(NullErr)
+            val eitherLeftTrue: Either<AppErr, String?> = map["key1"].eitherTrue(AssertErr) { it!!.length > 3 }
+            val eitherLeftApply: Either<AppErr, List<String>> = list.eitherApply(OutBoundErr) { this[100] }
+            val eitherLeftRun: Either<AppErr, Map<*, *>> = list.eitherRun(CastClassErr) { this as Map<*, *> }
+            val eitherRightNull: Either<AppErr, String> = map["key1"].eitherNull(NullErr)
+            val eitherRightTrue: Either<AppErr, String?> = map["key1"].eitherTrue(AssertErr) { it!!.length < 3 }
+            val eitherRightApply: Either<AppErr, List<String>> = list.eitherApply(OutBoundErr) { this[0] }
+            val eitherRightRun: Either<AppErr, MutableList<String>> = list.eitherRun(CastClassErr) { this as MutableList<String> }
 
             Assertions.assertEquals("E500001", eitherLeftNull.assertEitherLeft().code)
             Assertions.assertEquals("Null", eitherLeftNull.assertEitherLeft().message)
@@ -86,54 +86,80 @@ class ArrowKtTests {
         runBlocking {
             val eitherLeftNull: Either<AppErr, String> =
                 map["key2"]
-                    .eitherCatchWhenTrue(AssertErr) { it != null }
-                    .eitherNextWhenNull(NullErr) // <- fail here
+                    .eitherTrue(AssertErr) { it != null }
+                    .eitherNextNull(NullErr) // <- fail here
             Assertions.assertEquals("E500001", eitherLeftNull.assertEitherLeft().code)
             Assertions.assertEquals("Null", eitherLeftNull.assertEitherLeft().message)
 
             val eitherLeftTrue: Either<AppErr, String> =
                 map["key1"]
-                    .eitherCatchWhenNull(NullErr)
-                    .eitherNextWhenTrue(AssertErr) { it.length > 3 } // <- fail here
+                    .eitherNull(NullErr)
+                    .eitherNextTrue(AssertErr) { it.length > 3 } // <- fail here
             Assertions.assertEquals("E500002", eitherLeftTrue.assertEitherLeft().code)
             Assertions.assertEquals("Assert", eitherLeftTrue.assertEitherLeft().message)
 
             val eitherLeftApply: Either<AppErr, String> = map["key1"]
-                .eitherCatchWhenNull(NullErr)
-                .eitherNextWhenTrue(AssertErr) { it.length < 3 }
-                .eitherNextWhenApply(OutBoundErr) { listOf(this)[1] } // <- fail here
+                .eitherNull(NullErr)
+                .eitherNextTrue(AssertErr) { it.length < 3 }
+                .eitherNextApply(OutBoundErr) { listOf(this)[1] } // <- fail here
             Assertions.assertEquals("E500003", eitherLeftApply.assertEitherLeft().code)
             Assertions.assertEquals("Out Bound", eitherLeftApply.assertEitherLeft().message)
 
             val eitherLeftRun: Either<AppErr, Map<*, *>> =
                 map["key1"]
-                    .eitherCatchWhenNull(NullErr)
-                    .eitherNextWhenTrue(AssertErr) { it.length < 3 }
-                    .eitherNextWhenApply(OutBoundErr) { listOf(this)[0] }
-                    .eitherNextWhenRun(CastClassErr) { listOf(this) as Map<*, *> } // <- fail here
+                    .eitherNull(NullErr)
+                    .eitherNextTrue(AssertErr) { it.length < 3 }
+                    .eitherNextApply(OutBoundErr) { listOf(this)[0] }
+                    .eitherNextRun(CastClassErr) { listOf(this) as Map<*, *> } // <- fail here
             Assertions.assertEquals("E500004", eitherLeftRun.assertEitherLeft().code)
             Assertions.assertEquals("Cast Class", eitherLeftRun.assertEitherLeft().message)
 
             val eitherRight: Either<AppErr, List<*>> =
                 map["key1"]
-                    .eitherCatchWhenNull(NullErr)
-                    .eitherNextWhenTrue(AssertErr) { it.length < 3 }
-                    .eitherNextWhenApply(OutBoundErr) { listOf(this)[0] }
-                    .eitherNextWhenRun(CastClassErr) { listOf(this) }
+                    .eitherNull(NullErr)
+                    .eitherNextTrue(AssertErr) { it.length < 3 }
+                    .eitherNextApply(OutBoundErr) { listOf(this)[0] }
+                    .eitherNextRun(CastClassErr) { listOf(this) }
             Assertions.assertEquals(list.toMutableList(), eitherRight.assertEitherRight())
+
+            val eitherRightUnit: Either<AppErr, Unit> =
+                map["key1"]
+                    .eitherNull(NullErr)
+                    .eitherNextTrue(AssertErr) { it.length < 3 }
+                    .eitherNextApply(OutBoundErr) { listOf(this)[0] }
+                    .eitherNextRun(CastClassErr) { listOf(this) }
+                    .eitherNextUnit()
+            eitherRightUnit.assertEitherRight()
         }
 
     @Test
     internal fun `test flatEitherNext series`() =
         runBlocking {
+            val flatEitherApply: Either<AppErr, Map<String, String>> =
+                map.flatEitherApply {
+                    this["key1"].eitherTrue(AssertErr) { it!!.length > 2 }
+                }.flatEitherNextApply {
+                    this["key2"].eitherNull(NullErr)
+                }
+            flatEitherApply.assertEitherRight()
+
             val flatEitherRun: Either<AppErr, String> =
-                flatEitherCatchWhenRun {
-                    map["key1"].eitherCatchWhenTrue(AssertErr) { it!!.length > 2 }
-                }.flatEitherNextWhenRun {
-                    map[this].eitherCatchWhenNull(NullErr)
+                map.flatEitherRun {
+                    this["key1"].eitherTrue(AssertErr) { it!!.length > 2 }
+                }.flatEitherNextRun {
+                    map[this].eitherNull(NullErr)
                 }
             Assertions.assertEquals("E500002", flatEitherRun.assertEitherLeft().code)
             Assertions.assertEquals("Assert", flatEitherRun.assertEitherLeft().message)
+
+            val flatEitherNextRun: Either<AppErr, String> =
+                map.flatEitherRun {
+                    this["key1"].eitherTrue(AssertErr) { it!!.length < 2 }
+                }.flatEitherNextRun {
+                    map[this].eitherNull(NullErr)
+                }
+            Assertions.assertEquals("E500001", flatEitherNextRun.assertEitherLeft().code)
+            Assertions.assertEquals("Null", flatEitherNextRun.assertEitherLeft().message)
         }
 
     private inline fun <reified A, B> ValidatedNel<A, B>.assertValidateNelLeft(): Nel<A> =
@@ -151,14 +177,14 @@ class ArrowKtTests {
     @Test
     internal fun `test validCatch and validNext series`() =
         runBlocking {
-            val validatedLeftNull: ValidatedNel<NullErr, String> = map["key2"].validCatchWhenNull(NullErr)
-            val validatedLeftTrue: ValidatedNel<AssertErr, String?> = map["key1"].validCatchWhenTrue(AssertErr) { it!!.length > 3 }
-            val validatedLeftApply: ValidatedNel<OutBoundErr, List<String>> = list.validCatchWhenApply(OutBoundErr) { this[100] }
-            val validatedLeftRun: ValidatedNel<CastClassErr, Map<*, *>> = list.validCatchWhenRun(CastClassErr) { this as Map<*, *> }
-            val validatedRightNull: ValidatedNel<NullErr, String> = map["key1"].validCatchWhenNull(NullErr)
-            val validatedRightTrue: ValidatedNel<AssertErr, String?> = map["key1"].validCatchWhenTrue(AssertErr) { it!!.length < 3 }
-            val validatedRightApply: ValidatedNel<OutBoundErr, List<String>> = list.validCatchWhenApply(OutBoundErr) { this[0] }
-            val validatedRightRun: ValidatedNel<CastClassErr, MutableList<String>> = list.validCatchWhenRun(CastClassErr) { this as MutableList<String> }
+            val validatedLeftNull: ValidatedNel<NullErr, String> = map["key2"].validNull(NullErr)
+            val validatedLeftTrue: ValidatedNel<AssertErr, String?> = map["key1"].validTrue(AssertErr) { it!!.length > 3 }
+            val validatedLeftApply: ValidatedNel<OutBoundErr, List<String>> = list.validApply(OutBoundErr) { this[100] }
+            val validatedLeftRun: ValidatedNel<CastClassErr, Map<*, *>> = list.validRun(CastClassErr) { this as Map<*, *> }
+            val validatedRightNull: ValidatedNel<NullErr, String> = map["key1"].validNull(NullErr)
+            val validatedRightTrue: ValidatedNel<AssertErr, String?> = map["key1"].validTrue(AssertErr) { it!!.length < 3 }
+            val validatedRightApply: ValidatedNel<OutBoundErr, List<String>> = list.validApply(OutBoundErr) { this[0] }
+            val validatedRightRun: ValidatedNel<CastClassErr, MutableList<String>> = list.validRun(CastClassErr) { this as MutableList<String> }
 
             Assertions.assertEquals("E500001", validatedLeftNull.assertValidateNelLeft()[0].code)
             Assertions.assertEquals("Null", validatedLeftNull.assertValidateNelLeft()[0].message)
@@ -201,14 +227,15 @@ class ArrowKtTests {
                     validatedRightTrue,
                     validatedRightApply,
                     validatedRightRun,
-                ).validNextWhenNull(NullErr) {
-                }.validNextWhenTrue(AssertErr) {
-                    it.isEmpty()
-                }.validNextWhenApply(OutBoundErr) {
-                    this[0]
-                }.validNextWhenRun(CastClassErr) {
-                    this as Map<*, *>
-                }
+                )
+                    .validNextNull(NullErr)
+                    .validNextTrue(AssertErr) {
+                        it.isEmpty()
+                    }.validNextApply(OutBoundErr) {
+                        this[0]
+                    }.validNextRun(CastClassErr) {
+                        this as Map<*, *>
+                    }
 
             Assertions.assertEquals(1, validLeftRun.assertEitherLeft().size)
             Assertions.assertEquals("E500004", validLeftRun.assertEitherLeft()[0].code)

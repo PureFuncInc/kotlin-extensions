@@ -2,6 +2,9 @@ package net.purefunc.kotlin.ext
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.OffsetDateTime
 import java.util.concurrent.TimeUnit
 
 class TimeTests {
@@ -25,5 +28,15 @@ class TimeTests {
         val plus10Millis = now.shift(10, TimeUnit.MILLISECONDS)
 
         Assertions.assertEquals(now - 10, plus10Millis - 20)
+    }
+
+    @Test
+    internal fun `test format & parse`() {
+        val offsetNow = OffsetDateTime.now()
+        Assertions.assertEquals(offsetNow, offsetNow.string().toOffsetDateTime())
+        val localNow = LocalDateTime.now()
+        Assertions.assertEquals(localNow, localNow.string().toLocalDateTime())
+        val timeNow = LocalTime.now()
+        Assertions.assertEquals(timeNow, timeNow.string().toLocalTime())
     }
 }

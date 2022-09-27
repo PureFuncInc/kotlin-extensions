@@ -20,4 +20,6 @@ package net.purefunc.kotlin.arrow
  *
  *            validRun  R            , R.() -> T            , ValidatedNel<L, T>
  *        validNextRun  Either<L, R> , R.() -> T            , ValidatedNel<L, T>
+ *
+ * Notice: receiver without Either may cause exception, but I think this part is not responsibility for this framework
  */

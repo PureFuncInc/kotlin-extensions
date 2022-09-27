@@ -2,8 +2,8 @@ package net.purefunc.kotlin
 
 import arrow.core.Either
 import kotlinx.coroutines.runBlocking
-import net.purefunc.kotlin.ext.NullErr
-import net.purefunc.kotlin.ext.eitherRun
+import net.purefunc.kotlin.arrow.NullErr
+import net.purefunc.kotlin.arrow.eitherRun
 
 data class Foo(
     val id: Long,

@@ -1,6 +1,4 @@
-package net.purefunc.kotlin.ext
-
-import net.purefunc.kotlin.arrow.AppErr
+package net.purefunc.kotlin.arrow
 
 sealed class TestErr {
 

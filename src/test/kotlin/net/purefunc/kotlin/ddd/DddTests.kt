@@ -1,6 +1,7 @@
 package net.purefunc.kotlin.ddd
 
 import net.purefunc.kotlin.ddd.infrastructure.enu.Deleted
+import net.purefunc.kotlin.ddd.interfaces.CommandResponse
 import net.purefunc.kotlin.ext.toPrettyJson
 import net.purefunc.kotlin.ext.unixTimeMilli
 import org.junit.jupiter.api.Test
@@ -45,6 +46,16 @@ class DddTests {
                 lastModifiedUser = "last modified date",
                 memo = "memo",
             ).toPrettyJson()
+        )
+
+        println(
+            CommandResponse(
+                status = 200,
+                headers = mapOf(),
+                body = "abcd1234",
+            ).run {
+                addHeader("Foo", "Bar")
+            }.toPrettyJson()
         )
     }
 }

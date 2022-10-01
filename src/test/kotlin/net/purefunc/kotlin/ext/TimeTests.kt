@@ -33,10 +33,10 @@ class TimeTests {
     @Test
     internal fun `test format & parse`() {
         val offsetNow = OffsetDateTime.now()
-        Assertions.assertEquals(offsetNow, offsetNow.string().toOffsetDateTime())
+        Assertions.assertEquals(offsetNow, offsetNow.isoString().toOffsetDateTime())
         val localNow = LocalDateTime.now()
-        Assertions.assertEquals(localNow, localNow.string().toLocalDateTime())
+        Assertions.assertEquals(localNow, localNow.isoString().toLocalDateTime())
         val timeNow = LocalTime.now()
-        Assertions.assertEquals(timeNow, timeNow.string().toLocalTime())
+        Assertions.assertEquals(timeNow, timeNow.isoString().toLocalTime())
     }
 }

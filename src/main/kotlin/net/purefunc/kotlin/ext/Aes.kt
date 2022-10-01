@@ -8,15 +8,6 @@ import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-/**
- * Aes Encrypt
- *
- * @param transformation
- * @param key
- * @param iv
- *
- * @return
- */
 fun String.aesEncrypt(
     transformation: String = "AES/CBC/PKCS7PADDING",
     key: String,
@@ -29,15 +20,6 @@ fun String.aesEncrypt(
         iv = iv,
     )
 
-/**
- * Aes Decrypt
- *
- * @param transformation
- * @param key
- * @param iv
- *
- * @return
- */
 fun String.aesDecrypt(
     transformation: String = "AES/CBC/PKCS7PADDING",
     key: String,

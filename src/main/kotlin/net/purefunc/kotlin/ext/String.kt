@@ -10,14 +10,9 @@ import kotlin.random.Random.Default.nextInt
 val randomUUID: String
     inline get() = UUID.randomUUID().toString()
 
-/**
- * Random Alphabetic
- *
- * @param length
- * @param spliterator
- *
- * @return
- */
+private val alphabetic: List<Char> = ('a'..'z') + ('A'..'Z')
+private val alphanumerics: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
 fun randomAlphabetic(
     length: Int,
     spliterator: String = "",
@@ -27,14 +22,6 @@ fun randomAlphabetic(
         .map { alphabetic[it] }
         .joinToString(spliterator)
 
-/**
- * Random Alphanumeric
- *
- * @param length
- * @param spliterator
- *
- * @return
- */
 fun randomAlphanumeric(
     length: Int,
     spliterator: String = "",
@@ -44,56 +31,22 @@ fun randomAlphanumeric(
         .map { alphanumerics[it] }
         .joinToString(spliterator)
 
-private val alphabetic: List<Char> = ('a'..'z') + ('A'..'Z')
-private val alphanumerics: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-
-/**
- * Encode Base64
- *
- * @return
- */
 fun ByteArray.encodeBase64(): ByteArray =
     Base64.getEncoder().encode(this)
 
-/**
- * Base64 Decode
- *
- * @return
- */
 fun ByteArray.base64Decode(): ByteArray =
     Base64.getDecoder().decode(this)
 
-/**
- * ByteArray toString
- *
- * @param charset
- *
- * @return
- */
 fun ByteArray.string(
     charset: Charset = Charsets.UTF_8,
 ): String =
     String(this, charset)
 
-/**
- * Url Encode
- *
- * @param charset
- *
- * @return
- */
 fun String.urlEncode(
     charset: Charset = Charsets.UTF_8,
 ): String =
     URLEncoder.encode(this, charset)
 
-/**
- * Url Decode
- *
- * @param charset
- *
- * @return
- */
 fun String.urlDecode(
     charset: Charset = Charsets.UTF_8,
 ): String =

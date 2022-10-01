@@ -10,4 +10,5 @@ abstract class BasePo {
     abstract val createUser: String
     abstract var lastModifiedUser: String
     abstract var memo: String
+    abstract val version: Long
 }

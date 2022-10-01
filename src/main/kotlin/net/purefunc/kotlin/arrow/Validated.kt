@@ -7,18 +7,6 @@ import arrow.core.traverse
 import arrow.core.valid
 import net.purefunc.kotlin.ext.Slf4j.Companion.log
 
-/**
- * Valid Null
- *
- * @param L
- * @param R
- * @param appErr
- * @param λ
- *
- * @receiver
- *
- * @return
- */
 suspend fun <L : AppErr, R> R?.validNull(
     appErr: L,
     λ: suspend () -> Unit = {},
@@ -34,38 +22,12 @@ suspend fun <L : AppErr, R> R?.validNull(
             },
         ).toValidatedNel()
 
-/**
- * Valid True
- *
- * @param L
- * @param R
- * @param appErr
- * @param λ
- *
- * @receiver
- *
- * @return
- */
 suspend fun <L : AppErr, R> R.validTrue(
     appErr: L,
     λ: suspend (R) -> Boolean,
 ): ValidatedNel<L, R> =
     (if (λ(this)) appErr.invalid() else valid()).toValidatedNel()
 
-/**
- * Valid Apply
- *
- * @param L
- * @param R
- * @param T
- * @param appErr
- * @param printTrace
- * @param λ
- *
- * @receiver
- *
- * @return
- */
 suspend inline fun <L : AppErr, reified R, T> R.validApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -79,20 +41,6 @@ suspend inline fun <L : AppErr, reified R, T> R.validApply(
         appErr.invalid()
     }.toValidatedNel()
 
-/**
- * Valid Run
- *
- * @param L
- * @param R
- * @param T
- * @param appErr
- * @param printTrace
- * @param λ
- *
- * @receiver
- *
- * @return
- */
 suspend inline fun <L : AppErr, reified R, T> R.validRun(
     appErr: L,
     printTrace: Boolean = false,
@@ -105,14 +53,6 @@ suspend inline fun <L : AppErr, reified R, T> R.validRun(
         appErr.invalid()
     }.toValidatedNel()
 
-/**
- * Zip All Valids
- *
- * @param L
- * @param validateNels
- *
- * @return
- */
 fun <L : AppErr> zipAllValids(
     vararg validateNels: ValidatedNel<L, *>,
 ): EitherNel<L, List<*>> =

@@ -45,6 +45,7 @@ class DddTests {
                 createUser = "create user",
                 lastModifiedUser = "last modified date",
                 memo = "memo",
+                version = 0,
             ).toPrettyJson()
         )
 

@@ -4,33 +4,14 @@ import at.favre.lib.crypto.bcrypt.BCrypt
 import java.security.MessageDigest
 import java.util.Base64
 
-/**
- * MD5
- *
- * @return
- */
 fun String.md5(): String = this hashBy MD5
 
-/**
- * Bcrypt
- *
- * @param cost
- *
- * @return
- */
 fun String.bcrypt(cost: Int = 12): String =
     when (cost) {
         10 -> this hashBy BCRYPT_10
         else -> this hashBy BCRYPT_12
     }
 
-/**
- * SHA3
- *
- * @param bits
- *
- * @return
- */
 fun String.sha3(bits: Int = 512): String =
     when (bits) {
         256 -> this hashBy SHA3_256

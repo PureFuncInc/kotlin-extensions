@@ -12,18 +12,6 @@ open class AppErr(
     val message: String,
 )
 
-/**
- * Either Null
- *
- * @param L
- * @param R
- * @param appErr
- * @param λ
- *
- * @receiver
- *
- * @return
- */
 suspend fun <L : AppErr, R> R?.eitherNull(
     appErr: L,
     λ: suspend () -> Unit = {},
@@ -39,18 +27,6 @@ suspend fun <L : AppErr, R> R?.eitherNull(
             },
         )
 
-/**
- * Either True
- *
- * @param L
- * @param R
- * @param appErr
- * @param λ
- *
- * @receiver
- *
- * @return
- */
 suspend fun <L : AppErr, R> R.eitherTrue(
     appErr: L,
     λ: suspend (R) -> Boolean,
@@ -58,20 +34,6 @@ suspend fun <L : AppErr, R> R.eitherTrue(
     if (λ(this)) appErr.left()
     else right()
 
-/**
- * Either Apply
- *
- * @param L
- * @param R
- * @param T
- * @param appErr
- * @param printTrace
- * @param λ
- *
- * @receiver
- *
- * @return
- */
 suspend inline fun <L : AppErr, reified R, T> R.eitherApply(
     appErr: L,
     printTrace: Boolean = false,
@@ -85,20 +47,6 @@ suspend inline fun <L : AppErr, reified R, T> R.eitherApply(
         appErr.left()
     }
 
-/**
- * Either Run
- *
- * @param L
- * @param R
- * @param T
- * @param appErr
- * @param printTrace
- * @param λ
- *
- * @receiver
- *
- * @return
- */
 suspend inline fun <L : AppErr, reified R, T> R.eitherRun(
     appErr: L,
     printTrace: Boolean = false,
@@ -111,14 +59,6 @@ suspend inline fun <L : AppErr, reified R, T> R.eitherRun(
         appErr.left()
     }
 
-/**
- * Zip All Eithers
- *
- * @param L
- * @param eithers
- *
- * @return
- */
 fun <L : AppErr> zipAllEithers(
     vararg eithers: Either<L, *>,
 ): Either<L, List<*>> =

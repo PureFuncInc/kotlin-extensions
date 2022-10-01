@@ -15,6 +15,7 @@ data class SamplePO(
     override val createUser: String,
     override var lastModifiedUser: String,
     override var memo: String,
+    override val version: Long,
 ) : BasePo()
 
 data class SampleId(

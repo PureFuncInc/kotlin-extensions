@@ -2,8 +2,8 @@ package net.purefunc.kotlin.arrow
 
 import arrow.core.Either
 import arrow.core.Nel
+import arrow.core.Validated
 import arrow.core.ValidatedNel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import net.purefunc.kotlin.arrow.either.eitherApply
 import net.purefunc.kotlin.arrow.either.eitherNextApply
@@ -19,8 +19,8 @@ import net.purefunc.kotlin.arrow.either.flatEitherNextApply
 import net.purefunc.kotlin.arrow.either.flatEitherNextRun
 import net.purefunc.kotlin.arrow.either.flatEitherRun
 import net.purefunc.kotlin.arrow.either.parallelRunAll
-import net.purefunc.kotlin.arrow.either.zipAllEithers
 import net.purefunc.kotlin.arrow.validated.EitherNel
+import net.purefunc.kotlin.arrow.validated.parallelRunAll
 import net.purefunc.kotlin.arrow.validated.validApply
 import net.purefunc.kotlin.arrow.validated.validNextApply
 import net.purefunc.kotlin.arrow.validated.validNextNull
@@ -29,7 +29,6 @@ import net.purefunc.kotlin.arrow.validated.validNextTrue
 import net.purefunc.kotlin.arrow.validated.validNull
 import net.purefunc.kotlin.arrow.validated.validRun
 import net.purefunc.kotlin.arrow.validated.validTrue
-import net.purefunc.kotlin.arrow.validated.zipAllValids
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -76,48 +75,36 @@ class ArrowKtTests {
             Assertions.assertEquals(list, eitherRightApply.assertEitherRight())
             Assertions.assertEquals(list.toMutableList(), eitherRightRun.assertEitherRight())
 
-            val eitherAllLeftNull: Either<AppErr, List<*>> =
-                zipAllEithers(
-                    eitherLeftNull,
-                    eitherRightTrue,
-                    eitherRightApply,
-                    eitherRightRun,
-                )
+            val eitherAllLeftNullList: List<suspend () -> Either<AppErr, *>> = listOf(
+                { eitherLeftNull },
+                { eitherRightTrue },
+                { eitherRightApply },
+                { eitherRightRun },
+            )
+            val eitherAllLeftNull = eitherAllLeftNullList.parallelRunAll()
             Assertions.assertEquals("E500001", eitherAllLeftNull.assertEitherLeft().code)
             Assertions.assertEquals("Null", eitherAllLeftNull.assertEitherLeft().message)
 
-            val eitherAllLeftTrue: Either<AppErr, List<*>> =
-                zipAllEithers(
-                    eitherRightNull,
-                    eitherLeftTrue,
-                    eitherLeftApply,
-                    eitherRightApply,
-                    eitherRightRun,
-                )
+            val eitherAllLeftTrueList: List<suspend () -> Either<AppErr, *>> = listOf(
+                { eitherRightNull },
+                { eitherLeftTrue },
+                { eitherLeftApply },
+                { eitherRightApply },
+                { eitherRightRun },
+            )
+            val eitherAllLeftTrue = eitherAllLeftTrueList.parallelRunAll()
             Assertions.assertEquals("E500002", eitherAllLeftTrue.assertEitherLeft().code)
             Assertions.assertEquals("Assert", eitherAllLeftTrue.assertEitherLeft().message)
 
-            val eitherAllRight: Either<AppErr, List<*>> =
-                zipAllEithers(
-                    eitherRightNull,
-                    eitherRightTrue,
-                    eitherRightApply,
-                    eitherRightRun,
-                )
-            Assertions.assertEquals(4, eitherAllRight.assertEitherRight().size)
-
-            val listOf: List<suspend () -> Either<AppErr, *>> = listOf(
-                suspend(eitherRightNull),
-                suspend(eitherRightTrue),
-                suspend(eitherRightApply),
-                suspend(eitherRightRun),
+            val eitherAllRightList: List<suspend () -> Either<AppErr, *>> = listOf(
+                { eitherRightNull },
+                { eitherRightTrue },
+                { eitherRightApply },
+                { eitherRightRun },
             )
-            val pRunAll = listOf.parallelRunAll(Dispatchers.IO)
-            println(pRunAll)
+            val eitherAllRight = eitherAllRightList.parallelRunAll()
+            Assertions.assertEquals(4, eitherAllRight.assertEitherRight().size)
         }
-
-    private fun suspend(eitherRightNull: Either<AppErr, *>): suspend () -> Either<AppErr, *> =
-        { eitherRightNull }
 
     @Test
     internal fun `test eitherNext series`() =
@@ -215,65 +202,45 @@ class ArrowKtTests {
     @Test
     internal fun `test validCatch and validNext series`() =
         runBlocking {
-            val validatedLeftNull: ValidatedNel<NullErr, String> = map["key2"].validNull(NullErr)
-            val validatedLeftTrue: ValidatedNel<AssertErr, String?> = map["key1"].validTrue(AssertErr) { it!!.length > 3 }
-            val validatedLeftApply: ValidatedNel<OutBoundErr, List<String>> = list.validApply(OutBoundErr) { this[100] }
-            val validatedLeftRun: ValidatedNel<CastClassErr, Map<*, *>> = list.validRun(CastClassErr) { this as Map<*, *> }
-            val validatedRightNull: ValidatedNel<NullErr, String> = map["key1"].validNull(NullErr)
-            val validatedRightTrue: ValidatedNel<AssertErr, String?> = map["key1"].validTrue(AssertErr) { it!!.length < 3 }
-            val validatedRightApply: ValidatedNel<OutBoundErr, List<String>> = list.validApply(OutBoundErr) { this[0] }
-            val validatedRightRun: ValidatedNel<CastClassErr, MutableList<String>> = list.validRun(CastClassErr) { this as MutableList<String> }
+            val validatedLeftNull: Validated<NullErr, String> = map["key2"].validNull(NullErr)
+            val validatedLeftTrue: Validated<AssertErr, String?> = map["key1"].validTrue(AssertErr) { it!!.length > 3 }
+            val validatedLeftApply: Validated<OutBoundErr, List<String>> = list.validApply(OutBoundErr) { this[100] }
+            val validatedLeftRun: Validated<CastClassErr, Map<*, *>> = list.validRun(CastClassErr) { this as Map<*, *> }
+            val validatedRightNull: Validated<NullErr, String> = map["key1"].validNull(NullErr)
+            val validatedRightTrue: Validated<AssertErr, String?> = map["key1"].validTrue(AssertErr) { it!!.length < 3 }
+            val validatedRightApply: Validated<OutBoundErr, List<String>> = list.validApply(OutBoundErr) { this[0] }
+            val validatedRightRun: Validated<CastClassErr, MutableList<String>> = list.validRun(CastClassErr) { this as MutableList<String> }
 
-            Assertions.assertEquals("E500001", validatedLeftNull.assertValidateNelLeft()[0].code)
-            Assertions.assertEquals("Null", validatedLeftNull.assertValidateNelLeft()[0].message)
-            Assertions.assertEquals("E500002", validatedLeftTrue.assertValidateNelLeft()[0].code)
-            Assertions.assertEquals("Assert", validatedLeftTrue.assertValidateNelLeft()[0].message)
-            Assertions.assertEquals("E500003", validatedLeftApply.assertValidateNelLeft()[0].code)
-            Assertions.assertEquals("Out Bound", validatedLeftApply.assertValidateNelLeft()[0].message)
-            Assertions.assertEquals("E500004", validatedLeftRun.assertValidateNelLeft()[0].code)
-            Assertions.assertEquals("Cast Class", validatedLeftRun.assertValidateNelLeft()[0].message)
-
-            Assertions.assertEquals("value1", validatedRightNull.assertValidateNelRight())
-            Assertions.assertEquals("value1", validatedRightTrue.assertValidateNelRight())
-            Assertions.assertEquals(list, validatedRightApply.assertValidateNelRight())
-            Assertions.assertEquals(list.toMutableList(), validatedRightRun.assertValidateNelRight())
-
-            val zipAllValidLeft: EitherNel<AppErr, List<*>> =
-                zipAllValids(
-                    validatedLeftNull,
-                    validatedLeftTrue,
-                    validatedLeftApply,
-                    validatedRightRun,
-                )
+            val zipAllValidLeftList: List<suspend () -> Validated<AppErr, *>> = listOf(
+                { validatedLeftNull },
+                { validatedLeftTrue },
+                { validatedLeftApply },
+                { validatedRightRun },
+            )
+            val zipAllValidLeft: EitherNel<AppErr, List<*>> = zipAllValidLeftList.parallelRunAll()
             Assertions.assertEquals(3, zipAllValidLeft.assertEitherLeft().size)
 
-            val zipAllValidRight: EitherNel<AppErr, List<*>> =
-                zipAllValids(
-                    validatedRightNull,
-                    validatedRightTrue,
-                    validatedRightApply,
-                    validatedRightRun,
-                )
+            val zipAllValidRightList: List<suspend () -> Validated<AppErr, *>> = listOf(
+                { validatedRightNull },
+                { validatedRightTrue },
+                { validatedRightApply },
+                { validatedRightRun },
+            )
+            val zipAllValidRight: EitherNel<AppErr, List<*>> = zipAllValidRightList.parallelRunAll()
             Assertions.assertIterableEquals(
                 listOf("value1", "value1", list, list),
                 zipAllValidRight.assertEitherRight()
             )
 
-            val validLeftRun =
-                zipAllValids(
-                    validatedRightNull,
-                    validatedRightTrue,
-                    validatedRightApply,
-                    validatedRightRun,
-                )
-                    .validNextNull(NullErr)
-                    .validNextTrue(AssertErr) {
-                        it.isEmpty()
-                    }.validNextApply(OutBoundErr) {
-                        this[0]
-                    }.validNextRun(CastClassErr) {
-                        this as Map<*, *>
-                    }
+            val validLeftRun: EitherNel<AppErr, Map<*, *>> = zipAllValidRight
+                .validNextNull(NullErr)
+                .validNextTrue(AssertErr) {
+                    it.isEmpty()
+                }.validNextApply(OutBoundErr) {
+                    this[0]
+                }.validNextRun(CastClassErr) {
+                    this as Map<*, *>
+                }
 
             Assertions.assertEquals(1, validLeftRun.assertEitherLeft().size)
             Assertions.assertEquals("E500004", validLeftRun.assertEitherLeft()[0].code)

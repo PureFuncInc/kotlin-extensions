@@ -1,8 +1,9 @@
-package net.purefunc.kotlin.arrow
+package net.purefunc.kotlin.arrow.validated
 
 import arrow.core.Either
 import arrow.core.Nel
 import arrow.core.flatMap
+import net.purefunc.kotlin.arrow.AppErr
 
 typealias EitherNel<A, B> = Either<Nel<A>, B>
 

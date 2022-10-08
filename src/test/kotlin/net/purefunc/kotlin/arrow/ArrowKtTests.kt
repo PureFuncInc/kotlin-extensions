@@ -3,7 +3,33 @@ package net.purefunc.kotlin.arrow
 import arrow.core.Either
 import arrow.core.Nel
 import arrow.core.ValidatedNel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import net.purefunc.kotlin.arrow.either.eitherApply
+import net.purefunc.kotlin.arrow.either.eitherNextApply
+import net.purefunc.kotlin.arrow.either.eitherNextNull
+import net.purefunc.kotlin.arrow.either.eitherNextRun
+import net.purefunc.kotlin.arrow.either.eitherNextTrue
+import net.purefunc.kotlin.arrow.either.eitherNextUnit
+import net.purefunc.kotlin.arrow.either.eitherNull
+import net.purefunc.kotlin.arrow.either.eitherRun
+import net.purefunc.kotlin.arrow.either.eitherTrue
+import net.purefunc.kotlin.arrow.either.flatEitherApply
+import net.purefunc.kotlin.arrow.either.flatEitherNextApply
+import net.purefunc.kotlin.arrow.either.flatEitherNextRun
+import net.purefunc.kotlin.arrow.either.flatEitherRun
+import net.purefunc.kotlin.arrow.either.parallelRunAll
+import net.purefunc.kotlin.arrow.either.zipAllEithers
+import net.purefunc.kotlin.arrow.validated.EitherNel
+import net.purefunc.kotlin.arrow.validated.validApply
+import net.purefunc.kotlin.arrow.validated.validNextApply
+import net.purefunc.kotlin.arrow.validated.validNextNull
+import net.purefunc.kotlin.arrow.validated.validNextRun
+import net.purefunc.kotlin.arrow.validated.validNextTrue
+import net.purefunc.kotlin.arrow.validated.validNull
+import net.purefunc.kotlin.arrow.validated.validRun
+import net.purefunc.kotlin.arrow.validated.validTrue
+import net.purefunc.kotlin.arrow.validated.zipAllValids
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -79,7 +105,19 @@ class ArrowKtTests {
                     eitherRightRun,
                 )
             Assertions.assertEquals(4, eitherAllRight.assertEitherRight().size)
+
+            val listOf: List<suspend () -> Either<AppErr, *>> = listOf(
+                suspend(eitherRightNull),
+                suspend(eitherRightTrue),
+                suspend(eitherRightApply),
+                suspend(eitherRightRun),
+            )
+            val pRunAll = listOf.parallelRunAll(Dispatchers.IO)
+            println(pRunAll)
         }
+
+    private fun suspend(eitherRightNull: Either<AppErr, *>): suspend () -> Either<AppErr, *> =
+        { eitherRightNull }
 
     @Test
     internal fun `test eitherNext series`() =

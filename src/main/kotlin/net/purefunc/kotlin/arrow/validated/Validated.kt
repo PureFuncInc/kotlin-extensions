@@ -1,10 +1,11 @@
-package net.purefunc.kotlin.arrow
+package net.purefunc.kotlin.arrow.validated
 
 import arrow.core.ValidatedNel
 import arrow.core.invalid
 import arrow.core.toOption
 import arrow.core.traverse
 import arrow.core.valid
+import net.purefunc.kotlin.arrow.AppErr
 import net.purefunc.kotlin.ext.Slf4j.Companion.log
 
 suspend fun <L : AppErr, R> R?.validNull(

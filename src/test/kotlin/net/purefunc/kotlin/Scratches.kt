@@ -1,9 +1,8 @@
 package net.purefunc.kotlin
 
 import arrow.core.Either
-import kotlinx.coroutines.runBlocking
 import net.purefunc.kotlin.arrow.NullErr
-import net.purefunc.kotlin.arrow.eitherRun
+import net.purefunc.kotlin.arrow.either.eitherRun
 
 data class Foo(
     val id: Long,
@@ -21,17 +20,15 @@ val foobar: (Foo) -> (Bar) =
         Bar(foo.key, foo.value)
     }
 
-fun main() {
-    runBlocking {
-        val bar1: Bar =
-            Foo(0, "", "")
-                .run(foobar)
+suspend fun main() {
+    val bar1: Bar =
+        Foo(0, "", "")
+            .run(foobar)
 
-        val bar2: Either<NullErr, Bar> =
-            Foo(0, "", "")
-                .eitherRun(
-                    appErr = NullErr,
-                    λ = foobar,
-                )
-    }
+    val bar2: Either<NullErr, Bar> =
+        Foo(0, "", "")
+            .eitherRun(
+                appErr = NullErr,
+                λ = foobar,
+            )
 }

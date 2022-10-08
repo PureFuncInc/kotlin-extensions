@@ -1,8 +1,9 @@
-package net.purefunc.kotlin.arrow
+package net.purefunc.kotlin.arrow.either
 
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.right
+import net.purefunc.kotlin.arrow.AppErr
 
 suspend fun <L : AppErr, R> Either<L, R?>.eitherNextNull(
     appErr: L,

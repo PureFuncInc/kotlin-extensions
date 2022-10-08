@@ -1,8 +1,9 @@
-package net.purefunc.kotlin.arrow
+package net.purefunc.kotlin.arrow.validated
 
 import arrow.core.Either
 import arrow.core.Nel
 import arrow.core.flatMap
+import net.purefunc.kotlin.arrow.AppErr
 
 typealias EitherNel<A, B> = Either<Nel<A>, B>
 
@@ -11,7 +12,7 @@ suspend fun <L : AppErr, R> EitherNel<L, R?>.validNextNull(
     λ: suspend () -> Unit = {},
 ): EitherNel<L, R> =
     flatMap {
-        it.validNull(appErr, λ).toEither()
+        it.validNull(appErr, λ).toValidatedNel().toEither()
     }
 
 suspend fun <L : AppErr, R> EitherNel<L, R>.validNextTrue(
@@ -19,7 +20,7 @@ suspend fun <L : AppErr, R> EitherNel<L, R>.validNextTrue(
     λ: suspend (R) -> Boolean,
 ): EitherNel<L, R> =
     flatMap {
-        it.validTrue(appErr, λ).toEither()
+        it.validTrue(appErr, λ).toValidatedNel().toEither()
     }
 
 suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextApply(
@@ -28,7 +29,7 @@ suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextApply(
     λ: suspend R.() -> T,
 ): EitherNel<L, R> =
     flatMap {
-        it.validApply(appErr, printTrace, λ).toEither()
+        it.validApply(appErr, printTrace, λ).toValidatedNel().toEither()
     }
 
 suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextRun(
@@ -37,5 +38,5 @@ suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextRun(
     λ: suspend R.() -> T,
 ): EitherNel<L, T> =
     flatMap {
-        it.validRun(appErr, printTrace, λ).toEither()
+        it.validRun(appErr, printTrace, λ).toValidatedNel().toEither()
     }

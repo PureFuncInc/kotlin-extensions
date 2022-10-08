@@ -1,16 +1,17 @@
-package net.purefunc.kotlin.arrow
+package net.purefunc.kotlin.arrow.either
 
 import arrow.core.Either
+import arrow.core.continuations.either
 import arrow.core.left
 import arrow.core.right
 import arrow.core.toOption
-import arrow.core.traverse
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import net.purefunc.kotlin.arrow.AppErr
 import net.purefunc.kotlin.ext.Slf4j.Companion.log
-
-open class AppErr(
-    val code: String,
-    val message: String,
-)
 
 suspend fun <L : AppErr, R> R?.eitherNull(
     appErr: L,
@@ -43,7 +44,8 @@ suspend inline fun <L : AppErr, reified R, T> R.eitherApply(
         λ()
         right()
     } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        if (printTrace) log.error(tw.message, tw)
+        else log.error(tw.message)
         appErr.left()
     }
 
@@ -55,13 +57,20 @@ suspend inline fun <L : AppErr, reified R, T> R.eitherRun(
     try {
         λ().right()
     } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw) else log.error(tw.message)
+        if (printTrace) log.error(tw.message, tw)
+        else log.error(tw.message)
         appErr.left()
     }
 
-fun <L : AppErr> zipAllEithers(
-    vararg eithers: Either<L, *>,
+suspend fun <L : AppErr> List<suspend () -> Either<L, *>>.parallelRunAll(
+    ctx: CoroutineDispatcher = Dispatchers.IO,
 ): Either<L, List<*>> =
-    eithers
-        .toList()
-        .traverse { it }
+    either {
+        coroutineScope {
+            this@parallelRunAll.map {
+                async(ctx) {
+                    it().bind()
+                }
+            }.awaitAll()
+        }
+    }

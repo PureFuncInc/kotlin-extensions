@@ -1,7 +1,7 @@
 package net.purefunc.kotlin
 
 import arrow.core.Either
-import net.purefunc.kotlin.arrow.NullErr
+import net.purefunc.kotlin.arrow.Type1Err
 import net.purefunc.kotlin.arrow.either.eitherRun
 
 data class Foo(
@@ -25,10 +25,10 @@ suspend fun main() {
         Foo(0, "", "")
             .run(foobar)
 
-    val bar2: Either<NullErr, Bar> =
+    val bar2: Either<Type1Err, Bar> =
         Foo(0, "", "")
             .eitherRun(
-                appErr = NullErr,
+                appErr = Type1Err,
                 λ = foobar,
             )
 }

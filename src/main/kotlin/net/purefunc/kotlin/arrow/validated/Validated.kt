@@ -61,13 +61,15 @@ suspend inline fun <L : AppErr, reified R, T> R.validRun(
         appErr.invalid()
     }
 
-suspend fun <L : AppErr> List<suspend () -> Validated<L, *>>.parallelRunAll(
+suspend fun <L : AppErr> List<Validated<L, *>>.zipAll(
     ctx: CoroutineDispatcher = Dispatchers.IO,
 ): EitherNel<L, List<*>> =
     coroutineScope {
-        this@parallelRunAll
-            .map { async(ctx) { it().toValidatedNel() } }
+        this@zipAll
+            .map { async(ctx) { it.suspendFuncWrapper()().toValidatedNel() } }
             .awaitAll()
             .traverse { it }
             .toEither()
     }
+
+private fun <L : AppErr> Validated<L, *>.suspendFuncWrapper(): suspend () -> Validated<L, *> = { this }

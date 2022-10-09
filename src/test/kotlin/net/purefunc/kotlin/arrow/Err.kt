@@ -2,13 +2,13 @@ package net.purefunc.kotlin.arrow
 
 sealed class TestErr {
 
-    object NullEntry : AppErr("E500001", "Null")
-    object Assert : AppErr("E500002", "Assert")
-    object OutBound : AppErr("E500003", "Out Bound")
-    object CastClass : AppErr("E500004", "Cast Class")
+    object Type1 : AppErr("E500001", "Type1")
+    object Type2 : AppErr("E500002", "Type2")
+    object Type3 : AppErr("E500003", "Type3")
+    object Type4 : AppErr("E500004", "Type4")
 }
 
-typealias NullErr = TestErr.NullEntry
-typealias AssertErr = TestErr.Assert
-typealias OutBoundErr = TestErr.OutBound
-typealias CastClassErr = TestErr.CastClass
+typealias Type1Err = TestErr.Type1
+typealias Type2Err = TestErr.Type2
+typealias Type3Err = TestErr.Type3
+typealias Type4Err = TestErr.Type4

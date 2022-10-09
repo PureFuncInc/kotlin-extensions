@@ -62,15 +62,17 @@ suspend inline fun <L : AppErr, reified R, T> R.eitherRun(
         appErr.left()
     }
 
-suspend fun <L : AppErr> List<suspend () -> Either<L, *>>.parallelRunAll(
+suspend fun <L : AppErr> List<Either<L, *>>.zipAll(
     ctx: CoroutineDispatcher = Dispatchers.IO,
 ): Either<L, List<*>> =
     either {
         coroutineScope {
-            this@parallelRunAll.map {
+            this@zipAll.map {
                 async(ctx) {
-                    it().bind()
+                    it.suspendFuncWrapper()().bind()
                 }
             }.awaitAll()
         }
     }
+
+private fun <L : AppErr> Either<L, *>.suspendFuncWrapper(): suspend () -> Either<L, *> = { this }

@@ -1,14 +1,17 @@
-# kotlin-extensions
+# kotlin-extensions 🗿
 
-> Let's create useful extensions together. 🗿
+> Let's create useful extensions together.
 
-## Sample Code
+## Sample Code 📜
 
 * [Aes](docs/aes.md)
 * [Arrow-kt](docs/arrow-kt.md)
+* [DDD](docs/ddd.md)
 * [Emoji](docs/emoji.md)
+* [File](docs/file.md)
 * [Hash](docs/hash.md)
 * [Json](docs/json.md)
+* [Number](docs/number.md)
 * [Regex](docs/regex.md)
 * [String](docs/string.md)
 * [Time](docs/time.md)

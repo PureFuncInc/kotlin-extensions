@@ -6,8 +6,6 @@ labels: enhancement
 
 ---
 
-# Emoji
-
 🎨: :art:
 ⚡️: :zap:
 🔥: :fire:

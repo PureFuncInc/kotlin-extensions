@@ -2,7 +2,7 @@
 
 > Let's create useful extensions together. 🗿
 
-# Sample Code
+## Sample Code
 
 * [Aes](docs/aes.md)
 * [Arrow-kt](docs/arrow-kt.md)
@@ -13,7 +13,7 @@
 * [String](docs/string.md)
 * [Time](docs/time.md)
 
-# Dependency [Link 👈](https://jitpack.io/#PureFuncInc/kotlin-extensions)
+## Dependency [![Release](https://jitpack.io/v/PureFuncInc/kotlin-extensions.svg)](https://jitpack.io/#PureFuncInc/kotlin-extensions)
 
 * Maven
 

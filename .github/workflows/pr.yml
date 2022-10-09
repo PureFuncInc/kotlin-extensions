@@ -21,4 +21,4 @@ jobs:
       - name: Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: clean build --scan
+          arguments: clean build

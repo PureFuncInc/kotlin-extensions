@@ -9,7 +9,7 @@ import java.security.SecureRandom
  *
  * @see Collection.random
  */
-fun <T> Collection<T>.randomGet(random: SecureRandom): T =
+fun <T> Collection<T>.random(secureRandom: SecureRandom): T =
     takeIf { it.isNotEmpty() }
-        ?.run { elementAt(random.nextInt(size)) }
+        ?.run { elementAt(secureRandom.nextInt(size)) }
         ?: throw NoSuchElementException("Collection is empty.")

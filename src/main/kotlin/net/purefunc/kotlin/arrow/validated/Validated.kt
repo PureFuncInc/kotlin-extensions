@@ -13,26 +13,23 @@ import kotlinx.coroutines.coroutineScope
 import net.purefunc.kotlin.arrow.AppErr
 import net.purefunc.kotlin.ext.Slf4j.Companion.log
 
-suspend fun <L : AppErr, R> R?.validNull(
+fun <L : AppErr, R> R?.validNull(
     appErr: L,
-    λ: suspend () -> Unit = {},
+    λ: () -> Unit = {},
 ): Validated<L, R> =
     toOption()
         .fold(
-            ifEmpty = {
-                appErr.invalid()
-            },
-            ifSome = {
-                λ()
-                it.valid()
-            },
+            ifEmpty = { appErr.invalid() },
+            ifSome = { it.valid() },
         )
 
 suspend fun <L : AppErr, R> R.validTrue(
     appErr: L,
     λ: suspend (R) -> Boolean,
 ): Validated<L, R> =
-    (if (λ(this)) appErr.invalid() else valid())
+    takeIf { λ(it) }
+        ?.run { appErr.invalid() }
+        ?: run { valid() }
 
 suspend inline fun <L : AppErr, reified R, T> R.validApply(
     appErr: L,
@@ -43,8 +40,9 @@ suspend inline fun <L : AppErr, reified R, T> R.validApply(
         λ()
         valid()
     } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw)
-        else log.error(tw.message)
+        takeIf { printTrace }
+            ?.run { log.error(tw.message, tw) }
+            ?: run { log.error(tw.message) }
         appErr.invalid()
     }
 
@@ -56,17 +54,22 @@ suspend inline fun <L : AppErr, reified R, T> R.validRun(
     try {
         λ().valid()
     } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw)
-        else log.error(tw.message)
+        takeIf { printTrace }
+            ?.run { log.error(tw.message, tw) }
+            ?: run { log.error(tw.message) }
         appErr.invalid()
     }
 
-suspend fun <L : AppErr> List<Validated<L, *>>.zipAll(
+suspend fun <L : AppErr> List<Validated<L, *>>.validRunAll(
     ctx: CoroutineDispatcher = Dispatchers.IO,
 ): EitherNel<L, List<*>> =
     coroutineScope {
-        this@zipAll
-            .map { async(ctx) { it.suspendFuncWrapper()().toValidatedNel() } }
+        this@validRunAll
+            .map {
+                async(ctx) {
+                    it.suspendFuncWrapper()().toValidatedNel()
+                }
+            }
             .awaitAll()
             .traverse { it }
             .toEither()

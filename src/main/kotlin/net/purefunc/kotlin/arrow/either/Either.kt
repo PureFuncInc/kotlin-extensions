@@ -13,27 +13,23 @@ import kotlinx.coroutines.coroutineScope
 import net.purefunc.kotlin.arrow.AppErr
 import net.purefunc.kotlin.ext.Slf4j.Companion.log
 
-suspend fun <L : AppErr, R> R?.eitherNull(
+fun <L : AppErr, R> R?.eitherNull(
     appErr: L,
-    λ: suspend () -> Unit = {},
+    λ: () -> Unit = {},
 ): Either<L, R> =
     toOption()
         .fold(
-            ifEmpty = {
-                appErr.left()
-            },
-            ifSome = {
-                λ()
-                it.right()
-            },
+            ifEmpty = { appErr.left() },
+            ifSome = { it.right() },
         )
 
 suspend fun <L : AppErr, R> R.eitherTrue(
     appErr: L,
     λ: suspend (R) -> Boolean,
 ): Either<L, R> =
-    if (λ(this)) appErr.left()
-    else right()
+    takeIf { λ(it) }
+        ?.run { appErr.left() }
+        ?: run { right() }
 
 suspend inline fun <L : AppErr, reified R, T> R.eitherApply(
     appErr: L,
@@ -44,8 +40,9 @@ suspend inline fun <L : AppErr, reified R, T> R.eitherApply(
         λ()
         right()
     } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw)
-        else log.error(tw.message)
+        takeIf { printTrace }
+            ?.run { log.error(tw.message, tw) }
+            ?: run { log.error(tw.message) }
         appErr.left()
     }
 
@@ -57,21 +54,24 @@ suspend inline fun <L : AppErr, reified R, T> R.eitherRun(
     try {
         λ().right()
     } catch (tw: Throwable) {
-        if (printTrace) log.error(tw.message, tw)
-        else log.error(tw.message)
+        takeIf { printTrace }
+            ?.run { log.error(tw.message, tw) }
+            ?: run { log.error(tw.message) }
         appErr.left()
     }
 
-suspend fun <L : AppErr> List<Either<L, *>>.zipAll(
+suspend fun <L : AppErr> List<Either<L, *>>.eitherRunAll(
     ctx: CoroutineDispatcher = Dispatchers.IO,
 ): Either<L, List<*>> =
     either {
         coroutineScope {
-            this@zipAll.map {
-                async(ctx) {
-                    it.suspendFuncWrapper()().bind()
+            this@eitherRunAll
+                .map {
+                    async(ctx) {
+                        it.suspendFuncWrapper()().bind()
+                    }
                 }
-            }.awaitAll()
+                .awaitAll()
         }
     }
 

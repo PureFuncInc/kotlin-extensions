@@ -11,6 +11,7 @@
 * [File](docs/file.md)
 * [Hash](docs/hash.md)
 * [Json](docs/json.md)
+* [List](docs/list.md)
 * [Number](docs/number.md)
 * [Regex](docs/regex.md)
 * [String](docs/string.md)

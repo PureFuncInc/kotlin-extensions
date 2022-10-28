@@ -5,12 +5,15 @@ import arrow.core.flatMap
 import arrow.core.right
 import net.purefunc.kotlin.arrow.AppErr
 
-suspend fun <L : AppErr, R> Either<L, R?>.eitherNextNull(
+fun <L : AppErr, R> Either<L, R?>.eitherNextNull(
     appErr: L,
-    λ: suspend () -> Unit = {},
+    λ: () -> Unit = {},
 ): Either<L, R> =
     flatMap {
-        it.eitherNull(appErr, λ)
+        it.eitherNull(
+            appErr = appErr,
+            λ = λ,
+        )
     }
 
 suspend fun <L : AppErr, R> Either<L, R>.eitherNextTrue(
@@ -18,7 +21,10 @@ suspend fun <L : AppErr, R> Either<L, R>.eitherNextTrue(
     λ: suspend (R) -> Boolean,
 ): Either<L, R> =
     flatMap {
-        it.eitherTrue(appErr, λ)
+        it.eitherTrue(
+            appErr = appErr,
+            λ = λ,
+        )
     }
 
 suspend inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextApply(
@@ -27,7 +33,11 @@ suspend inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextApply(
     λ: suspend R.() -> T,
 ): Either<L, R> =
     flatMap {
-        it.eitherApply(appErr, printTrace, λ)
+        it.eitherApply(
+            appErr = appErr,
+            printTrace = printTrace,
+            λ = λ,
+        )
     }
 
 suspend inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextRun(
@@ -36,7 +46,11 @@ suspend inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextRun(
     λ: suspend R.() -> T,
 ): Either<L, T> =
     flatMap {
-        it.eitherRun(appErr, printTrace, λ)
+        it.eitherRun(
+            appErr = appErr,
+            printTrace = printTrace,
+            λ = λ,
+        )
     }
 
 inline fun <L : AppErr, R> Either<L, R>.eitherNextUnit(

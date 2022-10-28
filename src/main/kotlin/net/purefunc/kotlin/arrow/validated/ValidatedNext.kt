@@ -7,12 +7,18 @@ import net.purefunc.kotlin.arrow.AppErr
 
 typealias EitherNel<A, B> = Either<Nel<A>, B>
 
-suspend fun <L : AppErr, R> EitherNel<L, R?>.validNextNull(
+fun <L : AppErr, R> EitherNel<L, R?>.validNextNull(
     appErr: L,
-    λ: suspend () -> Unit = {},
+    λ: () -> Unit = {},
 ): EitherNel<L, R> =
     flatMap {
-        it.validNull(appErr, λ).toValidatedNel().toEither()
+        it
+            .validNull(
+                appErr = appErr,
+                λ = λ,
+            )
+            .toValidatedNel()
+            .toEither()
     }
 
 suspend fun <L : AppErr, R> EitherNel<L, R>.validNextTrue(
@@ -20,7 +26,13 @@ suspend fun <L : AppErr, R> EitherNel<L, R>.validNextTrue(
     λ: suspend (R) -> Boolean,
 ): EitherNel<L, R> =
     flatMap {
-        it.validTrue(appErr, λ).toValidatedNel().toEither()
+        it
+            .validTrue(
+                appErr = appErr,
+                λ = λ,
+            )
+            .toValidatedNel()
+            .toEither()
     }
 
 suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextApply(
@@ -29,7 +41,14 @@ suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextApply(
     λ: suspend R.() -> T,
 ): EitherNel<L, R> =
     flatMap {
-        it.validApply(appErr, printTrace, λ).toValidatedNel().toEither()
+        it
+            .validApply(
+                appErr = appErr,
+                printTrace = printTrace,
+                λ = λ,
+            )
+            .toValidatedNel()
+            .toEither()
     }
 
 suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextRun(
@@ -38,5 +57,12 @@ suspend inline fun <L : AppErr, reified R, T> EitherNel<L, R>.validNextRun(
     λ: suspend R.() -> T,
 ): EitherNel<L, T> =
     flatMap {
-        it.validRun(appErr, printTrace, λ).toValidatedNel().toEither()
+        it
+            .validRun(
+                appErr = appErr,
+                printTrace = printTrace,
+                λ = λ,
+            )
+            .toValidatedNel()
+            .toEither()
     }

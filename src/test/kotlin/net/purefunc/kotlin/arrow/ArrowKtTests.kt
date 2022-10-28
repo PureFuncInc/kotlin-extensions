@@ -11,12 +11,12 @@ import net.purefunc.kotlin.arrow.either.eitherNextTrue
 import net.purefunc.kotlin.arrow.either.eitherNextUnit
 import net.purefunc.kotlin.arrow.either.eitherNull
 import net.purefunc.kotlin.arrow.either.eitherRun
+import net.purefunc.kotlin.arrow.either.eitherRunAll
 import net.purefunc.kotlin.arrow.either.eitherTrue
 import net.purefunc.kotlin.arrow.either.flatEitherApply
 import net.purefunc.kotlin.arrow.either.flatEitherNextApply
 import net.purefunc.kotlin.arrow.either.flatEitherNextRun
 import net.purefunc.kotlin.arrow.either.flatEitherRun
-import net.purefunc.kotlin.arrow.either.zipAll
 import net.purefunc.kotlin.arrow.validated.validApply
 import net.purefunc.kotlin.arrow.validated.validNextApply
 import net.purefunc.kotlin.arrow.validated.validNextNull
@@ -24,8 +24,8 @@ import net.purefunc.kotlin.arrow.validated.validNextRun
 import net.purefunc.kotlin.arrow.validated.validNextTrue
 import net.purefunc.kotlin.arrow.validated.validNull
 import net.purefunc.kotlin.arrow.validated.validRun
+import net.purefunc.kotlin.arrow.validated.validRunAll
 import net.purefunc.kotlin.arrow.validated.validTrue
-import net.purefunc.kotlin.arrow.validated.zipAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -77,7 +77,7 @@ class ArrowKtTests {
                 eitherRightTrue,
                 eitherRightApply,
                 eitherRightRun
-            ).zipAll()
+            ).eitherRunAll()
             Assertions.assertEquals("E500001", eitherAllLeftNull.assertEitherLeft().code)
             Assertions.assertEquals("Type1", eitherAllLeftNull.assertEitherLeft().message)
 
@@ -87,7 +87,7 @@ class ArrowKtTests {
                 eitherLeftApply,
                 eitherRightApply,
                 eitherRightRun,
-            ).zipAll()
+            ).eitherRunAll()
             Assertions.assertEquals("E500002", eitherAllLeftTrue.assertEitherLeft().code)
             Assertions.assertEquals("Type2", eitherAllLeftTrue.assertEitherLeft().message)
 
@@ -96,7 +96,7 @@ class ArrowKtTests {
                 eitherRightTrue,
                 eitherRightApply,
                 eitherRightRun,
-            ).zipAll()
+            ).eitherRunAll()
             Assertions.assertEquals(4, eitherAllRight.assertEitherRight().size)
         }
 
@@ -198,7 +198,7 @@ class ArrowKtTests {
                 validatedLeftTrue,
                 validatedLeftApply,
                 validatedLeftRun
-            ).zipAll()
+            ).validRunAll()
             Assertions.assertEquals(4, zipAllValidLeft.assertEitherLeft().size)
 
             val zipAllValidRight = listOf(
@@ -206,7 +206,7 @@ class ArrowKtTests {
                 validatedRightTrue,
                 validatedRightApply,
                 validatedRightRun,
-            ).zipAll()
+            ).validRunAll()
             Assertions.assertIterableEquals(
                 listOf("value1", "value1", list, list),
                 zipAllValidRight.assertEitherRight()

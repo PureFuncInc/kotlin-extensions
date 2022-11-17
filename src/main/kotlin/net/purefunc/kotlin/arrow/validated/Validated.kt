@@ -20,7 +20,10 @@ fun <L : AppErr, R> R?.validNull(
     toOption()
         .fold(
             ifEmpty = { appErr.invalid() },
-            ifSome = { it.valid() },
+            ifSome = {
+                λ()
+                it.valid()
+            },
         )
 
 suspend fun <L : AppErr, R> R.validTrue(

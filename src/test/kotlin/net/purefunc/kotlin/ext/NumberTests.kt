@@ -42,6 +42,11 @@ class NumberTests {
         Assertions.assertTrue(0F.isNotNegative())
         Assertions.assertTrue(0.0.isNotNegative())
         Assertions.assertTrue(BigDecimal("0.0").isNotNegative())
+
+        Assertions.assertTrue(2L.isEven())
+        Assertions.assertTrue(1L.isOdd())
+        Assertions.assertTrue(2.isEven())
+        Assertions.assertTrue(1.isOdd())
     }
 
     @Test

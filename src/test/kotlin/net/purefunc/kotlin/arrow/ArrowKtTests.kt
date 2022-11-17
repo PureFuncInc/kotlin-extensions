@@ -47,7 +47,7 @@ class ArrowKtTests {
     private val map = mapOf("key1" to "value1")
 
     @Test
-    internal fun `test eitherCatch series`() =
+    internal fun `test either series`() =
         runBlocking {
             val eitherLeftNull: Either<AppErr, String> = map["key2"].eitherNull(Type1Err)
             val eitherLeftTrue: Either<AppErr, String?> = map["key1"].eitherTrue(Type2Err) { it!!.length > 3 }
@@ -117,10 +117,11 @@ class ArrowKtTests {
             Assertions.assertEquals("E500002", eitherLeftTrue.assertEitherLeft().code)
             Assertions.assertEquals("Type2", eitherLeftTrue.assertEitherLeft().message)
 
-            val eitherLeftApply: Either<AppErr, String> = map["key1"]
-                .eitherNull(Type1Err)
-                .eitherNextTrue(Type2Err) { it.length < 3 }
-                .eitherNextApply(Type3Err) { listOf(this)[1] } // <- fail here
+            val eitherLeftApply: Either<AppErr, String> =
+                map["key1"]
+                    .eitherNull(Type1Err)
+                    .eitherNextTrue(Type2Err) { it.length < 3 }
+                    .eitherNextApply(Type3Err) { listOf(this)[1] } // <- fail here
             Assertions.assertEquals("E500003", eitherLeftApply.assertEitherLeft().code)
             Assertions.assertEquals("Type3", eitherLeftApply.assertEitherLeft().message)
 
@@ -132,6 +133,14 @@ class ArrowKtTests {
                     .eitherNextRun(Type4Err) { listOf(this) as Map<*, *> } // <- fail here
             Assertions.assertEquals("E500004", eitherLeftRun.assertEitherLeft().code)
             Assertions.assertEquals("Type4", eitherLeftRun.assertEitherLeft().message)
+
+            val eitherLeftUnit: Either<AppErr, Unit> =
+                map["key1"]
+                    .eitherNull(Type1Err)
+                    .eitherNextTrue(Type2Err) { it.length > 3 }
+                    .eitherNextUnit()
+            Assertions.assertEquals("E500002", eitherLeftUnit.assertEitherLeft().code)
+            Assertions.assertEquals("Type2", eitherLeftUnit.assertEitherLeft().message)
 
             val eitherRight: Either<AppErr, List<*>> =
                 map["key1"]
@@ -148,35 +157,38 @@ class ArrowKtTests {
                     .eitherNextApply(Type3Err) { listOf(this)[0] }
                     .eitherNextRun(Type4Err) { listOf(this) }
                     .eitherNextUnit()
-            eitherRightUnit.assertEitherRight()
+            Assertions.assertEquals(Unit, eitherRightUnit.assertEitherRight())
         }
 
     @Test
     internal fun `test flatEitherNext series`() =
         runBlocking {
             val flatEitherApply: Either<AppErr, Map<String, String>> =
-                map.flatEitherApply {
-                    this["key1"].eitherTrue(Type2Err) { it!!.length > 2 }
-                }.flatEitherNextApply {
-                    this["key2"].eitherNull(Type1Err)
-                }
+                map
+                    .flatEitherApply {
+                        this["key1"].eitherTrue(Type2Err) { it!!.length > 2 }
+                    }.flatEitherNextApply {
+                        this["key2"].eitherNull(Type1Err)
+                    }
             flatEitherApply.assertEitherRight()
 
             val flatEitherRun: Either<AppErr, String> =
-                map.flatEitherRun {
-                    this["key1"].eitherTrue(Type2Err) { it!!.length > 2 }
-                }.flatEitherNextRun {
-                    map[this].eitherNull(Type1Err)
-                }
+                map
+                    .flatEitherRun {
+                        this["key1"].eitherTrue(Type2Err) { it!!.length > 2 }
+                    }.flatEitherNextRun {
+                        map[this].eitherNull(Type1Err)
+                    }
             Assertions.assertEquals("E500002", flatEitherRun.assertEitherLeft().code)
             Assertions.assertEquals("Type2", flatEitherRun.assertEitherLeft().message)
 
             val flatEitherNextRun: Either<AppErr, String> =
-                map.flatEitherRun {
-                    this["key1"].eitherTrue(Type2Err) { it!!.length < 2 }
-                }.flatEitherNextRun {
-                    map[this].eitherNull(Type1Err)
-                }
+                map
+                    .flatEitherRun {
+                        this["key1"].eitherTrue(Type2Err) { it!!.length < 2 }
+                    }.flatEitherNextRun {
+                        map[this].eitherNull(Type1Err)
+                    }
             Assertions.assertEquals("E500001", flatEitherNextRun.assertEitherLeft().code)
             Assertions.assertEquals("Type1", flatEitherNextRun.assertEitherLeft().message)
         }

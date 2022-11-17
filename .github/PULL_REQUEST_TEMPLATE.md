@@ -1,23 +1,23 @@
 # Common
-
 | emoji | name | description |
 |:-----:|:-----|:------------|
 | 🚑️ | ambulance | Critical hotfix. |
+| 🎨 | art | Improve structure / format of the code. |
 | ⬆️  | arrow-up | Upgrade dependencies. |
 | 🐛 | bug | Fix a bug. |
 | 💡 | bulb | Add or update comments in source code. |
 | ➕ | heavy-plus-sign | Add a dependency. |
+| 🔊 | loud-sound | Add or update logs.|
 | 📝 | memo | Add or update documentation. |
+| 🔇 | mute | Remove logs. |
 | ♻️  | recycle | Refactor code. |
 | ✨ | sparkles | Introduce new features. |
 | ✅ | white-check-mark | Add, update, or pass tests. |
 | 🔧 | wrench | Add or update configuration files. |
 
 # Other
-
 | emoji | name | description |
 |:-----:|:-----|:------------|
-| 🎨 | art | Improve structure / format of the code. |
 | ⚡️ | zap | Improve performance. |
 | 🔥 | fire | Remove code or files. |
 | 🚀 | rocket | Deploy stuff. |
@@ -50,8 +50,6 @@
 | 🍻 | beers | Write code drunkenly. |
 | 💬 | speech-balloon | Add or update text and literals. |
 | 🗃️ | card-file-box | Perform database related changes. |
-| 🔊 | loud-sound | Add or update logs.|
-| 🔇 | mute | Remove logs. |
 | 👥 | busts-in-silhouette | Add or update contributor(s). |
 | 🚸 | children-crossing | Improve user experience / usability. |
 | 🏗️ | building-construction | Make architectural changes. |

@@ -11,8 +11,8 @@ class TimeTests {
 
     @Test
     internal fun `test generate unix time`() {
-        Assertions.assertTrue(unixTime.toString().length == 10)
-        Assertions.assertTrue(unixTimeMilli.toString().length == 13)
+        Assertions.assertTrue("$unixTime".length == 10)
+        Assertions.assertTrue("$unixTimeMilli".length == 13)
     }
 
     @Test

@@ -11,27 +11,53 @@ class DddTests {
     @Test
     internal fun `test ddd classed`() {
         println(
-            SampleAggregateRoot(
+            SampleAggRoot(
+                key = Key("key"),
+                value = "value",
                 entityId = SampleId(
                     uuid = unixTimeMilli,
                     createUser = "",
                     lastModifiedUser = "",
                     memo = "memo",
                 ),
-                key = Key("key"),
-                value = "value",
             ).toPrettyJson()
         )
 
         println(
             SampleEntity(
+                key = Key("key"),
                 entityId = SampleId(
                     uuid = unixTimeMilli,
                     createUser = "",
                     lastModifiedUser = "",
                     memo = "memo",
                 ),
+            ).toPrettyJson()
+        )
+
+        println(
+            SampleEvent(
                 key = Key("key"),
+                name = "event",
+                entityId = SampleId(
+                    uuid = unixTimeMilli,
+                    createUser = "",
+                    lastModifiedUser = "",
+                    memo = "memo",
+                ),
+            ).toPrettyJson()
+        )
+
+        println(
+            SampleModifyCmd(
+                key = Key("key"),
+                value = "",
+                entityId = SampleId(
+                    uuid = unixTimeMilli,
+                    createUser = "",
+                    lastModifiedUser = "",
+                    memo = "memo",
+                ),
             ).toPrettyJson()
         )
 

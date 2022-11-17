@@ -54,5 +54,8 @@ suspend inline fun <L : AppErr, reified R, T> Either<L, R>.eitherNextRun(
     }
 
 inline fun <L : AppErr, R> Either<L, R>.eitherNextUnit(
-    λ: () -> Either<L, Unit> = { Unit.right() },
-): Either<L, Unit> = λ()
+    λ: () -> Unit = {},
+): Either<L, Unit> =
+    flatMap {
+        λ().right()
+    }

@@ -37,17 +37,11 @@ fun ByteArray.encodeBase64(): ByteArray =
 fun ByteArray.base64Decode(): ByteArray =
     Base64.getDecoder().decode(this)
 
-fun ByteArray.string(
-    charset: Charset = Charsets.UTF_8,
-): String =
+fun ByteArray.string(charset: Charset = Charsets.UTF_8): String =
     String(this, charset)
 
-fun String.urlEncode(
-    charset: Charset = Charsets.UTF_8,
-): String =
+fun String.urlEncode(charset: Charset = Charsets.UTF_8): String =
     URLEncoder.encode(this, charset)
 
-fun String.urlDecode(
-    charset: Charset = Charsets.UTF_8,
-): String =
+fun String.urlDecode(charset: Charset = Charsets.UTF_8): String =
     URLDecoder.decode(this, charset)

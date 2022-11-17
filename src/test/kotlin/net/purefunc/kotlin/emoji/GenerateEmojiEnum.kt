@@ -90,7 +90,7 @@ fun main() {
                 private val intArray: IntArray,
             ) {
             
-        """.trimIndent().toByteArray()
+            """.trimIndent().toByteArray()
         )
 
         item.forEachIndexed { idx, element ->
@@ -117,7 +117,7 @@ fun main() {
                 override fun toString() = String(intArray, 0, intArray.size)
             }
             
-        """.trimIndent().toByteArray()
+            """.trimIndent().toByteArray()
         )
     }
 }

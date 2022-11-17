@@ -20,7 +20,10 @@ fun <L : AppErr, R> R?.eitherNull(
     toOption()
         .fold(
             ifEmpty = { appErr.left() },
-            ifSome = { it.right() },
+            ifSome = {
+                λ()
+                it.right()
+            },
         )
 
 suspend fun <L : AppErr, R> R.eitherTrue(

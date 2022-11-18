@@ -17,7 +17,7 @@ repositories {
 
 val arrowKtVersion = "1.1.2"
 val arrowKtMetaVersion = "1.6.0"
-val jacksonVersion = "2.14.0-rc2"
+val jacksonVersion = "2.14.0"
 val slf4jVersion = "1.7.36"
 val bcryptVersion = "0.9.0"
 val bcprovJdkVersion = "1.70"

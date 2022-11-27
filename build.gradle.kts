@@ -13,14 +13,18 @@ java.targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://jitpack.io")
+    }
 }
 
 val arrowKtVersion = "1.1.2"
 val arrowKtMetaVersion = "1.6.0"
-val jacksonVersion = "2.14.0-rc2"
+val jacksonVersion = "2.14.1"
 val slf4jVersion = "1.7.36"
 val bcryptVersion = "0.9.0"
 val bcprovJdkVersion = "1.70"
+val emojiVersion = "1.6.1"
 val junitVersion = "5.9.0"
 dependencies {
     implementation(kotlin("stdlib"))
@@ -42,6 +46,9 @@ dependencies {
 
     // AES/CBC/PKCS7PADDING
     api("org.bouncycastle:bcprov-jdk15on:$bcprovJdkVersion")
+
+    // Emoji
+    api("com.github.PureFuncInc:emoji-jvm-string:$emojiVersion")
 
     // JUnit
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")

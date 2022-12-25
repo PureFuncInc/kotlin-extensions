@@ -1,8 +1,9 @@
 package net.purefunc.kotlin.ext
 
 import at.favre.lib.crypto.bcrypt.BCrypt
+import org.bouncycastle.jcajce.provider.digest.SHA3
 import java.security.MessageDigest
-import java.util.Base64
+import java.util.*
 
 fun String.md5(): String = this hashBy MD5
 
@@ -24,6 +25,8 @@ private infix fun String.hashBy(
     when (shaAlgorithm) {
         BCRYPT_10 -> BCrypt.withDefaults().hashToString(10, toCharArray())
         BCRYPT_12 -> BCrypt.withDefaults().hashToString(12, toCharArray())
+        SHA3_256 -> String(Base64.getEncoder().encode(SHA3.Digest256().digest(this.toByteArray())))
+        SHA3_512 -> String(Base64.getEncoder().encode(SHA3.Digest512().digest(this.toByteArray())))
         else ->
             run {
                 MessageDigest.getInstance(shaAlgorithm.value)

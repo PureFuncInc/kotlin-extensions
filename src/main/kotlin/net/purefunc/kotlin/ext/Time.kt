@@ -28,6 +28,7 @@ fun Long.shift(
 fun OffsetDateTime.isoString(): String = DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(this)
 fun LocalDateTime.isoString(): String = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(this)
 fun LocalTime.isoString(): String = DateTimeFormatter.ISO_LOCAL_TIME.format(this)
+
 fun String.toOffsetDateTime(): OffsetDateTime = OffsetDateTime.parse(this, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
 fun String.toLocalDateTime(): LocalDateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 fun String.toLocalTime(): LocalTime = LocalTime.parse(this, DateTimeFormatter.ISO_LOCAL_TIME)

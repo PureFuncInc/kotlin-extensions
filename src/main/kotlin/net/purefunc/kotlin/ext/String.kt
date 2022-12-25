@@ -3,8 +3,7 @@ package net.purefunc.kotlin.ext
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.Charset
-import java.util.Base64
-import java.util.UUID
+import java.util.*
 import kotlin.random.Random.Default.nextInt
 
 val randomUUID: String
@@ -31,17 +30,9 @@ fun randomAlphanumeric(
         .map { alphanumerics[it] }
         .joinToString(spliterator)
 
-fun ByteArray.encodeBase64(): ByteArray =
-    Base64.getEncoder().encode(this)
+fun ByteArray.encodeBase64(): ByteArray = Base64.getEncoder().encode(this)
+fun ByteArray.base64Decode(): ByteArray = Base64.getDecoder().decode(this)
+fun ByteArray.string(charset: Charset = Charsets.UTF_8): String = String(this, charset)
 
-fun ByteArray.base64Decode(): ByteArray =
-    Base64.getDecoder().decode(this)
-
-fun ByteArray.string(charset: Charset = Charsets.UTF_8): String =
-    String(this, charset)
-
-fun String.urlEncode(charset: Charset = Charsets.UTF_8): String =
-    URLEncoder.encode(this, charset)
-
-fun String.urlDecode(charset: Charset = Charsets.UTF_8): String =
-    URLDecoder.decode(this, charset)
+fun String.urlEncode(charset: Charset = Charsets.UTF_8): String = URLEncoder.encode(this, charset)
+fun String.urlDecode(charset: Charset = Charsets.UTF_8): String = URLDecoder.decode(this, charset)

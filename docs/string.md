@@ -19,13 +19,15 @@ val randomAlphanumeric: String = randomAlphanumeric(32)
 * encodeBase64
 
 ```kotlin
-val base64EncodedStr: String = "Hello World".toByteArray().encodeBase64() 
+val originStr = "Hello World"
+val base64Encoded: ByteArray = originStr.toByteArray().encodeBase64()
 ```
 
 * base64Decode
 
 ```kotlin
-val originStr: String = base64EncodedStr.base64Decode()
+// "Hello World"
+val originStr: String = base64Encoded.base64Decode().string()
 ```
 
 * urlEncode

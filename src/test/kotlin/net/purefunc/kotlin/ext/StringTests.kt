@@ -6,11 +6,6 @@ import org.junit.jupiter.api.Test
 class StringTests {
 
     @Test
-    internal fun `test random UUID`() {
-        Assertions.assertTrue(randomUUID.isNotEmpty())
-    }
-
-    @Test
     internal fun `test random alphabetic`() {
         val randomAlphabetic = randomAlphabetic(10)
 
@@ -26,20 +21,30 @@ class StringTests {
         Assertions.assertTrue(randomAlphanumeric.length == 10)
     }
 
+    /**
+     * raw string -> toByteArray -> base64 encode -> base64 decode -> to string
+     */
     @Test
     internal fun `test base64 encode & decode`() {
         val rawString = "Hello World"
 
-        val encodeBase64 = rawString.toByteArray().encodeBase64()
-        val base64Decode = encodeBase64.base64Decode()
+        val result = rawString
+            .toByteArray()
+            .base64Encode()
+            .base64Decode()
+            .run { String(this) }
 
-        Assertions.assertEquals(rawString, base64Decode.string())
+        Assertions.assertEquals(rawString, result)
     }
 
     @Test
     internal fun `test string url encode and decode`() {
         val rawUrl = "https://purefunc.net/Hello World.jpg"
 
-        Assertions.assertEquals(rawUrl, rawUrl.urlEncode().urlDecode())
+        val result = rawUrl
+            .urlEncode()
+            .urlDecode()
+
+        Assertions.assertEquals(rawUrl, result)
     }
 }

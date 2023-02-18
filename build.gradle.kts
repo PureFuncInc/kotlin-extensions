@@ -24,7 +24,7 @@ val jacksonVersion = "2.14.1"
 val slf4jVersion = "1.7.36"
 val bcryptVersion = "0.9.0"
 val bcprovJdkVersion = "1.70"
-val emojiVersion = "1.6.1"
+val emojiVersion = "1.7.0"
 val junitVersion = "5.9.0"
 dependencies {
     implementation(kotlin("stdlib"))
@@ -38,7 +38,7 @@ dependencies {
     api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 
     // Slf4j
-    api("org.slf4j:slf4j-api:$slf4jVersion")
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
     testImplementation("org.slf4j:slf4j-reload4j:$slf4jVersion")
 
     // Bcrypt

@@ -24,21 +24,17 @@ val jacksonVersion = "2.14.1"
 val slf4jVersion = "1.7.36"
 val bcryptVersion = "0.9.0"
 val bcprovJdkVersion = "1.70"
-val emojiVersion = "1.6.1"
+val emojiVersion = "1.7.0"
 val junitVersion = "5.9.0"
 dependencies {
     implementation(kotlin("stdlib"))
 
     // Arrow-Kt
-    api("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
-    kapt("io.arrow-kt:arrow-meta:$arrowKtMetaVersion")
-
-    // Jackson
-    api("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+//    api("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
+//    kapt("io.arrow-kt:arrow-meta:$arrowKtMetaVersion")
 
     // Slf4j
-    api("org.slf4j:slf4j-api:$slf4jVersion")
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
     testImplementation("org.slf4j:slf4j-reload4j:$slf4jVersion")
 
     // Bcrypt
@@ -46,9 +42,6 @@ dependencies {
 
     // AES/CBC/PKCS7PADDING
     api("org.bouncycastle:bcprov-jdk15on:$bcprovJdkVersion")
-
-    // Emoji
-    api("com.github.PureFuncInc:emoji-jvm-string:$emojiVersion")
 
     // JUnit
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")

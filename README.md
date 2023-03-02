@@ -5,14 +5,12 @@
 ## Sample Code 📜
 
 * [Aes](docs/aes.md)
-* [Arrow-kt](docs/arrow-kt.md)
-* [DDD](docs/ddd.md)
-* [File](docs/file.md)
+* [ByteArray](docs/bytearray.md)
 * [Hash](docs/hash.md)
-* [Json](docs/json.md)
 * [List](docs/list.md)
 * [Number](docs/number.md)
 * [Regex](docs/regex.md)
+* [SnowflakeSeq](docs/snowflakeseq.md)
 * [String](docs/string.md)
 * [Time](docs/time.md)
 

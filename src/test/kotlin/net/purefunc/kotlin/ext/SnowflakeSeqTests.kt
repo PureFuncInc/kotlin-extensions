@@ -1,8 +1,8 @@
 package net.purefunc.kotlin.ext
 
-import java.time.Instant
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class SnowflakeSeqTests {
 

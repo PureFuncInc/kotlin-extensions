@@ -1,11 +1,5 @@
-* unixTimeMilli
-
-```kotlin
-val now: Long = unixTimeMilli
-```
-
 * shift
 
 ```kotlin
-val oneHourBefore: Long = now.shift(-1, TimeUnit.HOURS)
+val oneHourBefore: Long = Instant.now().toEpochMilli().shift(-1, TimeUnit.HOURS)
 ```

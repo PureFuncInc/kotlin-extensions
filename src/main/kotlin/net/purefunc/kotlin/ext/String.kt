@@ -27,3 +27,8 @@ fun randomAlphanumeric(
 
 fun String.urlEncode(charset: Charset = Charsets.UTF_8): String = URLEncoder.encode(this, charset)
 fun String.urlDecode(charset: Charset = Charsets.UTF_8): String = URLDecoder.decode(this, charset)
+
+fun String.hex2Bytes(): ByteArray =
+    chunked(2)
+        .map { it.toInt(16).toByte() }
+        .toByteArray()

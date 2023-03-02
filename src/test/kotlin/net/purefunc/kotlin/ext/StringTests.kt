@@ -21,22 +21,6 @@ class StringTests {
         Assertions.assertTrue(randomAlphanumeric.length == 10)
     }
 
-    /**
-     * raw string -> toByteArray -> base64 encode -> base64 decode -> to string
-     */
-    @Test
-    internal fun `test base64 encode & decode`() {
-        val rawString = "Hello World"
-
-        val result = rawString
-            .toByteArray()
-            .base64Encode()
-            .base64Decode()
-            .run { String(this) }
-
-        Assertions.assertEquals(rawString, result)
-    }
-
     @Test
     internal fun `test string url encode and decode`() {
         val rawUrl = "https://purefunc.net/Hello World.jpg"

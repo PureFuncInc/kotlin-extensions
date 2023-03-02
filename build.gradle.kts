@@ -30,12 +30,8 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     // Arrow-Kt
-    api("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
-    kapt("io.arrow-kt:arrow-meta:$arrowKtMetaVersion")
-
-    // Jackson
-    api("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+//    api("io.arrow-kt:arrow-fx-coroutines:$arrowKtVersion")
+//    kapt("io.arrow-kt:arrow-meta:$arrowKtMetaVersion")
 
     // Slf4j
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
@@ -46,9 +42,6 @@ dependencies {
 
     // AES/CBC/PKCS7PADDING
     api("org.bouncycastle:bcprov-jdk15on:$bcprovJdkVersion")
-
-    // Emoji
-    api("com.github.PureFuncInc:emoji-jvm-string:$emojiVersion")
 
     // JUnit
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
